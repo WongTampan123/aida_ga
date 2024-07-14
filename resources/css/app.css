@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (min-width: 768px){
+    .md\:bg-login {
+      background-image: linear-gradient(to left, #1B84FF 50%, #FFFFFF 50%);
+    }
+}
