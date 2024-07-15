@@ -4,10 +4,19 @@ export default {
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
     "./resources/**/*.vue",
+    "node_modules/preline/dist/*.js"
   ],
   theme: {
-    extend: {},
+    extend:{
+      colors:{
+        green:{
+          'aida':'#17C653'
+        }
+      }
+    }
   },
-  plugins: [],
+  plugins: [
+    require('preline/plugin')
+  ],
 }
 

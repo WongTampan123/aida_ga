@@ -2,7 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PageController;
 
+//Get
+Route::get('/', [PageController::class, 'showPage']);
+Route::get('/dashboard', [PageController::class, 'showDashboard']);
 
-Route::get('/', [UserController::class, 'showPage']);
+//Post
 Route::post('/login', [UserController::class, 'login']);
