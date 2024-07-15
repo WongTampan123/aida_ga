@@ -7,3 +7,7 @@
       background-image: linear-gradient(to left, #17C653 50%, #FBF6F0 50%);
     }
 }
+
+body {
+  font-family: 'Poppins', sans-serif;
+}

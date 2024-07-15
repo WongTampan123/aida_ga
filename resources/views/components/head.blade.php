@@ -28,4 +28,5 @@
     <meta http-equiv="Expires" content="0">
 </head>
 {{$slot}}
+<script src="./node_modules/preline/dist/preline.js"></script>
 </html>

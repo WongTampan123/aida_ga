@@ -10,3 +10,4 @@ Route::get('/dashboard', [PageController::class, 'showDashboard']);
 
 //Post
 Route::post('/login', [UserController::class, 'login']);
+Route::post('/logout', [UserController::class, 'logout']);

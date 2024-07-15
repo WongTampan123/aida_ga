@@ -42,4 +42,10 @@ class UserController extends Controller
             return redirect('/')->with('fail','NIK/Password Salah');
         }
     }
+
+    public function logout()
+    {
+        session()->forget('user');
+        return redirect('/');
+    }
 }
