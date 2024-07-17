@@ -19,7 +19,20 @@ class PageController extends Controller
         // return view('login_page');
     }
 
-    public function showDashboard(){
+    public function showDashboard()
+    {
         return view('dashboard', ["title" => "AIDA - Dashboard"]);
     }
+
+    public function showDashboardCategory($category)
+    {
+        return view('dashboard_category', ["title" => "AIDA - ".ucfirst($category)." Category"]);
+    }
+
+    public function showAssetList($subcategory)
+    {
+        return view('asset_list', ["title" => "AIDA - ".ucfirst($subcategory)." List"]);
+    }
+    
+    
 }

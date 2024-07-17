@@ -1,5 +1,5 @@
 <x-head title={{$title}}>
-    <body class="relative flex flex-col h-screen min-w-screen bg-[#FBF6F0]">
+    <body class="relative flex flex-col h-screen min-w-screen overflow-auto bg-[#FBF6F0]">
         <x-navbar />
         <div class='grow max-h-[650.58px] w-full px-[10%] py-10'>
             <div class='h-full w-full grid grid-cols-6 grid-rows-2 gap-8 2xl:container 2xl:mx-auto 2xl:mb-auto'>
@@ -48,9 +48,11 @@
                             <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
                             <p class='text-6xl text-black font-bold'>57</p>
                         </div>
-                        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                            See All Assets
-                        </button>
+                        <a href={{url('dashboard/meubelair')}}>
+                            <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                                See All Assets
+                            </button>
+                        </a>
                     </div>
                 </div>
                 <div class='w-full h-full flex flex-col justify-between p-6 col-span-2 rounded-lg bg-white drop-shadow-md'>
@@ -63,9 +65,11 @@
                             <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
                             <p class='text-6xl text-black font-bold'>76</p>
                         </div>
-                        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                            See All Assets
-                        </button>
+                        <a href={{url('dashboard/electronic')}}>
+                            <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                                See All Assets
+                            </button>
+                        </a>
                     </div>
                 </div>
                 <div class='w-full h-full flex flex-col justify-between p-6 col-span-2 rounded-lg bg-white drop-shadow-md'>
@@ -78,9 +82,11 @@
                             <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
                             <p class='text-6xl text-black font-bold'>44</p>
                         </div>
-                        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                            See All Assets
-                        </button>
+                        <a href={{url('dashboard/others')}}>
+                            <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                                See All Assets
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
