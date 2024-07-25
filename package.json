@@ -26,6 +26,7 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
+        "@preline/overlay": "^2.3.0",
         "preline": "^2.3.0"
     }
 }

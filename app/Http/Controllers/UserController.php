@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Log;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
@@ -37,7 +38,13 @@ class UserController extends Controller
             $user=DB::connection('mysql')->select('select * from hcm.users where nik_tg=?',[$login_form['loginusername']]);
             $req->session()->put('user', $user[0]);
             $req->session()->regenerate();
-            return redirect('/');
+            Log::info($req->session()->get('redirect'));
+
+            if($req->session()->get('redirect')){
+                return redirect($req->session()->get('redirect'));
+            } else {
+                return redirect('/');
+            }            
         } else {
             return redirect('/')->with('fail','NIK/Password Salah');
         }

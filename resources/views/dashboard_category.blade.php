@@ -7,7 +7,7 @@
 <x-head title={{$title}}>
     <body class="relative flex flex-col h-screen min-w-screen overflow-auto bg-[#FBF6F0]">
         <x-navbar />
-        <div class='grow max-h-[650.58px] w-full px-[10%] py-10'>
+        <div class='flex flex-col grow w-full px-[10%] py-10'>
             <div class='mb-5 xl:container 2xl:mx-auto'>
                 <p class="text-lg font-bold mb-1">{{$category_type}} Category</p>
                 <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
@@ -26,94 +26,33 @@
                         </p>
                     </li>
                 </ol>
-            </div>
-            <div class='w-full grid grid-cols-3 gap-6'>
-                <!-- Dari sini nanti akan pakai foreach -->
-                <div class='w-full h-[200px] flex flex-col p-6 justify-between rounded-lg bg-white drop-shadow-md'>
-                    <div>
-                        <p class='text-2xl font-semibold'>Televisi</p>
-                    </div>
-                    <div class='flex w-full justify-between items-start'>
-                        <div>
-                            <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
-                            <p class='text-6xl text-black font-bold'>57</p>
+            </div><!-- Dari sini nanti akan pakai foreach -->
+                 @if(!empty($subcategory_count))
+                    @foreach($subcategory_count as $subcategory)
+                    <div class='w-full grid grid-cols-3 gap-6 xl:container 2xl:mx-auto'>
+                        <div class='w-full h-[200px] flex flex-col p-6 justify-between rounded-lg bg-white drop-shadow-md'>
+                            <div>
+                                <p class='text-2xl font-semibold'>{{ucfirst($subcategory->tipe_barang)}}</p>
+                            </div>
+                            <div class='flex w-full justify-between items-start'>
+                                <div>
+                                    <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
+                                    <p class='text-6xl text-black font-bold'>{{$subcategory->jumlah_barang}}</p>
+                                </div>
+                                <a href='{{url("/dashboard/".strtolower($category_type)."/".$subcategory->tipe_barang)}}'>
+                                    <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                                        See All Assets
+                                    </button>
+                                </a>
+                            </div>
                         </div>
-                        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                            See All Assets
-                        </button>
                     </div>
-                </div>
-                <div class='w-full h-[200px] flex flex-col p-6 justify-between rounded-lg bg-white drop-shadow-md'>
-                    <div>
-                        <p class='text-2xl font-semibold'>Webcam</p>
+                    @endforeach
+                @else
+                    <div class='grow flex items-center justify-center h-full w-full border-4 border-slate-300 border-dashed p-4'>
+                        <p class='text-2xl font-semibold text-slate-300'>Belum Ada Barang Terdaftar</p>
                     </div>
-                    <div class='flex w-full justify-between items-start'>
-                        <div>
-                            <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
-                            <p class='text-6xl text-black font-bold'>8</p>
-                        </div>
-                        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                            See All Assets
-                        </button>
-                    </div>
-                </div>
-                <div class='w-full h-[200px] flex flex-col p-6 justify-between rounded-lg bg-white drop-shadow-md'>
-                    <div>
-                        <p class='text-2xl font-semibold'>Microwave</p>
-                    </div>
-                    <div class='flex w-full justify-between items-start'>
-                        <div>
-                            <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
-                            <p class='text-6xl text-black font-bold'>5</p>
-                        </div>
-                        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                            See All Assets
-                        </button>
-                    </div>
-                </div>
-                <div class='w-full h-[200px] flex flex-col p-6 justify-between rounded-lg bg-white drop-shadow-md'>
-                    <div>
-                        <p class='text-2xl font-semibold'>Mouse</p>
-                    </div>
-                    <div class='flex w-full justify-between items-start'>
-                        <div>
-                            <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
-                            <p class='text-6xl text-black font-bold'>128</p>
-                        </div>
-                        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                            See All Assets
-                        </button>
-                    </div>
-                </div>
-                <div class='w-full h-[200px] flex flex-col p-6 justify-between rounded-lg bg-white drop-shadow-md'>
-                    <div>
-                        <p class='text-2xl font-semibold'>Keyboard</p>
-                    </div>
-                    <div class='flex w-full justify-between items-start'>
-                        <div>
-                            <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
-                            <p class='text-6xl text-black font-bold'>47</p>
-                        </div>
-                        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                            See All Assets
-                        </button>
-                    </div>
-                </div>
-                <div class='w-full h-[200px] flex flex-col p-6 justify-between rounded-lg bg-white drop-shadow-md'>
-                    <div>
-                        <p class='text-2xl font-semibold'>Shredder</p>
-                    </div>
-                    <div class='flex w-full justify-between items-start'>
-                        <div>
-                            <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
-                            <p class='text-6xl text-black font-bold'>4</p>
-                        </div>
-                        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                            See All Assets
-                        </button>
-                    </div>
-                </div>
-            </div>
+                @endif            
         </div>
     </body>
 </x-head>

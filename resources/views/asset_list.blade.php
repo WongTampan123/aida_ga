@@ -23,7 +23,7 @@
                         </svg>
                     </li>
                     <li class="inline-flex items-center">
-                        <a href={{url('/'.strtolower($category_type))}} class="flex items-center text-xs text-slate-500 font-semibold hover:text-green-aida focus:outline-none focus:text-green-aida" href="#">
+                        <a href={{url('/dashboard/'.strtolower($category_type))}} class="flex items-center text-xs text-slate-500 font-semibold hover:text-green-aida focus:outline-none focus:text-green-aida" href="#">
                             {{$category_type}} Category
                         </a>
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-point-filled mx-1" width="5" height="5" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -60,10 +60,11 @@
                         <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
                             Export
                         </button>
-                        <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                            + Add Asset
-                        </button>
-                        {{-- <button onclick="cobaCheckBox()" class="p-3 h-fit text-xs bg-[#1B84FF] text-white rounded-lg hover:bg-sky-500 focus:outline-none">+ Add New User</button> --}}
+                        <a href="{{url('/dashboard/'.strtolower($category_type).'/'.strtolower($subcategory_type).'/add_asset')}}">
+                            <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                                + Add Asset
+                            </button>
+                        </a>
                     </div>
                 </div>
                 <table class="min-w-full max-sm:w-[300%] max-md:w-[150%] h-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -85,7 +86,7 @@
                             <th></th>
                         </tr>
                     </thead>
-                    @for($i = 0; $i < 10; $i++)
+                    @foreach($asset_list as $asset)
                     <tbody class='divide-y divide-gray-200 dark:divide-gray-700'>
                         <tr class="h-16 hover:bg-green-200">
                             {{-- Checkbox --}}
@@ -95,21 +96,21 @@
                             <td class="text-base text-black text-center">1</td>
                             <td class="relative flex items-center h-full">
                                 <div class="h-9 w-9 overflow-hidden mr-3">
-                                    <img class="object-contain w-full h-full" src="{{asset('/assets/coba_tv.png')}}" alt="Asset Image">
+                                    <img class="object-contain w-full h-full" src="{{asset('/assets/gambar_barang/'.$asset->gambar_barang)}}" alt="Asset Image">
                                 </div>
                                 <div>
-                                    <p class="text-base font-medium truncate">TV LED</p>
-                                    <p class="text-xs text-gray-300 whitespace-nowrap">Tipe: UA32F5000AM</p>
+                                    <p class="text-base font-medium truncate">{{ucwords($asset->tipe_barang)}}</p>
+                                    <p class="text-xs text-gray-300 whitespace-nowrap">Tipe: -</p>
                                 </div>
                             </td>
-                            <td class="text-center"><span class="text-xs font-semibold py-0.5 px-2 text-black rounded-md bg-[#F6F6F6]">TV25SLS23</span></td>
+                            <td class="text-center"><span class="text-xs font-semibold py-0.5 px-2 text-black rounded-md bg-[#F6F6F6]">{{$asset->id_barang}}</span></td>
                             <td class="text-sm text-gray-500 text-center">HQ</td>
-                            <td class="text-sm text-gray-500 text-center">2</td>
-                            <td class="text-sm text-gray-500 text-start">SMASNUG</td>
-                            <td class="text-sm text-gray-500 text-center">25</td>
-                            <td class="text-sm text-gray-500 text-start">Ruang Kerja VP Sales</td>
-                            <td class="text-sm text-gray-500 text-start">2024</td>
-                            <td class="text-sm text-gray-500 text-start">EGM Sales</td>
+                            <td class="text-sm text-gray-500 text-center">{{$asset->quantity_barang}}</td>
+                            <td class="text-sm text-gray-500 text-start">{{$asset->merk_barang}}</td>
+                            <td class="text-sm text-gray-500 text-center">{{$asset->lantai_barang}}</td>
+                            <td class="text-sm text-gray-500 text-start">{{$asset->ruangan_barang}}</td>
+                            <td class="text-sm text-gray-500 text-start">{{$asset->tahun_barang}}</td>
+                            <td class="text-sm text-gray-500 text-start">{{$asset->unit_barang}}</td>
                             <td>
                                 <div class="hs-dropdown relative inline-flex">
                                     <button id="hs-dropdown-default" type="button" class="hs-dropdown-toggle py-1 px-2 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg bg-[#F6F6F6] text-black hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800">
@@ -118,7 +119,7 @@
                                     </button>
 
                                     <div class="hs-dropdown-menu transition-[opacity,margin] z-10 duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-32 bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700 dark:divide-neutral-700 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full" aria-labelledby="hs-dropdown-default">
-                                        <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                                        <a href="{{url('/dashboard/'.strtolower($category_type).'/'.strtolower($subcategory_type).'/'.$asset->id_barang)}}" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700">
                                             Edit
                                         </a>
                                         <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
@@ -129,7 +130,7 @@
                             </td>
                         </tr>
                     </tbody>
-                    @endfor
+                    @endforeach
                 </table>                
             </div>
         </div>

@@ -12,15 +12,15 @@
                         <div class='grow h-full flex flex-col justify-center gap-3'>
                             <div class='w-full flex justify-between'>
                                 <p><span class='inline-block w-3 h-3 rounded-sm bg-[#1B84FF] mr-2'></span>Meubelair<span class='italic text-slate-400'> (Kursi, Meja, Lemari, etc.)</span></p>
-                                <p class='font-bold'>72.56%</p>
+                                <p id='percentage_meubelair' class='font-bold'>0%</p>
                             </div>
                             <div class='w-full flex justify-between'>
                                 <p><span class='inline-block w-3 h-3 rounded-sm bg-[#17C653] mr-2'></span>Electronics<span class='italic text-slate-400'> (TV, Printter, Shredder etc.)</span></p>
-                                <p class='font-bold'>29.34%</p>
+                                <p id='percentage_electronic' class='font-bold'>0%</p>
                             </div>
                             <div class='w-full flex justify-between'>
                                 <p><span class='inline-block w-3 h-3 rounded-sm bg-[#E4E6EF] mr-2'></span>Others<span class='italic text-slate-400'> (Troli, Tempat Sampah, etc.)</span></p>
-                                <p class='font-bold'>17.83%</p>
+                                <p id='percentage_other' class='font-bold'>0%</p>
                             </div>
                         </div>
                         <div id='asset_chart' class='min-h-[173px] min-w-[173px]'></div>
@@ -46,7 +46,7 @@
                     <div class='flex w-full justify-between items-end'>
                         <div>
                             <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
-                            <p class='text-6xl text-black font-bold'>57</p>
+                            <p id='total_meubelair' class='text-6xl text-black font-bold'>0</p>
                         </div>
                         <a href={{url('dashboard/meubelair')}}>
                             <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
@@ -63,7 +63,7 @@
                     <div class='flex w-full justify-between items-end'>
                         <div>
                             <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
-                            <p class='text-6xl text-black font-bold'>76</p>
+                            <p id='total_electronic' class='text-6xl text-black font-bold'>0</p>
                         </div>
                         <a href={{url('dashboard/electronic')}}>
                             <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
@@ -80,7 +80,7 @@
                     <div class='flex w-full justify-between items-end'>
                         <div>
                             <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
-                            <p class='text-6xl text-black font-bold'>44</p>
+                            <p id='total_other' class='text-6xl text-black font-bold'>0</p>
                         </div>
                         <a href={{url('dashboard/others')}}>
                             <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
@@ -94,6 +94,20 @@
         @include('sweetalert::alert')
     </body>
     <script type="text/javascript">
+        var category_raw = {!!$category_count!!}
+        var category_count = {}
+        var total_barang = 0
+
+        category_raw.map((e)=>{
+            category_count[e.jenis_barang] = e.jumlah_barang
+            total_barang = total_barang + e.jumlah_barang
+            document.getElementById(`total_${e.jenis_barang}`).innerText = e.jumlah_barang
+        })
+
+        document.getElementById('percentage_meubelair').innerText = (category_count.meubelair==null? 0:category_count.meubelair/total_barang)*100+'%'
+        document.getElementById('percentage_electronic').innerText = (category_count.electronic==null? 0:category_count.electronic/total_barang)*100+'%'
+        document.getElementById('percentage_other').innerText = (category_count.other==null? 0:category_count.other/total_barang)*100+'%'
+
         echarts.registerTheme('custom', {
             textStyle: {
                 fontFamily: 'Poppins, Arial, sans-serif'
@@ -120,9 +134,9 @@
                         show: false
                     },
                     data: [
-                        { value: 57, name: 'Meubelair', itemStyle: {color: '#1B84FF'} },
-                        { value: 76, name: 'Electronics', itemStyle: {color: '#17C653'} },
-                        { value: 44, name: 'Others', itemStyle: {color: '#E4E6EF'} }
+                        { value: category_count.meubelair==null? 0:category_count.meubelair, name: 'Meubelair', itemStyle: {color: '#1B84FF'} },
+                        { value: category_count.electronic==null? 0:category_count.electronic, name: 'Electronics', itemStyle: {color: '#17C653'} },
+                        { value: category_count.other==null? 0:category_count.other, name: 'Others', itemStyle: {color: '#E4E6EF'} }
                     ]
                 }
             ]

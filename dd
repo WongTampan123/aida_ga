@@ -1,0 +1,17 @@
+[33mcommit fe022c896a47eaba7b3940fa770ffad58a6d6183[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: root <root@localhost.localdomain>
+Date:   Mon Jul 15 16:45:14 2024 +0700
+
+    Finish Kerangka Main Dashboard
+
+[33mcommit 94b1a8acc217c6754d7917ecd6b0cc0baad26730[m
+Author: root <root@localhost.localdomain>
+Date:   Mon Jul 15 11:29:16 2024 +0700
+
+    Finish Login Page With Dummy Image
+
+[33mcommit 226b06e89f3df7cfa239ff5c5c068785b60653e8[m
+Author: root <root@localhost.localdomain>
+Date:   Sun Jul 14 19:09:21 2024 +0700
+
+    First Commit, Tailwind Installed

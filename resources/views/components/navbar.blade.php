@@ -54,7 +54,9 @@
             <p class='font-medium text-sm text-slate-400'>Assets Validation</p>
         </div> 
         <div class='w-[25%] h-full flex flex-col justify-center pl-4 border-l-2 border-[#FBF6F0] cursor-default'>
-            <p class='font-bold text-base text-black hover:text-green-aida cursor-pointer'>Bulk Upload</p>
+            <a href="{{url('/bulk_upload')}}">
+                <p class='font-bold text-base text-black hover:text-green-aida cursor-pointer'>Bulk Upload</p>
+            </a>            
             <p class='font-medium text-sm text-slate-400'>Mass Asset Update</p>
         </div> 
     </div>
