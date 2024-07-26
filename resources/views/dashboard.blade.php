@@ -1,9 +1,9 @@
 <x-head title={{$title}}>
-    <body class="relative flex flex-col h-screen min-w-screen overflow-auto bg-[#FBF6F0]">
+    <body class="relative flex flex-col min-h-screen min-w-screen overflow-auto bg-[#FBF6F0]">
         <x-navbar />
-        <div class='grow max-h-[650.58px] w-full px-[10%] py-10'>
-            <div class='h-full w-full grid grid-cols-6 grid-rows-2 gap-8 2xl:container 2xl:mx-auto 2xl:mb-auto'>
-                <div class='w-full h-full flex flex-col p-6 justify-between col-span-3 rounded-lg bg-white drop-shadow-md'>
+        <div class='grow h-fit w-full px-[10%] py-10'>
+            <div class='h-full w-fit grid grid-cols-6 grid-rows-2 gap-8 2xl:container 2xl:mx-auto 2xl:mb-auto'>
+                <div class='w-full h-[250px] flex flex-col p-6 justify-between col-span-3 rounded-lg bg-white drop-shadow-md'>
                     <div>
                         <p class='text-xl font-semibold'>Total Assets</p>
                         <p class='text-sm text-slate-400 font-normal'>All Managed Assets</p>
@@ -26,7 +26,7 @@
                         <div id='asset_chart' class='min-h-[173px] min-w-[173px]'></div>
                     </div>
                 </div>
-                <div class='w-full h-full flex p-6 justify-between col-span-3 rounded-lg bg-[#1C325E] drop-shadow-md'>
+                <div class='w-full h-[250px] flex p-6 justify-between col-span-3 rounded-lg bg-[#1C325E] drop-shadow-md'>
                     <div class='h-full flex flex-col justify-between'>
                         <div>
                             <p class='text-2xl text-white font-semibold'>Well-Managed Assets</p>
@@ -38,7 +38,7 @@
                     </div>
                     <img src="{{asset('assets/colored_pencils.svg')}}" alt="Colored Pencils" class="h-full w-auto">
                 </div>
-                <div class='w-full h-full flex flex-col justify-between p-6 col-span-2 rounded-lg bg-white drop-shadow-md'>
+                <div class='w-full h-[250px] flex flex-col justify-between p-6 col-span-2 rounded-lg bg-white drop-shadow-md'>
                     <div>
                         <p class='text-2xl font-semibold'>Meubelair</p>
                         <p class='text-base text-slate-400 font-normal'>Tangible Assets</p>
@@ -55,7 +55,7 @@
                         </a>
                     </div>
                 </div>
-                <div class='w-full h-full flex flex-col justify-between p-6 col-span-2 rounded-lg bg-white drop-shadow-md'>
+                <div class='w-full h-[250px] flex flex-col justify-between p-6 col-span-2 rounded-lg bg-white drop-shadow-md'>
                     <div>
                         <p class='text-2xl font-semibold'>Electronic</p>
                         <p class='text-base text-slate-400 font-normal'>Electronic Assets</p>
@@ -72,7 +72,7 @@
                         </a>
                     </div>
                 </div>
-                <div class='w-full h-full flex flex-col justify-between p-6 col-span-2 rounded-lg bg-white drop-shadow-md'>
+                <div class='w-full h-[250px] flex flex-col justify-between p-6 col-span-2 rounded-lg bg-white drop-shadow-md'>
                     <div>
                         <p class='text-2xl font-semibold'>Others</p>
                         <p class='text-base text-slate-400 font-normal'>Other Category Assets</p>
@@ -104,9 +104,9 @@
             document.getElementById(`total_${e.jenis_barang}`).innerText = e.jumlah_barang
         })
 
-        document.getElementById('percentage_meubelair').innerText = (category_count.meubelair==null? 0:category_count.meubelair/total_barang)*100+'%'
-        document.getElementById('percentage_electronic').innerText = (category_count.electronic==null? 0:category_count.electronic/total_barang)*100+'%'
-        document.getElementById('percentage_other').innerText = (category_count.other==null? 0:category_count.other/total_barang)*100+'%'
+        document.getElementById('percentage_meubelair').innerText = ((category_count.meubelair==null? 0:category_count.meubelair/total_barang)*100).toFixed(2)+'%'
+        document.getElementById('percentage_electronic').innerText = ((category_count.electronic==null? 0:category_count.electronic/total_barang)*100).toFixed(2)+'%'
+        document.getElementById('percentage_other').innerText = ((category_count.other==null? 0:category_count.other/total_barang)*100).toFixed(2)+'%'
 
         echarts.registerTheme('custom', {
             textStyle: {

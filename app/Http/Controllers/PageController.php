@@ -51,13 +51,22 @@ class PageController extends Controller
 
         return view('asset_list', ["title" => "AIDA - ".ucfirst($subcategory)." List", "asset_list" => $asset_list]);
     }
+
+    public function showAllAssetList()
+    {
+        $asset_list = DB::connection('mysql')
+                    ->select('select aida.inventaris.*
+                    from aida.inventaris');
+
+        return view('all_asset_list', ["title" => "AIDA - All Asset List", "asset_list" => $asset_list]);
+    }
     
     public function showAddAssetForm($category,$subcategory)
     {
         return view('add_asset_form', ['title' => 'AIDA - Add New Asset']);
     }
 
-    public function showEditAssetForm($category,$subcategory,$asset_id)
+    public function showEditAssetForm($asset_id)
     {
         $asset_data = DB::connection('mysql')
                     ->select('select aida.inventaris.* 

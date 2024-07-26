@@ -1,17 +1,9 @@
-@php
-    $current_url = url()->current();
-
-    $url_explode = explode('/', $current_url);    
-    $category_type = ucfirst($url_explode[5]);
-    $subcategory_type = ucfirst($url_explode[6]);
-@endphp
-
 <x-head title={{$title}}>
     <body class="flex flex-col min-w-screen overflow-auto bg-[#FBF6F0] overflow-auto">
         <x-navbar />
         <div class='flex flex-col h-fit w-full px-[10%] py-10'>
-            <div class='mb-5 md:container md:mx-auto'>
-                <p class="text-lg font-bold mb-1">{{$subcategory_type}}</p>
+            <div class='mb-5 xl:container 2xl:mx-auto'>
+                <p class="text-lg font-bold mb-1">Asset</p>
                 <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
                     <li class="inline-flex items-center">
                         <a href={{url('/dashboard')}} class="flex items-center text-xs text-slate-500 font-semibold hover:text-green-aida focus:outline-none focus:text-green-aida" href="#">
@@ -23,22 +15,13 @@
                         </svg>
                     </li>
                     <li class="inline-flex items-center">
-                        <a href={{url('/dashboard/'.strtolower($category_type))}} class="flex items-center text-xs text-slate-500 font-semibold hover:text-green-aida focus:outline-none focus:text-green-aida" href="#">
-                            {{$category_type}} Category
-                        </a>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-point-filled mx-1" width="5" height="5" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z" stroke-width="0" fill="currentColor" />
-                        </svg>
-                    </li>
-                    <li class="inline-flex items-center">
                         <p class="flex items-center text-xs text-slate-400">
-                            {{$subcategory_type}}
+                            Asset
                         </p>
                     </li>
                 </ol>
             </div>
-            <div class='h-fit min-h-[650px] w-full rounded-lg bg-white p-5 mb-5 md:container md:mx-auto'>                                
+            <div class='h-fit min-h-[650px] w-full rounded-lg bg-white p-5 mb-5 xl:container 2xl:mx-auto'>                                
                 <div class='flex w-full justify-between mb-5'>
                     <div class="w-80 max-md:w-full py-1 px-2 h-full relative flex items-center bg-[#F6F6F6] rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" class="absolute icon icon-tabler icon-tabler-search stroke-[#9AA1B7]" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="#9AA1B7" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -60,7 +43,7 @@
                         <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
                             Export
                         </button>
-                        <a href="{{url('/dashboard/'.strtolower($category_type).'/'.strtolower($subcategory_type).'/add_asset')}}">
+                        <a href="">
                             <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                                 + Add Asset
                             </button>
@@ -100,7 +83,7 @@
                                 </div>
                                 <div>
                                     <p class="text-base font-medium truncate">{{ucwords($asset->tipe_barang)}}</p>
-                                    <p class="text-xs text-gray-300 whitespace-nowrap">Tipe:{{$asset->id_barang}}</p>
+                                    <p class="text-xs text-gray-300 whitespace-nowrap">Tipe: {{$asset->id_barang}}</p>
                                 </div>
                             </td>
                             <td class="text-center"><span class="text-xs font-semibold py-0.5 px-2 text-black rounded-md bg-[#F6F6F6]">{{$asset->id_barang}}</span></td>

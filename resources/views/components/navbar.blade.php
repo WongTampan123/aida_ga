@@ -8,6 +8,7 @@
 
     $lower_name = strtolower($user->name);
     $user->name = ucwords($lower_name);
+    $current_path = explode("/", request()->path());
 @endphp
 
 <div class="w-full h-[50px] md:h-[60px] md:px-[10%] bg-green-aida z-10 max-md:z-20">
@@ -42,11 +43,15 @@
 <div class='w-full h-[100px] bg-white px-[10%]'>
     <div class='w-full h-full flex items-center justify-between py-4 2xl:container 2xl:mx-auto'>
         <div class='w-[25%] h-full flex flex-col justify-center'>
-            <p class='font-bold text-base text-green-aida'>Dashboard</p>
+            <a href="{{url('/dashboard')}}">
+                <p class='font-bold text-base {{$current_path[0]=="dashboard"? "text-green-aida":"text-black hover:text-green-aida"}} cursor-pointer'>Dashboard</p>
+            </a>
             <p class='font-medium text-sm text-slate-400'>Summary & Reports</p>
         </div>        
         <div class='w-[25%] h-full flex flex-col justify-center pl-4 border-l-2 border-[#FBF6F0] cursor-default'>
-            <p class='font-bold text-base text-black hover:text-green-aida cursor-pointer'>Assets</p>
+            <a href="{{url('/assets')}}">
+                <p class='font-bold text-base {{$current_path[0]=="assets"? "text-green-aida":"text-black hover:text-green-aida"}} cursor-pointer'>Assets</p>
+            </a>
             <p class='font-medium text-sm text-slate-400'>List of Assets</p>
         </div> 
         <div class='w-[25%] h-full flex flex-col justify-center pl-4 border-l-2 border-[#FBF6F0] cursor-default'>
@@ -55,7 +60,7 @@
         </div> 
         <div class='w-[25%] h-full flex flex-col justify-center pl-4 border-l-2 border-[#FBF6F0] cursor-default'>
             <a href="{{url('/bulk_upload')}}">
-                <p class='font-bold text-base text-black hover:text-green-aida cursor-pointer'>Bulk Upload</p>
+                <p class='font-bold text-base {{$current_path[0]=="bulk_upload"? "text-green-aida":"text-black hover:text-green-aida"}} cursor-pointer'>Bulk Upload</p>
             </a>            
             <p class='font-medium text-sm text-slate-400'>Mass Asset Update</p>
         </div> 
