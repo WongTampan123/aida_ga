@@ -61,7 +61,12 @@ class PageController extends Controller
         return view('all_asset_list', ["title" => "AIDA - All Asset List", "asset_list" => $asset_list]);
     }
     
-    public function showAddAssetForm($category,$subcategory)
+    // public function showAddAssetForm($category,$subcategory)
+    // {
+    //     return view('add_asset_form', ['title' => 'AIDA - Add New Asset']);
+    // }
+
+    public function showAddAssetForm()
     {
         return view('add_asset_form', ['title' => 'AIDA - Add New Asset']);
     }

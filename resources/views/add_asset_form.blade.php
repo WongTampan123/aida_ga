@@ -1,7 +1,7 @@
 <x-head title='{{$title}}'>
-    <body class="flex flex-col min-w-screen overflow-auto bg-[#FBF6F0] overflow-auto">
+    <body class="flex flex-col min-w-screen min-h-screen overflow-auto bg-[#FBF6F0] overflow-auto">
         <x-navbar />
-        <div class='flex flex-col h-fit w-full px-[10%] py-10'>
+        <div class='flex flex-col h-fit w-full px-[5%] md:px-[10%] py-10'>
             <div class='mb-4 xl:container 2xl:mx-auto'>
                 <p class="text-lg font-bold mb-1">New Asset</p>
                 <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">

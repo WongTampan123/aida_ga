@@ -18,9 +18,13 @@ class InventarisController extends Controller
             'unit_barang' => 'required'
         ]);
         
-        $image=$request->file('gambar_barang');
-        $image_name = $request->input('kode_barang').'.'.$image->extension();
-        $path=$image->move(public_path().'/assets/gambar_barang/',$image_name);
+        if($request->file('gambar_barang')){
+            $image=$request->file('gambar_barang');
+            $image_name = $request->input('kode_barang').'.'.$image->extension();
+            $path=$image->move(public_path().'/assets/gambar_barang/',$image_name);
+        } else {
+            $image_name = 'photo_library.svg';
+        }
 
         DB::connection('mysql')->insert('insert into aida.inventaris(id_barang, jenis_barang, tipe_barang, quantity_barang, merk_barang, lantai_barang, ruangan_barang, tahun_barang, unit_barang, gambar_barang) 
             value(?,?,?,?,?,?,?,?,?,?)',[
@@ -41,9 +45,14 @@ class InventarisController extends Controller
 
     public function updateAsset(Request $request)
     {
-        $image=$request->file('gambar_barang');
-        $image_name=$request->input('kode_barang').'.'.$image->extension();
-        $path=$image->move(public_path().'/assets/gambar_barang/',$image_name);
+        if($request->file('gambar_barang')){
+            $image=$request->file('gambar_barang');
+            $image_name=$request->input('kode_barang').'.'.$image->extension();
+            $path=$image->move(public_path().'/assets/gambar_barang/',$image_name);
+        } else {
+            $image_name = DB::connection('mysql')->select('select aida.inventaris.gambar_barang from aida.inventaris where id=?',[$request->input('id')]);
+            $image_name = $image_name[0]->gambar_barang;
+        }
 
         DB::connection('mysql')->update('update aida.inventaris
                                         set id_barang=?, jenis_barang=?, tipe_barang=?, quantity_barang=?, merk_barang=?, lantai_barang=?, ruangan_barang=?, tahun_barang=?, unit_barang=?, gambar_barang=?

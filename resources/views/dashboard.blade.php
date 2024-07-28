@@ -75,7 +75,7 @@
                 </div>
                 <div class='w-full h-[250px] flex flex-col justify-between p-6 col-span-2 max-lg:col-span-2 rounded-lg bg-white drop-shadow-md'>
                     <div>
-                        <p class='text-2xl font-semibold'>Others</p>
+                        <p class='text-2xl font-semibold'>Other</p>
                         <p class='text-base text-slate-400 font-normal'>Other Category Assets</p>
                     </div>
                     <div class='flex w-full justify-between items-end'>
@@ -83,7 +83,7 @@
                             <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
                             <p id='total_other' class='text-6xl text-black font-bold'>0</p>
                         </div>
-                        <a href={{url('dashboard/others')}}>
+                        <a href={{url('dashboard/other')}}>
                             <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                                 See All Assets
                             </button>
