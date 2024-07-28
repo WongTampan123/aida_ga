@@ -50,7 +50,7 @@
                     </div>
                 @else
                     <div class='grow flex items-center justify-center h-full w-full border-4 border-slate-300 border-dashed p-4'>
-                        <p class='text-2xl font-semibold text-slate-300'>Belum Ada Barang Terdaftar</p>
+                        <p class='text-2xl font-semibold text-center text-slate-300'>Belum Ada Barang Terdaftar</p>
                     </div>
                 @endif            
         </div>
