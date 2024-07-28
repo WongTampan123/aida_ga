@@ -11,18 +11,48 @@
     $current_path = explode("/", request()->path());
 @endphp
 
-<div class="w-full h-[50px] md:h-[60px] md:px-[10%] bg-green-aida z-10 max-md:z-20">
+<div class="w-full h-[60px] px-[5%] lg:px-[10%] bg-green-aida">
     <div class="w-full h-full flex justify-between items-center 2xl:container 2xl:mx-auto">
-        <div class="h-full flex items-center">
+        <div class="flex h-full flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2 mr-2 lg:hidden" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-offcanvas-example" aria-label="Toggle navigation" data-hs-overlay="#hs-offcanvas-example">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M4 6l16 0" />
+                <path d="M4 12l16 0" />
+                <path d="M4 18l16 0" />
+            </svg>
+
+            <!-- Sidebar -->
+            <div id="hs-offcanvas-example" class="hs-overlay [--auto-close:lg] hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-[#FBF6F0] border-e border-gray-200 pt-7 pb-10 overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300" role="dialog" tabindex="-1" aria-label="Sidebar">
+            <div class="px-6">
+                <img src="{{asset('assets/sidebar_logo.svg')}}" alt="AIDA Logo" class="mr-20 cursor-pointer w-[70%] h-auto">
+            </div>
+            <nav class="hs-accordion-group p-6 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
+                <ul class="space-y-1.5">
+                    <li>
+                        <a class='flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg {{$current_path[0]=="dashboard"? "bg-green-aida text-white":"text-gray-700 hover:text-white hover:bg-green-aida hover:text-white"}}' href="{{url('/dashboard')}}">Dashboard</a>
+                    </li>
+                    <li>
+                        <a class='flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg {{$current_path[0]=="assets"? "bg-green-aida text-white":"text-gray-700 hover:text-white hover:bg-green-aida hover:text-white"}}' href="{{url('/assets')}}">Assets</a>
+                    </li>
+                    <li>
+                        <a class='flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg {{$current_path[0]=="stock_take"? "bg-green-aida text-white":"text-gray-700 hover:text-white hover:bg-green-aida hover:text-white"}}' href="#">Stock Take</a>
+                    </li>
+                    <li>
+                        <a class='flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg {{$current_path[0]=="bulk_upload"? "bg-green-aida text-white":"text-gray-700 hover:text-white hover:bg-green-aida hover:text-white"}}' href="{{url('/bulk_upload')}}">Bulk Upload</a>
+                    </li>
+                </ul>
+            </nav>
+            </div>
+            <!-- End Sidebar -->
             <img onclick="window.location.href='{{url("/dashboard")}}'" src="{{asset('assets/navbar_logo.svg')}}" alt="AIDA Logo" class="mr-20 cursor-pointer w-[103px] max-md:w-[70px] h-auto">
         </div>
-        <div class='flex'>
+        <div class='flex items-center'>
             <div class='flex flex-col justify-center text-right mr-4'>
-                <p class='text-xs font-semibold text-white mb-0.5 leading-tight'>{{$user->name}}</p>
-                <p class='text-xs font-light text-white'>{{$user->short_posisi}}</p>
+                <p class='text-xs max-md:hidden font-semibold text-white mb-0.5 leading-tight'>{{$user->name}}</p>
+                <p class='text-xs max-md:hidden font-light text-white'>{{$user->short_posisi}}</p>
             </div>
             <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
-                <button id="hs-dropdown-default" class="hs-dropdown-toggle rounded-md overflow-hidden w-[40px] h-[40px] max-sm:w-[30px] max-sm:h-[30px]">
+                <button id="hs-dropdown-default" class="hs-dropdown-toggle rounded-md overflow-hidden w-[40px] h-[40px]">
                     <img src="{{$profile_picture}}" alt="Default Profile Image" class="object-cover w-full h-full">
                 </button>
 
@@ -40,7 +70,7 @@
         </div>
     </div>
 </div>
-<div class='w-full h-[100px] bg-white px-[10%]'>
+<div class='w-full h-[100px] bg-white px-[10%] max-lg:hidden'>
     <div class='w-full h-full flex items-center justify-between py-4 2xl:container 2xl:mx-auto'>
         <div class='w-[25%] h-full flex flex-col justify-center'>
             <a href="{{url('/dashboard')}}">

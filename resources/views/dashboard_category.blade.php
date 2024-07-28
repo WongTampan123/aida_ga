@@ -7,7 +7,7 @@
 <x-head title={{$title}}>
     <body class="relative flex flex-col h-screen min-w-screen overflow-auto bg-[#FBF6F0]">
         <x-navbar />
-        <div class='flex flex-col grow w-full px-[10%] py-10'>
+        <div class='flex flex-col grow w-full px-[5%] lg:px-[10%] py-10'>
             <div class='mb-5 xl:container 2xl:mx-auto'>
                 <p class="text-lg font-bold mb-1">{{$category_type}} Category</p>
                 <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
@@ -28,26 +28,26 @@
                 </ol>
             </div><!-- Dari sini nanti akan pakai foreach -->
                  @if(!empty($subcategory_count))
-                    @foreach($subcategory_count as $subcategory)
-                    <div class='w-full grid grid-cols-3 gap-6 xl:container 2xl:mx-auto'>
-                        <div class='w-full h-[200px] flex flex-col p-6 justify-between rounded-lg bg-white drop-shadow-md'>
-                            <div>
-                                <p class='text-2xl font-semibold'>{{ucfirst($subcategory->tipe_barang)}}</p>
-                            </div>
-                            <div class='flex w-full justify-between items-start'>
+                    <div class='w-full grid max-md:grid-cols-1 grid-cols-3 gap-6 xl:container 2xl:mx-auto'>
+                        @foreach($subcategory_count as $subcategory)                    
+                            <div class='w-full h-[200px] flex flex-col p-6 justify-between rounded-lg bg-white drop-shadow-md'>
                                 <div>
-                                    <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
-                                    <p class='text-6xl text-black font-bold'>{{$subcategory->jumlah_barang}}</p>
+                                    <p class='text-2xl font-semibold'>{{ucfirst($subcategory->tipe_barang)}}</p>
                                 </div>
-                                <a href='{{url("/dashboard/".strtolower($category_type)."/".$subcategory->tipe_barang)}}'>
-                                    <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                                        See All Assets
-                                    </button>
-                                </a>
+                                <div class='flex w-full justify-between items-start'>
+                                    <div>
+                                        <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
+                                        <p class='text-6xl text-black font-bold'>{{$subcategory->jumlah_barang}}</p>
+                                    </div>
+                                    <a href='{{url("/dashboard/".strtolower($category_type)."/".$subcategory->tipe_barang)}}'>
+                                        <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                                            See All Assets
+                                        </button>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 @else
                     <div class='grow flex items-center justify-center h-full w-full border-4 border-slate-300 border-dashed p-4'>
                         <p class='text-2xl font-semibold text-slate-300'>Belum Ada Barang Terdaftar</p>

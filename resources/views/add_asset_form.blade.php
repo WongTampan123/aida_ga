@@ -40,11 +40,11 @@
                             <path d="M11 12h1v4h1" />
                         </svg>
                     </span> 
-                    Asset Baru yang Ditambahkan Akan Otomatis <span class='text-green-aida'>Generate QR Baru</span>
+                    <p>Asset Baru yang Ditambahkan Akan Otomatis <span class='text-green-aida'>Generate QR Baru</span></p>
                 </div>
             </div>            
-            <div class='flex w-full h-[350px] gap-5 mb-7 xl:container 2xl:mx-auto'>
-                <div class='w-1/4 h-full rounded-lg bg-white p-5'>
+            <div class='flex max-md:flex-col w-full md:h-[350px] gap-5 mb-7 xl:container 2xl:mx-auto'>
+                <div class='max-md:w-full w-1/4 h-full rounded-lg bg-white p-5'>
                     <p class="text-lg font-bold mb-5">Foto Barang</p>
                     <div class='flex flex-col w-full items-center'>
                         <div class='relative flex items-center justify-center w-[180px] h-[180px] shadow-[0_0_30px_0px_rgba(0,0,0,0.1)] rounded-lg mb-5 cursor-pointer'>
@@ -92,7 +92,7 @@
                         <p class='text-sm text-slate-400 text-center mb-2'>Hanya File Berformat *.png, *.jpg, dan *.jpeg yang Diterima</p>
                     </div>
                 </div>
-                <div class='grow h-full rounded-lg bg-white p-5 grid grid-cols-3 gap-10'>
+                <div class='grow h-full rounded-lg bg-white p-5 grid max-md:grid-cols-2 grid-cols-3 max-md:gap-5 gap-10'>
                     <div class='w-full'>
                         <p class='text-sm text-justify text-slate-400 mb-2'>Jenis Barang<span class='text-red-500'>*</span></p>
                         <input type="text" id='jenis_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none">
@@ -166,7 +166,7 @@
                         <p class='flex text-xs text-slate-400'>Pilih Gambar</p>
                         <form>
                             <label for="small-file-input" class="sr-only">Choose file</label>
-                            <input type="file" accept=".jpg, .jpeg, .png" name="small-file-input" id="input_gambar" class="block w-[450px] border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none
+                            <input type="file" accept=".jpg, .jpeg, .png" name="small-file-input" id="input_gambar" class="block max-md:w-full w-[450px] border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none
                             file:bg-green-100 file:border-0
                             file:text-green-aida
                             file:me-4

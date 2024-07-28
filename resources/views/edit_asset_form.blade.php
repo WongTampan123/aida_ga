@@ -1,9 +1,9 @@
 <x-head title='{{$title}}'>
-    <body class="flex flex-col min-w-screen overflow-auto bg-[#FBF6F0] overflow-auto">
+    <body class="flex flex-col min-w-screen min-h-screen overflow-auto bg-[#FBF6F0] overflow-auto">
         <x-navbar />
-        <div class='flex flex-col h-fit w-full px-[10%] py-10'>
-            <div class='flex items-end justify-between mb-4 xl:container 2xl:mx-auto'>
-                <div>
+        <div class='flex flex-col h-fit max-md:min-h-screen w-full px-[5%] md:px-[10%] py-10'>
+            <div class='flex max-md:flex-col md:items-end md:justify-between mb-4 xl:container 2xl:mx-auto'>
+                <div class='max-md:mb-4'>
                     <p class="text-lg font-bold mb-1">Asset Detail</p>
                     <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
                         <li class="inline-flex items-center">
@@ -40,7 +40,7 @@
                         </li>
                     </ol>
                 </div>
-                <div>
+                <div class='flex w-full max-md:justify-end'>
                     <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-printer" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -52,16 +52,16 @@
                     </button>
                 </div>
             </div>           
-            <div class='flex w-full h-[350px] gap-5 mb-7 xl:container 2xl:mx-auto'>
-                <div class='grid grid-rows-2 gap-8 w-1/4 h-full'>
-                    <div class='flex items-center justify-between h-full w-full rounded-lg bg-white p-5'>
-                        <p class="inline-flex h-full items-start text-lg font-bold mb-5">Foto Barang</p>
+            <div class='flex max-md:flex-col w-full md:h-[350px] gap-5 mb-7 xl:container 2xl:mx-auto'>
+                <div class='grid max-md:grid-rows-1 max-md:grid-cols-2 grid-rows-2 gap-8 max-md:w-full w-1/4 h-full'>
+                    <div class='flex max-md:flex-col items-center justify-between h-full w-full rounded-lg bg-white p-5'>
+                        <p class="inline-flex h-full items-start text-lg max-md:text-md font-bold mb-5">Foto Barang</p>
                         <div class='relative w-[100px] h-[100px] border-2 border-[#FBF6F0] rounded-md cursor-pointer' data-hs-overlay="#hs-vertically-centered-modal">
                             <img id='imageMainPreview' class="object-contain w-full h-full" src="{{asset('/assets/gambar_barang/'.$asset_data->gambar_barang)}}" alt="Asset Image">
                         </div>
                     </div>
-                    <div class='flex items-center justify-between h-full w-full rounded-lg bg-white p-5'>
-                        <div class='flex flex-col h-full'>
+                    <div class='flex max-md:flex-col items-center justify-between h-full w-full rounded-lg bg-white p-5'>
+                        <div class='flex flex-col h-full max-md:mb-2'>
                             <p class="text-lg font-bold">QR Barang</p>
                             <p class="text-md text-gray-400 font-semibold">{{$asset_data->id_barang}}</p>
                         </div>                        
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 </div>                
-                <div class='grow h-full rounded-lg bg-white p-5 grid grid-cols-3 gap-10'>
+                <div class='grow h-full rounded-lg bg-white p-5 grid grid-cols-3 max-md:grid-cols-2 gap-10 max-md:gap-5'>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Jenis Barang</p>
                         <input id='jenis_barang' type="text" value='{{ucwords($asset_data->jenis_barang)}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
@@ -144,7 +144,7 @@
                         <p class='flex text-xs text-slate-400'>Pilih Gambar</p>
                         <form>
                             <label for="small-file-input" class="sr-only">Choose file</label>
-                            <input type="file" accept=".jpg, .jpeg, .png" name="small-file-input" id="input_gambar" class="block w-[450px] border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none
+                            <input type="file" accept=".jpg, .jpeg, .png" name="small-file-input" id="input_gambar" class="block w-full md:w-[450px] border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none
                             file:bg-green-100 file:border-0
                             file:text-green-aida
                             file:me-4
