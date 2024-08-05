@@ -83,8 +83,7 @@ class PageController extends Controller
                             ->select('select distinct aida.inventaris.tahun_barang from aida.inventaris
                             where aida.inventaris.is_deleted="false"');
         $unit_barang_list = DB::connection('mysql')
-                            ->select('select distinct aida.inventaris.unit_barang from aida.inventaris
-                            where aida.inventaris.is_deleted="false"');
+                            ->select('select aida.nama_unit.nama_unit from aida.nama_unit');
 
         return view('all_asset_list', ["title" => "AIDA - All Asset List", "jenis_barang_list" => $jenis_barang_list, "tahun_barang_list" => $tahun_barang_list, "unit_barang_list" => $unit_barang_list]);
     }
@@ -96,7 +95,10 @@ class PageController extends Controller
 
     public function showAddAssetForm()
     {
-        return view('add_asset_form', ['title' => 'AIDA - Add New Asset']);
+        $unit_list = DB::connection('mysql')
+                    ->select('select aida.nama_unit.* from aida.nama_unit');
+
+        return view('add_asset_form', ['title' => 'AIDA - Add New Asset', 'unit_list' => $unit_list]);
     }
 
     public function showEditAssetForm($asset_id)
@@ -105,8 +107,11 @@ class PageController extends Controller
                     ->select('select aida.inventaris.* 
                     from aida.inventaris
                     where id_barang=?',[$asset_id]);
+        
+        $unit_list = DB::connection('mysql')
+                    ->select('select aida.nama_unit.* from aida.nama_unit');
 
-        return view('edit_asset_form', ['title' => 'AIDA - '.$asset_id, 'asset_data' => $asset_data[0]]);
+        return view('edit_asset_form', ['title' => 'AIDA - '.$asset_id, 'asset_data' => $asset_data[0], 'unit_list' => $unit_list]);
     }
 
     public function showBulkUpload()

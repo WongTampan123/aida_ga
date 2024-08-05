@@ -29,7 +29,7 @@
                                     </div>
                                     <div>
                                         <p class="text-base font-medium truncate">{{ucwords($asset->tipe_barang)}}</p>
-                                        <p class="text-xs text-gray-300 whitespace-nowrap">Tipe:{{$asset->id_barang}}</p>
+                                        <p class="text-xs text-gray-300 whitespace-nowrap">Tipe:{{$asset->seri_barang}}</p>
                                     </div>
                                 </td>
                                 <td class="text-center"><span class="text-xs font-semibold py-0.5 px-2 text-black rounded-md bg-[#F6F6F6]">{{$asset->id_barang}}</span></td>

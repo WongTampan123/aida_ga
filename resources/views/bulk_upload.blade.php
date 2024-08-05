@@ -20,7 +20,20 @@
                         </p>
                     </li>
                 </ol>
-            </div>           
+            </div>
+            <div class='mb-4 xl:container 2xl:mx-auto'>
+                <div class="flex items-center w-fit bg-green-100 border border-dashed border-green-aida text-sm rounded-lg px-2 py-2 gap-2" role="alert">
+                    <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle stroke-green-aida" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
+                            <path d="M12 9h.01" />
+                            <path d="M11 12h1v4h1" />
+                        </svg>
+                    </span> 
+                    <p>Silahkan Download Template <span class='text-green-aida cursor-pointer'><a href="{{url('/download_template')}}">Disini</a></span> dan Sesuaikan Data yang Ingin Diunggah </p>
+                </div>
+            </div>       
             <div class='flex w-full h-[350px] gap-5 mb-7 xl:container 2xl:mx-auto'>
                 <div class='flex justify-between items-center w-full h-full rounded-lg bg-white py-5 px-8'>
                     <div>

@@ -18,6 +18,7 @@ Route::middleware([CheckSession::class])->group(function(){
     Route::get('/assets/add_asset', [PageController::class, 'showAddAssetForm']);
     Route::get('/assets/{asset_id}', [PageController::class, 'showEditAssetForm']);
     Route::get('/bulk_upload', [PageController::class, 'showBulkUpload']);
+    Route::get('/download_template', [InventarisController::class, 'downloadTemplateBulkUpload']);
     Route::get('/dashboard/{category_type}', [PageController::class, 'showCategoryList']);
     Route::get('/dashboard/{category_type}/{subcategory_type}', [PageController::class, 'showAssetList']);
     Route::get('/dashboard/{category_type}/{subcategory_type}/add_asset', [PageController::class, 'showAddAssetForm']);

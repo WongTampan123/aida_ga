@@ -96,12 +96,18 @@
                     <div class='w-full'>
                         <p class='text-sm text-justify text-slate-400 mb-2'>Jenis Barang<span class='text-red-500'>*</span></p>
                         <!-- Nanti dijadikan dinamis kalau benar-benar kategori bisa nambah -->
-                        <select id='jenis_barang' class="py-3 px-4 pe-9 block w-full bg-slate-100 border-0 rounded-lg text-sm focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <select placeholder='Jenis Barang' class="jenis-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="" style="width: 100%">
+                            <option></option>
+                            <option value='meubelair'>Meubelair</option>
+                            <option value='electronic'>Electronic</option>
+                            <option value='other'>Other</option>                                   
+                        </select>
+                        <!-- <select id='jenis_barang' class="py-3 px-4 pe-9 block w-full bg-slate-100 border-0 rounded-lg text-sm focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                             <option></option>
                             <option value='meubelair'>Meubelair</option>
                             <option value='electronic'>Electronic</option>
                             <option value='other'>Other</option>
-                        </select>
+                        </select> -->
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Tipe Barang<span class='text-red-500'>*</span></p>
@@ -133,7 +139,13 @@
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Unit<span class='text-red-500'>*</span></p>
-                        <input type="text" id='unit_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <!-- <input type="text" id='unit_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none"> -->
+                        <select placeholder='Unit' class="unit-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="" style="width: 100%">
+                            <option></option>
+                            @foreach($unit_list as $unit)
+                                <option value='{{$unit->nama_unit}}'>{{ucfirst($unit->nama_unit)}}</option>
+                            @endforeach                                   
+                        </select>
                     </div>
                 </div>
             </div>
@@ -193,6 +205,34 @@
         </div>
     </body>
     <script type="text/javascript">
+        var unit_barang
+        var jenis_barang
+        $(document).ready(function(){
+            $('.jenis-barang').select2({
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.jenis-barang').on('change', function(){
+                jenis_barang =  $(this).val()
+            })
+            $('.unit-barang').select2({
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.unit-barang').on('change', function(){
+                unit_barang =  $(this).val()
+            })
+        })
+
+
         var file
         document.getElementById('input_gambar').addEventListener('change', function(event){
             file = event.target.files[0];
@@ -223,7 +263,7 @@
         }
         function add_asset(){
             axios.post("{{url('/add_asset')}}", {
-                jenis_barang: (document.getElementById("jenis_barang").value).toLowerCase(),
+                jenis_barang: jenis_barang.toLowerCase(),
                 tipe_barang: (document.getElementById("tipe_barang").value).toLowerCase(),
                 seri_barang: document.getElementById("seri_barang").value,
                 quantity_barang: document.getElementById("quantity_barang").value,
@@ -231,7 +271,7 @@
                 lantai_barang: document.getElementById("lantai_barang").value,
                 ruangan_barang: document.getElementById("ruangan_barang").value,
                 tahun_barang: document.getElementById("tahun_barang").value,
-                unit_barang: document.getElementById("unit_barang").value,
+                unit_barang: unit_barang,
                 gambar_barang: document.getElementById('input_gambar').files[0]
             },{
                 headers:{
@@ -258,4 +298,10 @@
             })
         }       
     </script>
+    <!-- Tampilan select2 -->
+     <script type='text/javascript'>
+        $(document).ready(function(){
+            $('<link rel="stylesheet" href="{{asset('css/select2_form.css')}}" />').appendTo('head')
+        })
+     </script>
 </x-head>

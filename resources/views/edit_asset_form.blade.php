@@ -72,8 +72,20 @@
                 </div>                
                 <div class='grow h-full rounded-lg bg-white p-5 grid grid-cols-3 max-md:grid-cols-2 gap-10 max-md:gap-5'>
                     <div class='w-full'>
-                        <p class='text-sm text-slate-400 mb-2'>Jenis Barang</p>
-                        <input id='jenis_barang' type="text" value='{{ucwords($asset_data->jenis_barang)}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <p class='text-sm text-justify text-slate-400 mb-2'>Jenis Barang<span class='text-red-500'>*</span></p>
+                        <!-- Nanti dijadikan dinamis kalau benar-benar kategori bisa nambah -->
+                        <select placeholder='Jenis Barang' class="jenis-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="jenis_barang" style="width: 100%">
+                            <option></option>
+                            <option id='meubelair' value='meubelair'>Meubelair</option>
+                            <option id='electronic' value='electronic'>Electronic</option>
+                            <option id='other' value='other'>Other</option>                                   
+                        </select>
+                        <!-- <select id='jenis_barang' class="py-3 px-4 pe-9 block w-full bg-slate-100 border-0 rounded-lg text-sm focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                            <option></option>
+                            <option value='meubelair'>Meubelair</option>
+                            <option value='electronic'>Electronic</option>
+                            <option value='other'>Other</option>
+                        </select> -->
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Tipe Barang</p>
@@ -81,7 +93,7 @@
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Seri Barang</p>
-                        <input id='seri_barang' type="text" value='{{$asset_data->id_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <input id='seri_barang' type="text" value='{{$asset_data->seri_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Quantity</p>
@@ -105,7 +117,13 @@
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Unit</p>
-                        <input id='unit_barang' type="text" value='{{$asset_data->unit_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <!-- <input id='unit_barang' type="text" value='{{$asset_data->unit_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none"> -->
+                        <select placeholder='Unit' class="unit-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="unit_barang" style="width: 100%">
+                            <option></option>
+                            @foreach($unit_list as $unit)
+                                <option id='{{$unit->nama_unit}}' value='{{$unit->nama_unit}}'>{{ucfirst($unit->nama_unit)}}</option>
+                            @endforeach                                   
+                        </select>
                     </div>
                 </div>
             </div>
@@ -166,12 +184,43 @@
         </div>       
     </body>
     <script type='text/javascript'>
+        var unit_barang
+        var jenis_barang
+        $(document).ready(function(){
+            $('<link rel="stylesheet" href="{{asset('css/select2_form.css')}}" />').appendTo('head')
+            $('.jenis-barang').select2({
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.jenis-barang').on('change', function(){
+                jenis_barang =  $(this).val()
+            })
+            $('.unit-barang').select2({
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.unit-barang').on('change', function(){
+                unit_barang =  $(this).val()
+            })
+        })
+    </script>
+    <script type='text/javascript'>
         document.getElementById('imagePreview').src="{{asset('/assets/gambar_barang/'.$asset_data->gambar_barang)}}"
         new QRCode(document.getElementById('qr_barang'), {
             text: "{{url()->current()}}",
             width: 100,
             height: 100
         })
+        document.getElementById('{{$asset_data->jenis_barang}}').setAttribute('selected','selected')
+        document.getElementById('{{$asset_data->unit_barang}}').setAttribute('selected','selected')
 
         var file
         document.getElementById('input_gambar').addEventListener('change', function(event){
@@ -197,7 +246,7 @@
         function updateBarang(){
             axios.post("{{url('/update_asset')}}", {
                 id: {{$asset_data->id}},
-                jenis_barang: (document.getElementById("jenis_barang").value).toLowerCase(),
+                jenis_barang: document.getElementById('jenis_barang').value,
                 tipe_barang: (document.getElementById("tipe_barang").value).toLowerCase(),
                 seri_barang: document.getElementById("seri_barang").value,
                 quantity_barang: document.getElementById("quantity_barang").value,
@@ -205,7 +254,7 @@
                 lantai_barang: document.getElementById("lantai_barang").value,
                 ruangan_barang: document.getElementById("ruangan_barang").value,
                 tahun_barang: document.getElementById("tahun_barang").value,
-                unit_barang: document.getElementById("unit_barang").value,
+                unit_barang: document.getElementById('unit_barang').value,
                 gambar_barang: document.getElementById('input_gambar').files[0]
             },{
                 headers:{
@@ -231,5 +280,5 @@
                 })
             })
         } 
-    </script>
+    </script>    
 </x-head>

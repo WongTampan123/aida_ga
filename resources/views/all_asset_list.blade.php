@@ -81,7 +81,7 @@
                                 <select placeholder='Tahun Pengadaan Barang' class="filter-unit-barang w-full text-sm py-1 px-2 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="">
                                     <option></option>
                                     @foreach($unit_barang_list as $unit_barang)
-                                        <option value='{{$unit_barang->unit_barang}}'>{{ucfirst($unit_barang->unit_barang)}}</option>
+                                        <option value='{{$unit_barang->nama_unit}}'>{{ucfirst($unit_barang->nama_unit)}}</option>
                                     @endforeach                                   
                                 </select>
                             </div>
@@ -119,6 +119,7 @@
         }
 
         $(document).ready(function() {
+            $('<link rel="stylesheet" href="{{asset('css/select2_filter.css')}}" />').appendTo('head')
             $('.filter-jenis-barang').select2({
             placeholder:'Jenis Barang',
             allowClear:true,
