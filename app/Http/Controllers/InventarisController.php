@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\BulkUploadImport;
 use Illuminate\Support\Facades\DB;
 
 class InventarisController extends Controller
@@ -12,23 +15,31 @@ class InventarisController extends Controller
         $request_validation = $request->validate([
             'jenis_barang' => 'required',
             'tipe_barang' => 'required',
-            'kode_barang' => 'required',
             'lantai_barang' => 'required',
             'ruangan_barang' => 'required',
-            'unit_barang' => 'required'
+            'unit_barang' => 'required',
+            'tahun_barang' => 'required'
         ]);
+
+        $jenis = strtolower($request->input('jenis_barang'))=='electronic'? 'E':(strtolower($request->input('jenis_barang'))=='meubelair'? 'M':'O');
+        $unit = strtoupper($request->input('unit_barang'));
+        $tahun = substr($request->input('tahun_barang'), -2);
+        $count_db = DB::connection('mysql')->select('select count(aida.inventaris.id_barang) as total_barang from aida.inventaris 
+                    where aida.inventaris.id_barang like "%'.$jenis.''.$request->input('lantai_barang').''.$unit.''.$tahun.'"');
+        $count = $count_db[0]->total_barang+1;
+        $kode_barang = $count.$jenis.$request->input('lantai_barang').$unit.$tahun;
         
         if($request->file('gambar_barang')){
             $image=$request->file('gambar_barang');
-            $image_name = $request->input('kode_barang').'.'.$image->extension();
+            $image_name = $kode_barang.'.'.$image->extension();
             $path=$image->move(public_path().'/assets/gambar_barang/',$image_name);
         } else {
             $image_name = 'photo_library.svg';
         }
 
-        DB::connection('mysql')->insert('insert into aida.inventaris(id_barang, jenis_barang, tipe_barang, quantity_barang, merk_barang, lantai_barang, ruangan_barang, tahun_barang, unit_barang, gambar_barang) 
-            value(?,?,?,?,?,?,?,?,?,?)',[
-            $request->input('kode_barang'),
+        DB::connection('mysql')->insert('insert into aida.inventaris(id_barang, jenis_barang, tipe_barang, quantity_barang, merk_barang, lantai_barang, ruangan_barang, tahun_barang, unit_barang, seri_barang, gambar_barang) 
+            value(?,?,?,?,?,?,?,?,?,?,?)',[
+            $kode_barang,
             $request->input('jenis_barang'),
             $request->input('tipe_barang'),
             $request->input('quantity_barang'),
@@ -37,17 +48,55 @@ class InventarisController extends Controller
             $request->input('ruangan_barang'),
             $request->input('tahun_barang'),
             $request->input('unit_barang'),
+            $request->input('seri_barang'),
             $image_name
         ]);
 
         return response()->json(['message'=>'input berhasil']);
     }
 
+    public function saveBulkUpload(Request $request)
+    {
+        $request->validate([
+            'file_excel' => 'required'
+        ]);
+
+        $row = Excel::import(new BulkUploadImport, $request->file('file_excel'));
+
+        return response()->json(['rows' => $row]);
+    }
+    
+    public function deleteAsset(Request $request)
+    {
+        DB::connection('mysql')->update('update aida.inventaris 
+                                        set aida.inventaris.is_deleted="true"
+                                        where aida.inventaris.id=?',[$request->input('id_barang')]);
+
+        return response()->json(['message' => 'delete berhasil']);
+    }
+
     public function updateAsset(Request $request)
     {
+        $request_validation = $request->validate([
+            'jenis_barang' => 'required',
+            'tipe_barang' => 'required',
+            'lantai_barang' => 'required',
+            'ruangan_barang' => 'required',
+            'unit_barang' => 'required',
+            'tahun_barang' => 'required'
+        ]);
+
+        $jenis = strtolower($request->input('jenis_barang'))=='electronic'? 'E':(strtolower($request->input('jenis_barang'))=='meubelair'? 'M':'O');
+        $unit = strtoupper($request->input('unit_barang'));
+        $tahun = substr($request->input('tahun_barang'), -2);
+        $count_db = DB::connection('mysql')->select('select count(aida.inventaris.id_barang) as total_barang from aida.inventaris 
+                    where aida.inventaris.id_barang like "%'.$jenis.''.$request->input('lantai_barang').''.$unit.''.$tahun.'"');
+        $count = $count_db[0]->total_barang+1;
+        $kode_barang = $count.$jenis.$request->input('lantai_barang').$unit.$tahun;
+
         if($request->file('gambar_barang')){
             $image=$request->file('gambar_barang');
-            $image_name=$request->input('kode_barang').'.'.$image->extension();
+            $image_name=$kode_barang.'.'.$image->extension();
             $path=$image->move(public_path().'/assets/gambar_barang/',$image_name);
         } else {
             $image_name = DB::connection('mysql')->select('select aida.inventaris.gambar_barang from aida.inventaris where id=?',[$request->input('id')]);
@@ -55,7 +104,7 @@ class InventarisController extends Controller
         }
 
         DB::connection('mysql')->update('update aida.inventaris
-                                        set id_barang=?, jenis_barang=?, tipe_barang=?, quantity_barang=?, merk_barang=?, lantai_barang=?, ruangan_barang=?, tahun_barang=?, unit_barang=?, gambar_barang=?
+                                        set id_barang=?, jenis_barang=?, tipe_barang=?, quantity_barang=?, merk_barang=?, lantai_barang=?, ruangan_barang=?, tahun_barang=?, unit_barang=?, seri_barang=?, gambar_barang=?
                                         where aida.inventaris.id=?',[
             $request->input('kode_barang'),
             $request->input('jenis_barang'),
@@ -66,11 +115,37 @@ class InventarisController extends Controller
             $request->input('ruangan_barang'),
             $request->input('tahun_barang'),
             $request->input('unit_barang'),
+            $request->input('seri_barang'),
             $image_name,
             $request->input('id')
         ]);
 
         return response()->json(['message'=>'input berhasil']);
 
+    }
+
+    public function searchAsset(Request $request)
+    {   
+        // $search_response = DB::connection('mysql')->select('select aida.inventaris.* from aida.inventaris
+        //                                                     where aida.inventaris.is_deleted="false"
+        //                                                     and aida.inventaris.jenis_barang like "%'.$request->input('jenis_barang').'%" 
+        //                                                     and aida.inventaris.tahun_barang like "%'.$request->input('tahun_barang').'%"
+        //                                                     and aida.inventaris.unit_barang like "%'.$request->input('unit_barang').'%"
+        //                                                     and aida.inventaris.tipe_barang like "%'.$request->input('barang').'%"');
+        
+        $search_response = DB::connection('mysql')
+                        ->table('aida.inventaris')
+                        ->where('aida.inventaris.is_deleted','false')
+                        ->where('aida.inventaris.jenis_barang', 'like', "%".$request->input('jenis_barang')."%")
+                        ->where('aida.inventaris.tahun_barang', 'like', "%".$request->input('tahun_barang')."%")
+                        ->where('aida.inventaris.unit_barang', 'like', "%".$request->input('unit_barang')."%")
+                        ->where('aida.inventaris.tipe_barang', 'like', "%".$request->input('barang')."%")
+                        ->paginate(10);
+        
+        
+            return response()->json([
+                'view' => View::make('asset_list_table', ['asset_list' => $search_response])->render()
+            ]);
+        
     }
 }

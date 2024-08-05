@@ -3,7 +3,6 @@
 
     $url_explode = explode('/', $current_url);    
     $category_type = ucfirst($url_explode[5]);
-    $subcategory_type = ucfirst($url_explode[6]);
 @endphp
 
 <x-head title={{$title}}>
@@ -11,7 +10,7 @@
         <x-navbar />
         <div class='flex flex-col min-h-screen w-full px-[5%] lg:px-[10%] py-10'>
             <div class='mb-5 md:container md:mx-auto'>
-                <p class="text-lg font-bold mb-1">{{$subcategory_type}}</p>
+                <p class="text-lg font-bold mb-1">{{$category_type}}</p>
                 <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
                     <li class="inline-flex items-center">
                         <a href={{url('/dashboard')}} class="flex items-center text-xs text-slate-500 font-semibold hover:text-green-aida focus:outline-none focus:text-green-aida" href="#">
@@ -23,17 +22,8 @@
                         </svg>
                     </li>
                     <li class="inline-flex items-center">
-                        <a href={{url('/dashboard/'.strtolower($category_type))}} class="flex items-center text-xs text-slate-500 font-semibold hover:text-green-aida focus:outline-none focus:text-green-aida" href="#">
-                            {{$category_type}} Category
-                        </a>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-point-filled mx-1" width="5" height="5" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z" stroke-width="0" fill="currentColor" />
-                        </svg>
-                    </li>
-                    <li class="inline-flex items-center">
                         <p class="flex items-center text-xs text-slate-400">
-                            {{$subcategory_type}}
+                            {{$category_type}} Category
                         </p>
                     </li>
                 </ol>
@@ -47,7 +37,7 @@
                         <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
                             Export
                         </button>
-                        <a href="{{url('/dashboard/'.strtolower($category_type).'/'.strtolower($subcategory_type).'/add_asset')}}">
+                        <a href="{{url('assets/add_asset')}}">
                             <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                                 + Add Asset
                             </button>
@@ -73,7 +63,7 @@
                         <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
                             Export
                         </button>
-                        <a href="{{url('/dashboard/'.strtolower($category_type).'/'.strtolower($subcategory_type).'/add_asset')}}">
+                        <a href="{{url('assets/add_asset?category='.strtolower($category_type))}}">
                             <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                                 + Add Asset
                             </button>
@@ -114,7 +104,7 @@
                                     </div>
                                     <div>
                                         <p class="text-base font-medium truncate">{{ucwords($asset->tipe_barang)}}</p>
-                                        <p class="text-xs text-gray-300 whitespace-nowrap">Tipe:{{$asset->id_barang}}</p>
+                                        <p class="text-xs text-gray-300 whitespace-nowrap">Seri:{{$asset->seri_barang}}</p>
                                     </div>
                                 </td>
                                 <td class="text-center"><span class="text-xs font-semibold py-0.5 px-2 text-black rounded-md bg-[#F6F6F6]">{{$asset->id_barang}}</span></td>
@@ -136,7 +126,7 @@
                                             <a href="{{url('/assets/'.$asset->id_barang)}}" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700">
                                                 Edit
                                             </a>
-                                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
+                                            <a onclick='deleteAsset({{$asset->id}})' class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
                                                 Delete
                                             </a>
                                         </div>
@@ -150,5 +140,41 @@
             </div>
         </div>
     </body>
+    <script type='text/javascript'>
+        function deleteAsset(id){
+            Swal.fire({
+                title: "Apakah Anda Yakin?",
+                html: "Anda Tidak Bisa Mengurungkan Asset yang Sudah Anda Hapus",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#17C653",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Lanjutkan"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.post('{{url("/delete_asset")}}',{
+                        id_barang: id
+                    }).then((res)=>{
+                        swal.fire({
+                            title:'Asset Berhasil Dihapus',
+                            icon: 'success',
+                            text:`Asset yang Anda Pilih Berhasil Terhapus`,
+                            confirmButtonColor: "#17C653",
+                        }).then((result)=>{
+                            if(result.isConfirmed){
+                                location.reload()
+                            }
+                        })
+                    }).catch((res)=>{
+                        swal.fire({
+                            icon: 'warning',
+                            text:`Terdapat Masalah Saat Menghapus Asset, Silahkan Kontak Tim GA`,
+                            confirmButtonColor: "#17C653",
+                        })
+                    })
+                }
+            })       
+        }
+    </script>
 </x-head>
     

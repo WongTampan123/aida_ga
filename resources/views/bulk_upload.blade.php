@@ -1,5 +1,5 @@
 <x-head title='{{$title}}'>
-    <body class="flex flex-col min-w-screen overflow-auto bg-[#FBF6F0] overflow-auto">
+    <body class="flex flex-col min-w-screen min-h-screen overflow-auto bg-[#FBF6F0] overflow-auto">
         <x-navbar />
         <div class='flex flex-col h-fit w-full px-[10%] py-10'>
             <div class='mb-4 xl:container 2xl:mx-auto'>
@@ -26,9 +26,9 @@
                     <div>
                         <p class='flex text-2xl font-semibold mb-4'>Upload Files</p>
                         <p class='flex text-xs text-slate-400'>Select Files From Your Device (.xls or .xlsx)</p>
-                        <form>
+                        <form enctype="multipart/form-data">
                             <label for="small-file-input" class="sr-only">Choose file</label>
-                            <input type="file" name="small-file-input" id="small-file-input" class="block w-[450px] border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none
+                            <input type="file" accept=".xlsx" name="small-file-input" id="input_excel" class="block w-[450px] border border-gray-200 shadow-sm rounded-lg text-sm focus:z-10 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none
                             file:bg-green-100 file:border-0
                             file:text-green-aida
                             file:me-4
@@ -42,11 +42,40 @@
             </div>
             <div class='flex w-full justify-end xl:container 2xl:mx-auto'>
                 <div class="flex gap-2">
-                    <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                    <button onclick='bulkUpload()' type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                         Save 
                     </button>
                 </div>
             </div>
         </div>        
     </body>
+    <script type='text/javascript'>
+        function bulkUpload(){
+            console.log(document.getElementById('input_excel').files[0])
+            axios.post('{{url("/save_bulk_upload")}}', {
+                'file_excel': document.getElementById('input_excel').files[0]
+            },{
+                headers:{
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then((res)=>{
+                console.log(res)
+                swal.fire({
+                    title:'Data Berhasil Tersimpan',
+                    icon: 'success',
+                    text:`Data yang Anda Inputkan Berhasil Tersimpan`,
+                    confirmButtonColor: "#17C653",
+                })
+            }).catch((res)=>{
+                console.log(res)
+                swal.fire({
+                    title:'Silahkan Lengkapi Data!',
+                    icon: 'warning',
+                    text:`Silahkan Lengkapi Seluruh Kolom Berbintang Merah!`,
+                    confirmButtonColor: "#facc15",
+                })
+            })
+        }
+    </script>
 </x-head>

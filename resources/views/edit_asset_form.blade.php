@@ -65,7 +65,8 @@
                             <p class="text-lg font-bold">QR Barang</p>
                             <p class="text-md text-gray-400 font-semibold">{{$asset_data->id_barang}}</p>
                         </div>                        
-                        <div id='qr_barang' class='w-[100px] h-[100px] border-2 border-[#FBF6F0] rounded-md'>
+                        <div class='w-[100px] h-[100px] border-2 border-[#FBF6F0] rounded-md'>
+                            <div id='qr_barang' class='w-full h-full'></div>
                         </div>
                     </div>
                 </div>                
@@ -79,12 +80,12 @@
                         <input id='tipe_barang' type="text" value='{{ucwords($asset_data->tipe_barang)}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
-                        <p class='text-sm text-slate-400 mb-2'>Kode Barang</p>
-                        <input id='kode_barang' type="text" value='{{$asset_data->id_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <p class='text-sm text-slate-400 mb-2'>Seri Barang</p>
+                        <input id='seri_barang' type="text" value='{{$asset_data->id_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Quantity</p>
-                        <input id='quantity_barang' type="text" value='{{$asset_data->quantity_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <input id='quantity_barang' type="number" value='{{$asset_data->quantity_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Merk</p>
@@ -92,7 +93,7 @@
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Lantai</p>
-                        <input id='lantai_barang' type="text" value='{{$asset_data->lantai_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <input id='lantai_barang' type="number" value='{{$asset_data->lantai_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Ruangan</p>
@@ -100,7 +101,7 @@
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Tahun</p>
-                        <input id='tahun_barang' type="text" value='{{$asset_data->tahun_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <input id='tahun_barang' type="number" value='{{$asset_data->tahun_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Unit</p>
@@ -166,7 +167,11 @@
     </body>
     <script type='text/javascript'>
         document.getElementById('imagePreview').src="{{asset('/assets/gambar_barang/'.$asset_data->gambar_barang)}}"
-        new QRCode(document.getElementById('qr_barang'), "{{url()->current()}}")
+        new QRCode(document.getElementById('qr_barang'), {
+            text: "{{url()->current()}}",
+            width: 100,
+            height: 100
+        })
 
         var file
         document.getElementById('input_gambar').addEventListener('change', function(event){
@@ -194,7 +199,7 @@
                 id: {{$asset_data->id}},
                 jenis_barang: (document.getElementById("jenis_barang").value).toLowerCase(),
                 tipe_barang: (document.getElementById("tipe_barang").value).toLowerCase(),
-                kode_barang: document.getElementById("kode_barang").value,
+                seri_barang: document.getElementById("seri_barang").value,
                 quantity_barang: document.getElementById("quantity_barang").value,
                 merk_barang: document.getElementById("merk_barang").value,
                 lantai_barang: document.getElementById("lantai_barang").value,

@@ -53,6 +53,9 @@ class UserController extends Controller
     public function logout()
     {
         session()->forget('user');
+        if(session()->get('redirect')){
+            session()->forget('redirect');
+        }
         return redirect('/');
     }
 }

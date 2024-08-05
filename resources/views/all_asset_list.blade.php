@@ -21,12 +21,23 @@
                     </li>
                 </ol>
             </div>
-            <div class='max-md:h-full h-fit min-h-[650px] w-full rounded-lg bg-white p-5 mb-5 md:container md:mx-auto'>                                
+            <div class='flex flex-col max-md:h-full h-fit min-h-[850px] w-full rounded-lg bg-white p-5 mb-5 md:container md:mx-auto'>                                
                 <div class='flex max-md:flex-col w-full sm:justify-between mb-5'>
                     <div class="flex max-md:justify-end gap-2 max-md:mb-4 md:hidden">
-                        <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
-                            Filter
-                        </button>
+                        <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
+                            <button id="hs-dropdown-filter" type="button" class="hs-dropdown-toggle py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
+                                Filter
+                            </button>
+
+                            <div class="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-48 border-2 border-gray-900/10 bg-white shadow-md rounded-lg py-1 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full" aria-labelledby="hs-dropdown-filter">
+                                <button class="w-full">
+                                    <a class="flex items-center py-1 px-3 text-sm text-gray-800 hover:bg-red-100 focus:outline-none focus:bg-gray-100">
+                                    Log Out
+                                    </a>
+                                </button>
+                            </div>
+                        </div>
+                        
                         <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
                             Export
                         </button>
@@ -43,16 +54,38 @@
                             <path d="M21 21l-6 -6" />
                         </svg>
                         {{-- Search Assets --}}
-                        <input id="search_user" type="text" placeholder="Search Asset" class="w-full focus:outline-none focus:ring-0 border-0 py-0 text-[14px] bg-[#F6F6F6] pl-8">
+                        <input id="search_asset" type="text" placeholder="Search Asset" class="w-full focus:outline-none focus:ring-0 border-0 py-0 text-[14px] bg-[#F6F6F6] pl-8">
                         <svg id="loading" class="animate-spin text-[#9AA1B7] hidden" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                    </div>
+                    </div>                    
                     <div class="flex max-md:hidden gap-2">
-                        <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
-                            Filter
-                        </button>
+                        <details id='dropdown' class="dropdown dropdown-end">
+                            <summary class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none cursor-pointer">
+                                Filter
+                            </summary>
+                            <div class="menu dropdown-content bg-base-100 rounded-lg z-20 w-64 p-2 mt-2 gap-2 shadow-[0_2px_5px_1px_rgba(0,0,0,0.15)]">
+                                <select placeholder='Jenis Barang' class="filter-jenis-barang w-full text-sm py-1 px-2 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="">
+                                    <option></option>
+                                    @foreach($jenis_barang_list as $jenis_barang)
+                                        <option id='{{$jenis_barang->jenis_barang}}' value='{{$jenis_barang->jenis_barang}}'>{{ucfirst($jenis_barang->jenis_barang)}}</option>
+                                    @endforeach                                   
+                                </select>
+                                <select placeholder='Tahun Pengadaan Barang' class="filter-tahun-barang w-full text-sm py-1 px-2 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="">
+                                    <option></option>
+                                    @foreach($tahun_barang_list as $tahun_barang)
+                                        <option value='{{$tahun_barang->tahun_barang}}'>{{ucfirst($tahun_barang->tahun_barang)}}</option>
+                                    @endforeach                                   
+                                </select>
+                                <select placeholder='Tahun Pengadaan Barang' class="filter-unit-barang w-full text-sm py-1 px-2 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="">
+                                    <option></option>
+                                    @foreach($unit_barang_list as $unit_barang)
+                                        <option value='{{$unit_barang->unit_barang}}'>{{ucfirst($unit_barang->unit_barang)}}</option>
+                                    @endforeach                                   
+                                </select>
+                            </div>
+                        </details>
                         <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
                             Export
                         </button>
@@ -63,75 +96,175 @@
                         </a>
                     </div>
                 </div>
-                <div class='w-full h-full overflow-auto'>
-                    <table class="max-md:w-[300%] w-full h-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead class="sticky top-0 bg-white">
-                            <tr>
-                                <th class="py-1 items-center text-center">
-                                    <input type="checkbox" class="inline-flex items-center shrink-0 mt-0.5 border-gray-200 rounded text-green-600 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none bg-[#F6F6F6]">
-                                </th>
-                                <th scope="col" class="text-center text-xs font-semibold text-gray-500 uppercase">NO</th>
-                                <th scope="col" class="text-start text-xs font-semibold text-gray-500 uppercase">Jenis & Tipe Barang</th>
-                                <th scope="col" class="text-center text-xs font-semibold text-gray-500 uppercase">KODE</th>
-                                <th scope="col" class="text-center text-xs font-semibold text-gray-500 uppercase">AREA</th>
-                                <th scope="col" class="text-center text-xs font-semibold text-gray-500 uppercase">QTY</th>
-                                <th scope="col" class="text-start text-xs font-semibold text-gray-500 uppercase">MERK</th>
-                                <th scope="col" class="text-center text-xs font-semibold text-gray-500 uppercase">LANTAI</th>
-                                <th scope="col" class="text-start text-xs font-semibold text-gray-500 uppercase">RUANGAN</th>
-                                <th scope="col" class="text-start text-xs font-semibold text-gray-500 uppercase">TAHUN</th>
-                                <th scope="col" class="text-start text-xs font-semibold text-gray-500 uppercase">UNIT</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        @foreach($asset_list as $asset)
-                        <tbody class='divide-y divide-gray-200 dark:divide-gray-700'>
-                            <tr class="h-16 hover:bg-green-200">
-                                {{-- Checkbox --}}
-                                <td class="text-center">
-                                    <input type="checkbox" class="inline-flex items-center shrink-0 border-gray-200 rounded text-green-600 focus:ring-green-500 disabled:opacity-50 disabled:pointer-events-none bg-[#F6F6F6]">
-                                </td>
-                                <td class="text-base text-black text-center">1</td>
-                                <td class="relative flex items-center h-full">
-                                    <div class="h-9 w-9 overflow-hidden mr-3">
-                                        <img class="object-contain w-full h-full" src="{{asset('/assets/gambar_barang/'.$asset->gambar_barang)}}" alt="Asset Image">
-                                    </div>
-                                    <div>
-                                        <p class="text-base font-medium truncate">{{ucwords($asset->tipe_barang)}}</p>
-                                        <p class="text-xs text-gray-300 whitespace-nowrap">Tipe:{{$asset->id_barang}}</p>
-                                    </div>
-                                </td>
-                                <td class="text-center"><span class="text-xs font-semibold py-0.5 px-2 text-black rounded-md bg-[#F6F6F6]">{{$asset->id_barang}}</span></td>
-                                <td class="text-sm text-gray-500 text-center">HQ</td>
-                                <td class="text-sm text-gray-500 text-center">{{$asset->quantity_barang}}</td>
-                                <td class="text-sm text-gray-500 text-start">{{$asset->merk_barang}}</td>
-                                <td class="text-sm text-gray-500 text-center">{{$asset->lantai_barang}}</td>
-                                <td class="text-sm text-gray-500 text-start">{{$asset->ruangan_barang}}</td>
-                                <td class="text-sm text-gray-500 text-start">{{$asset->tahun_barang}}</td>
-                                <td class="text-sm text-gray-500 text-start">{{$asset->unit_barang}}</td>
-                                <td>
-                                    <div class="hs-dropdown relative inline-flex">
-                                        <button id="hs-dropdown-default" type="button" class="hs-dropdown-toggle py-1 px-2 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg bg-[#F6F6F6] text-black hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800">
-                                            Actions
-                                            <svg class="hs-dropdown-open:rotate-180 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                                        </button>
-
-                                        <div class="hs-dropdown-menu transition-[opacity,margin] z-10 duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-32 bg-white shadow-md rounded-lg p-2 mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700 dark:divide-neutral-700 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full" aria-labelledby="hs-dropdown-default">
-                                            <a href="{{url('/assets/'.$asset->id_barang)}}" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700">
-                                                Edit
-                                            </a>
-                                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300 dark:focus:bg-neutral-700" href="#">
-                                                Delete
-                                            </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                        @endforeach
-                    </table>
+                <div id='asset_table' class='grow flex flex-col justify-between w-full h-full overflow-auto'>
                 </div>                
             </div>
         </div>
     </body>
+    <script type='text/javascript'>
+        var url = new URL(window.location.href)
+        var params = new URLSearchParams(url.search)
+
+        var typingTimer
+        var typingInterval = 1000
+        var searchAsset = document.getElementById('search_asset')
+        var filterJenisBarang = params.get('jenis_barang')? params.get('jenis_barang'):''
+        var filterTahunBarang = ''
+        var filterUnitBarang = ''
+        var searchText = ''
+
+        searchBarang()
+        if(filterJenisBarang != ''){
+            document.getElementById(`${filterJenisBarang}`).setAttribute("selected","selected")
+        }
+
+        $(document).ready(function() {
+            $('.filter-jenis-barang').select2({
+            placeholder:'Jenis Barang',
+            allowClear:true,
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.filter-jenis-barang').on('change', function(){
+            console.log(filterJenisBarang = $(this).val())
+            searchBarang()
+            })
+
+            $('.filter-tahun-barang').select2({
+            placeholder:'Tahun Barang',
+            allowClear:true,
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.filter-tahun-barang').on('change', function(){
+            console.log(filterTahunBarang = $(this).val())
+            searchBarang()
+            })
+
+            $('.filter-unit-barang').select2({
+            placeholder:'Unit Barang',
+            allowClear:true,
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.filter-unit-barang').on('change', function(){
+            console.log(filterUnitBarang = $(this).val())
+            searchBarang()
+            })
+        })
+      
+
+        searchAsset.addEventListener('keyup', ()=>{
+            document.getElementById('loading').classList.remove('hidden')
+            clearTimeout(typingTimer)
+            typingTimer = setTimeout(() => {           
+                // axios.get("{{url('/search_user?input=')}}"+userSearch.value).then((res)=>{
+                //   document.getElementById('user_table').innerHTML = res.data.view
+                //   document.getElementById('loading').classList.add('hidden')
+                // })
+                searchText = document.getElementById('search_asset').value
+                searchBarang()
+                document.getElementById('loading').classList.add('hidden')
+            }, typingInterval);
+        })
+
+        document.addEventListener('click', (e)=>{
+            var dropdown = document.getElementById('dropdown')
+            // var search2 = document.getElementsByClassName('select2-search__field')[0]
+            if(!(dropdown.contains(e.target))){
+                dropdown.removeAttribute('open')
+            }
+        })
+    
+        function searchBarang(){
+            axios.get("{{url('/search_asset')}}", {
+                params:{
+                    jenis_barang: filterJenisBarang,
+                    tahun_barang: filterTahunBarang,
+                    unit_barang: filterUnitBarang,
+                    barang: searchText
+                }
+            }).then((res)=>{
+                console.log(res)
+                document.getElementById('asset_table').innerHTML = res.data.view
+            }).catch((res)=>{
+                console.log(res)
+            })
+        }
+
+        function deleteAsset(id){
+            Swal.fire({
+                title: "Apakah Anda Yakin?",
+                html: "Anda Tidak Bisa Mengurungkan Asset yang Sudah Anda Hapus!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#17C653",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Lanjutkan"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.post('{{url("/delete_asset")}}',{
+                        id_barang: id
+                    }).then((res)=>{
+                        swal.fire({
+                            title:'Asset Berhasil Dihapus',
+                            icon: 'success',
+                            text:`Asset yang Anda Pilih Berhasil Terhapus`,
+                            confirmButtonColor: "#17C653",
+                        }).then((result)=>{
+                            if(result.isConfirmed){
+                                location.reload()
+                            }
+                        })
+                    }).catch((res)=>{
+                        swal.fire({
+                            icon: 'warning',
+                            text:`Terdapat Masalah Saat Menghapus Asset, Silahkan Kontak Tim GA`,
+                            confirmButtonColor: "#17C653",
+                        })
+                    })
+                }
+            })       
+        }
+
+        function changePage(url){
+            axios.get(url, {
+                params:{
+                    jenis_barang: filterJenisBarang,
+                    tahun_barang: filterTahunBarang,
+                    unit_barang: filterUnitBarang,
+                    barang: searchText
+                }
+            }).then((res)=>{
+                console.log(res)
+                document.getElementById('asset_table').innerHTML = res.data.view
+            }).catch((res)=>{
+                console.log(res)
+            })
+            // axios.get(url).then((res)=>{
+            // document.getElementById('user_table').innerHTML = res.data.view
+            // })
+        }
+
+        function capitalizeWord(input){
+            var capitalize = input.split(' ')
+                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                            .join(' ')
+
+            return capitalize
+        }        
+    </script>
 </x-head>
     

@@ -95,19 +95,25 @@
                 <div class='grow h-full rounded-lg bg-white p-5 grid max-md:grid-cols-2 grid-cols-3 max-md:gap-5 gap-10'>
                     <div class='w-full'>
                         <p class='text-sm text-justify text-slate-400 mb-2'>Jenis Barang<span class='text-red-500'>*</span></p>
-                        <input type="text" id='jenis_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none">
+                        <!-- Nanti dijadikan dinamis kalau benar-benar kategori bisa nambah -->
+                        <select id='jenis_barang' class="py-3 px-4 pe-9 block w-full bg-slate-100 border-0 rounded-lg text-sm focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                            <option></option>
+                            <option value='meubelair'>Meubelair</option>
+                            <option value='electronic'>Electronic</option>
+                            <option value='other'>Other</option>
+                        </select>
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Tipe Barang<span class='text-red-500'>*</span></p>
                         <input type="text" id='tipe_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
-                        <p class='text-sm text-slate-400 mb-2'>Kode Barang</p>
-                        <input type="text" id='kode_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <p class='text-sm text-slate-400 mb-2'>Seri Barang</p>
+                        <input type="text" id='seri_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Quantity</p>
-                        <input type="text" id='quantity_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <input type="number" id='quantity_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Merk</p>
@@ -115,7 +121,7 @@
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Lantai<span class='text-red-500'>*</span></p>
-                        <input type="text" id='lantai_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <input type="number" id='lantai_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Ruangan<span class='text-red-500'>*</span></p>
@@ -123,7 +129,7 @@
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Tahun</p>
-                        <input type="text" id='tahun_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
+                        <input type="number" id='tahun_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
                         <p class='text-sm text-slate-400 mb-2'>Unit<span class='text-red-500'>*</span></p>
@@ -219,7 +225,7 @@
             axios.post("{{url('/add_asset')}}", {
                 jenis_barang: (document.getElementById("jenis_barang").value).toLowerCase(),
                 tipe_barang: (document.getElementById("tipe_barang").value).toLowerCase(),
-                kode_barang: document.getElementById("kode_barang").value,
+                seri_barang: document.getElementById("seri_barang").value,
                 quantity_barang: document.getElementById("quantity_barang").value,
                 merk_barang: document.getElementById("merk_barang").value,
                 lantai_barang: document.getElementById("lantai_barang").value,

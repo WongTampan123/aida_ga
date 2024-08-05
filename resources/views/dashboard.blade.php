@@ -49,7 +49,7 @@
                             <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
                             <p id='total_meubelair' class='text-6xl text-black font-bold'>0</p>
                         </div>
-                        <a href={{url('dashboard/meubelair')}}>
+                        <a href="{{url('/assets?jenis_barang=meubelair')}}">
                             <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                                 See All Assets
                             </button>
@@ -66,7 +66,7 @@
                             <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
                             <p id='total_electronic' class='text-6xl text-black font-bold'>0</p>
                         </div>
-                        <a href={{url('dashboard/electronic')}}>
+                        <a href="{{url('/assets?jenis_barang=electronic')}}">
                             <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                                 See All Assets
                             </button>
@@ -83,7 +83,7 @@
                             <p class='text-sm text-slate-400 font-normal'>Total Assets</p>
                             <p id='total_other' class='text-6xl text-black font-bold'>0</p>
                         </div>
-                        <a href={{url('dashboard/other')}}>
+                        <a href="{{url('/assets?jenis_barang=other')}}">
                             <button type="button" class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                                 See All Assets
                             </button>
