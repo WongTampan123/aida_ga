@@ -62,6 +62,7 @@ class PageController extends Controller
     public function showAllAssetList(Request $request)
     {
         $jenis_barang = $request->input('jenis_barang')?$request->input('jenis_barang'):'';
+        $request->session()->forget('selected_asset');
 
         // $asset_list = DB::connection('mysql')
         //             ->select('select aida.inventaris.*

@@ -38,11 +38,11 @@ class InventarisController extends Controller
             $image_name = 'photo_library.svg';
         }
 
-        $area_user = $request->session()->get('user')->id_unit_sppd;
-        $area_barang = $area_user=='Area Sumatera'? '01':($area_user=='Area Jabodetabeb&Jabar'? '02':($area_user=='Area Jawa Bali&Nusa Tenggara'? '03':($area_user=='Area Pamasuka'? '04':'HQ')));
+        $unit_user = $request->session()->get('user')->id_unit_sppd;
+        $area_barang = $unit_user=='Area Sumatera'? '01':($unit_user=='Area Jabodetabeb&Jabar'? '02':($unit_user=='Area Jawa Bali&Nusa Tenggara'? '03':($unit_user=='Area Pamasuka'? '04':'HQ')));
 
-        DB::connection('mysql')->insert('insert into aida.inventaris(id_barang, jenis_barang, tipe_barang, quantity_barang, merk_barang, lantai_barang, ruangan_barang, tahun_barang, unit_barang, area_barang, seri_barang, gambar_barang) 
-            value(?,?,?,?,?,?,?,?,?,?,?,?)',[
+        DB::connection('mysql')->insert('insert into aida.inventaris(id_barang, jenis_barang, tipe_barang, quantity_barang, merk_barang, lantai_barang, ruangan_barang, tahun_barang, unit_barang, area_barang, seri_barang, is_approved, gambar_barang) 
+            value(?,?,?,?,?,?,?,?,?,?,?,?,?)',[
             $kode_barang,
             $request->input('jenis_barang'),
             $request->input('tipe_barang'),
@@ -54,6 +54,7 @@ class InventarisController extends Controller
             $request->input('unit_barang'),
             $area_barang,
             $request->input('seri_barang'),
+            $unit_user=='Corporate Office'?'true':'ny',
             $image_name
         ]);
 
@@ -74,6 +75,23 @@ class InventarisController extends Controller
         $row = Excel::import(new BulkUploadImport, $request->file('file_excel'));
         
         return response()->json(['rows' => $row]);
+    }
+
+    public function saveImageBulkUpload(Request $request)
+    {
+        $request->validate([
+            'file_gambar' => 'required'
+        ]);
+
+        $uploaded_files = $request->file('file_gambar');
+        for($i=0; $i<count($uploaded_files); $i++){
+            $path = $uploaded_files[$i]->move(public_path().'/assets/gambar_barang/',$uploaded_files[$i]->getClientOriginalName());
+
+            DB::connection('mysql')->update('update aida.inventaris
+                                            set gambar_barang = ? where id_barang = ?',[$uploaded_files[$i]->getClientOriginalName(), pathinfo($uploaded_files[$i]->getClientOriginalName(), PATHINFO_FILENAME)]);
+        }
+
+        return response()->json(['message' => 'Upload Berhasil']);
     }
     
     public function deleteAsset(Request $request)
@@ -136,6 +154,14 @@ class InventarisController extends Controller
 
     }
 
+    public function approvalAsset(Request $request)
+    {
+        DB::connection('mysql')->update('update aida.inventaris 
+                                        set is_approved = ? where aida.inventaris.id = ?', [$request->input('approval'), $request->input('id')]);
+
+        return;
+    }
+
     public function searchAsset(Request $request)
     {   
         // $search_response = DB::connection('mysql')->select('select aida.inventaris.* from aida.inventaris
@@ -151,13 +177,52 @@ class InventarisController extends Controller
                         ->where('aida.inventaris.jenis_barang', 'like', "%".$request->input('jenis_barang')."%")
                         ->where('aida.inventaris.tahun_barang', 'like', "%".$request->input('tahun_barang')."%")
                         ->where('aida.inventaris.unit_barang', 'like', "%".$request->input('unit_barang')."%")
+                        ->where('aida.inventaris.is_approved', 'like', "%".$request->input('status_approval')."%")
                         ->where('aida.inventaris.tipe_barang', 'like', "%".$request->input('barang')."%")
                         ->paginate(10);
         
         
             return response()->json([
-                'view' => View::make('asset_list_table', ['asset_list' => $search_response])->render()
+                'view' => View::make('asset_list_table', ['asset_list' => $search_response])->render(),
+                'asset_list' => $search_response
             ]);
         
+    }
+
+    public function clickCheckbox(Request $request)
+    {
+        $selected_asset = $request->session()->has('selected_asset')? $request->session()->get('selected_asset'):[]; //Check apakah ada session bernama selected_asset, kalau tidak ada inisasi dengan array kosong
+
+        $id_asset = array_search($request->input('id'),$selected_asset); //Cek apakah id barang ada di array tsb. (return dari fungsi ini adalah index)
+        if($id_asset!==false){
+            array_splice($selected_asset,$id_asset,1); //Kalau ada, hapus Id tsb
+        } else {
+            array_push($selected_asset,$request->input('id')); //Kalau tidak ada, tambahkan Id tsb
+        }
+
+        $request->session()->put('selected_asset',$selected_asset); //Simpan ke session
+
+        return response()->json([
+            'checkbox' => $request->session()->get('selected_asset')
+        ]);
+    }
+
+    public function exportExcel(Request $request)
+    {   
+        if($request->session()->has('selected_asset') && !empty($request->session()->get('selected_asset'))){
+            $data = [];
+            foreach($request->session()->get('selected_asset') as $id){
+                $buffer_data = DB::connection('mysql')
+                        ->select('select aida.inventaris.* from aida.inventaris
+                        where aida.inventaris.id=? and aida.inventaris.is_deleted=?',[$id,'false']);
+                array_push($data, $buffer_data[0]);
+            }
+        } else {
+            $data = DB::connection('mysql')
+                ->select('select aida.inventaris.* from aida.inventaris
+                where aida.inventaris.is_deleted=?',['false']);
+        }        
+
+        return view('export_excel',['all_data' => $data]);
     }
 }

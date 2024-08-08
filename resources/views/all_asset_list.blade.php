@@ -37,10 +37,11 @@
                                 </button>
                             </div>
                         </div>
-                        
-                        <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
-                            Export
-                        </button>
+                        <a href="{{url('/export_asset')}}">
+                            <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
+                                Export
+                            </button>                            
+                        </a>
                         <a href="{{url('/assets/add_asset')}}">
                             <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                                 + Add Asset
@@ -84,11 +85,19 @@
                                         <option value='{{$unit_barang->nama_unit}}'>{{ucfirst($unit_barang->nama_unit)}}</option>
                                     @endforeach                                   
                                 </select>
+                                <select placeholder='Status Approval' class="filter-status-approval w-full text-sm py-1 px-2 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="">
+                                    <option></option>
+                                    <option value='true'>Approved</option>
+                                    <option value='false'>Rejected</option>
+                                    <option value='ny'>NY Approved</option>                                
+                                </select>
                             </div>
                         </details>
-                        <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
-                            Export
-                        </button>
+                        <a href="{{url('/export_asset')}}">
+                            <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
+                                Export
+                            </button>
+                        </a>
                         <a href="{{url('/assets/add_asset')}}">
                             <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                                 + Add Asset
@@ -111,6 +120,7 @@
         var filterJenisBarang = params.get('jenis_barang')? params.get('jenis_barang'):''
         var filterTahunBarang = ''
         var filterUnitBarang = ''
+        var filterStatusApproval = ''
         var searchText = ''
 
         searchBarang()
@@ -164,6 +174,22 @@
             console.log(filterUnitBarang = $(this).val())
             searchBarang()
             })
+
+            $('.filter-status-approval').select2({
+            placeholder:'Status Approval',
+            allowClear:true,
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.filter-status-approval').on('change', function(){
+            filterStatusApproval = $(this).val()
+            console.log(filterStatusApproval)
+            searchBarang()
+            })
         })
       
 
@@ -189,12 +215,22 @@
             }
         })
     
+        function clickCheckbox(idBarang){
+            // console.log(idBarang)
+            axios.post('{{url("/click_checkbox")}}', {
+                id: idBarang
+            }).then((res)=>{
+                console.log(res)
+            })
+        }
+
         function searchBarang(){
             axios.get("{{url('/search_asset')}}", {
                 params:{
                     jenis_barang: filterJenisBarang,
                     tahun_barang: filterTahunBarang,
                     unit_barang: filterUnitBarang,
+                    status_approval: filterStatusApproval,
                     barang: searchText
                 }
             }).then((res)=>{
@@ -241,11 +277,13 @@
         }
 
         function changePage(url){
+            console.log(url)
             axios.get(url, {
                 params:{
                     jenis_barang: filterJenisBarang,
                     tahun_barang: filterTahunBarang,
                     unit_barang: filterUnitBarang,
+                    status_approval: filterStatusApproval,
                     barang: searchText
                 }
             }).then((res)=>{
@@ -266,6 +304,9 @@
 
             return capitalize
         }        
+    </script>
+    <script type='text/javascript'>
+
     </script>
 </x-head>
     

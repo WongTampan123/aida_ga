@@ -108,7 +108,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center"><span class="text-xs font-semibold py-0.5 px-2 text-black rounded-md bg-[#F6F6F6]">{{$asset->id_barang}}</span></td>
-                                <td class="text-sm text-gray-500 text-center">HQ</td>
+                                <td class="text-sm text-gray-500 text-center">{{$asset->area_barang}}</td>
                                 <td class="text-sm text-gray-500 text-center">{{$asset->quantity_barang}}</td>
                                 <td class="text-sm text-gray-500 text-start">{{$asset->merk_barang}}</td>
                                 <td class="text-sm text-gray-500 text-center">{{$asset->lantai_barang}}</td>

@@ -15,6 +15,7 @@ Route::middleware([CheckSession::class])->group(function(){
     Route::get('/assets', [PageController::class, 'showAllAssetList']);
     Route::get('/get_asset_table', [PageController::class, 'getAssetTable']);
     Route::get('/search_asset', [InventarisController::class, 'searchAsset']);
+    Route::get('/export_asset', [InventarisController::class, 'exportExcel']);
     Route::get('/assets/add_asset', [PageController::class, 'showAddAssetForm']);
     Route::get('/assets/{asset_id}', [PageController::class, 'showEditAssetForm']);
     Route::get('/bulk_upload', [PageController::class, 'showBulkUpload']);
@@ -25,8 +26,11 @@ Route::middleware([CheckSession::class])->group(function(){
     Route::get('/dashboard/{category_type}/{subcategory_type}/{asset_id}', [PageController::class, 'showEditAssetForm']);
 
     Route::post('/add_asset',[InventarisController::class, 'saveNewAsset']);
+    Route::post('/click_checkbox',[InventarisController::class, 'clickCheckbox']);
     Route::post('/update_asset',[InventarisController::class, 'updateAsset']);
+    Route::post('/approval',[InventarisController::class, 'approvalAsset']);
     Route::post('/delete_asset',[InventarisController::class, 'deleteAsset']);
     Route::post('/save_bulk_upload',[InventarisController::class, 'saveBulkUpload']);
+    Route::post('/save_image_bulk_upload',[InventarisController::class, 'saveImageBulkUpload']);
 });
 

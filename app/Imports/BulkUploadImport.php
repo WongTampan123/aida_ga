@@ -66,6 +66,7 @@ class FirstSheetImport implements ToCollection, WithHeadingRow
                     'ruangan_barang' => $row['ruangan_barang'],
                     'tahun_barang' => $row['tahun_barang'],
                     'unit_barang' => $row['unit_barang'],
+                    'is_approved' => $user->id_unit_sppd=='Corporate Office'? 'true':'ny', 
                     'gambar_barang' => 'photo_library.svg'
                 ]);            
             }

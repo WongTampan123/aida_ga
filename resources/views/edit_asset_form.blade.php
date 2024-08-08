@@ -1,3 +1,8 @@
+@php
+    $user = Session::get('user');
+@endphp
+
+
 <x-head title='{{$title}}'>
     <body class="flex flex-col min-w-screen min-h-screen overflow-auto bg-[#FBF6F0] overflow-auto">
         <x-navbar />
@@ -134,8 +139,14 @@
                             Cancel
                         </button>
                     </a>
-                    <button type="button" onclick='updateBarang()' class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                    <button type="button" onclick='updateBarang()' class="{{$asset_data->is_approved=='true'?'':'hidden'}} py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                         Update
+                    </button>
+                    <button type="button" onclick='approvalBarang("false")' class="{{$asset_data->is_approved=='ny' && $user->id_unit_sppd=='Information Technology' ?'':'hidden'}} py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
+                        Reject
+                    </button>
+                    <button type="button" onclick='approvalBarang("true")' class="{{$asset_data->is_approved=='ny' && $user->id_unit_sppd=='Information Technology' ?'':'hidden'}} py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                        Approve
                     </button>
                 </div>
             </div>
@@ -279,6 +290,62 @@
                     confirmButtonColor: "#facc15",
                 })
             })
-        } 
+        }
+
+        function approvalBarang(approval){
+            Swal.fire({
+                title: `Apakah Anda Yakin Me-${approval=='true'? 'Approve':'Reject'} ?`,
+                html: "Anda Tidak Bisa Mengurungkan Keputusan Anda!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#17C653",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Lanjutkan"
+            }).then((result) => {
+                axios.post('{{url("/approval")}}', {
+                    id: {{$asset_data->id}},
+                    approval: `${approval}`
+                }).then((res)=>{
+                    swal.fire({
+                        title:'Data Berhasil Diperbaharui',
+                        icon: 'success',
+                        text:`Barang Berhasil Di-${approval=='true'? 'Approve':'Reject'}`,
+                        confirmButtonColor: "#17C653",
+                    }).then((result)=>{
+                        if(result.isConfirmed){
+                            location.reload()
+                        }
+                    })
+                }).catch((res)=>{
+                    swal.fire({
+                        title:'Telah Terjadi Kesalahan!',
+                        icon: 'warning',
+                        text:`Telah Terjadi Kesalahan Saat Anda Ingin Mengupdate Data, Silahkan Hubungi Tim GA`,
+                        confirmButtonColor: "#facc15",
+                    })
+                })
+            })       
+        }
+
+        // function approvalBarang(approval){
+        //     axios.post('{{url("/approval")}}', {
+        //         id: {{$asset_data->id}},
+        //         approval: `${approval}`
+        //     }).then((res)=>{
+        //         swal.fire({
+        //             title:'Data Berhasil Diperbaharui',
+        //             icon: 'success',
+        //             text:`Barang Berhasil Di-${approval=='true'? 'Approve':'Reject'}`,
+        //             confirmButtonColor: "#17C653",
+        //         })
+        //     }).catch((res)=>{
+        //         swal.fire({
+        //             title:'Telah Terjadi Kesalahan!',
+        //             icon: 'warning',
+        //             text:`Telah Terjadi Kesalahan Saat Anda Ingin Mengupdate Data, Silahkan Hubungi Tim GA`,
+        //             confirmButtonColor: "#facc15",
+        //         })
+        //     })
+        // }
     </script>    
 </x-head>
