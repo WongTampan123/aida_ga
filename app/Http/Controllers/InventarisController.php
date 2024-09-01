@@ -116,6 +116,7 @@ class InventarisController extends Controller
             'tahun_barang' => 'required'
         ]);
 
+        $user = $request->session()->get('user');
         $pre_update = DB::connection('mysql')
                     ->select('select aida.inventaris.* from aida.inventaris where aida.inventaris.id=?',[$request->id]);
 
@@ -151,6 +152,7 @@ class InventarisController extends Controller
             $image_name,
             $request->input('id')
         ]);
+        $this->addHistory($request->input('id_barang'),'edit','Asset Di-Edit Oleh <b>'.$user->name.'('.$user->nik_tg.')</b>', date('Y-m-d H:i:s'));
 
         return response()->json(['message'=>'input berhasil']);
 

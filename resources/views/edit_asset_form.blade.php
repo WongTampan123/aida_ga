@@ -337,6 +337,7 @@
         function updateBarang(){
             axios.post("{{url('/update_asset')}}", {
                 id: {{$asset_data->id}},
+                id_barang: '{{$asset_data->id_barang}}',
                 jenis_barang: document.getElementById('jenis_barang').value,
                 tipe_barang: (document.getElementById("tipe_barang").value).toLowerCase(),
                 seri_barang: document.getElementById("seri_barang").value,
@@ -359,6 +360,8 @@
                     icon: 'success',
                     text:`Data yang Anda Perbaharui Berhasil Tersimpan`,
                     confirmButtonColor: "#17C653",
+                }).then((res)=>{
+                    location.reload();
                 })
             })
             .catch((err)=>{
