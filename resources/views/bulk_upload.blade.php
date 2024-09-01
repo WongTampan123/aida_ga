@@ -148,12 +148,14 @@
                     return
                 })
             }
-            swal.fire({
-                title:'Silahkan Lengkapi Data!',
-                icon: 'warning',
-                text:`Silahkan Pilih File yang Ingin Diunggah!`,
-                confirmButtonColor: "#facc15",
-            })
+            if(document.getElementById('input_excel').files.length==0 && document.getElementById('input_gambar').files.length==0){
+                swal.fire({
+                    title:'Silahkan Lengkapi Data!',
+                    icon: 'warning',
+                    text:`Silahkan Pilih File yang Ingin Diunggah!`,
+                    confirmButtonColor: "#facc15",
+                })
+            }
         }
     </script>
 </x-head>

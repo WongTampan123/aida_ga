@@ -285,6 +285,8 @@
                     icon: 'success',
                     text:`Data yang Anda Inputkan Berhasil Tersimpan`,
                     confirmButtonColor: "#17C653",
+                }).then((res)=>{
+                    window.location.replace("{{url('/assets/add_asset')}}")
                 })
             })
             .catch((err)=>{

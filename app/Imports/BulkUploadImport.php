@@ -68,7 +68,17 @@ class FirstSheetImport implements ToCollection, WithHeadingRow
                     'unit_barang' => $row['unit_barang'],
                     'is_approved' => $user->id_unit_sppd=='Corporate Office'? 'true':'ny', 
                     'gambar_barang' => 'photo_library.svg'
-                ]);            
+                ]);
+                
+                DB::connection('mysql')
+                ->table('aida.action_history')
+                ->insert([
+                    'id_barang' => $id_barang,
+                    'user_nik' => $user->nik_tg,
+                    'action' => 'create',
+                    'message' => 'Asset Ditambahkan Oleh <b>'.$user->name.'('.$user->nik_tg.')</b>',
+                    'created_at' => date('Y-m-d H:i:s')
+                ]);
             }
         }
 

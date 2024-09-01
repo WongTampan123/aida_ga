@@ -35,7 +35,7 @@
                         <a class='flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg {{$current_path[0]=="assets"? "bg-green-aida text-white":"text-gray-700 hover:text-white hover:bg-green-aida hover:text-white"}}' href="{{url('/assets')}}">Assets</a>
                     </li>
                     <li>
-                        <a class='flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg {{$current_path[0]=="stock_take"? "bg-green-aida text-white":"text-gray-700 hover:text-white hover:bg-green-aida hover:text-white"}}' href="#">Stock Take</a>
+                        <a class='flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg {{$current_path[0]=="stock_take"? "bg-green-aida text-white":"text-gray-700 hover:text-white hover:bg-green-aida hover:text-white"}}' href="{{url('/stock_take')}}">Stock Take</a>
                     </li>
                     <li>
                         <a class='flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg {{$current_path[0]=="bulk_upload"? "bg-green-aida text-white":"text-gray-700 hover:text-white hover:bg-green-aida hover:text-white"}}' href="{{url('/bulk_upload')}}">Bulk Upload</a>
@@ -85,7 +85,9 @@
             <p class='font-medium text-sm text-slate-400'>List of Assets</p>
         </div> 
         <div class='w-[25%] h-full flex flex-col justify-center pl-4 border-l-2 border-[#FBF6F0] cursor-default'>
-            <p class='font-bold text-base text-black hover:text-green-aida cursor-pointer'>Stock Table</p>
+            <a href="{{url('/stock_take')}}">
+                <p class='font-bold text-base {{$current_path[0]=="stock_take"? "text-green-aida":"text-black hover:text-green-aida"}} cursor-pointer'>Stock Take</p>
+            </a>
             <p class='font-medium text-sm text-slate-400'>Assets Validation</p>
         </div> 
         <div class='w-[25%] h-full flex flex-col justify-center pl-4 border-l-2 border-[#FBF6F0] cursor-default'>

@@ -19,6 +19,9 @@ Route::middleware([CheckSession::class])->group(function(){
     Route::get('/assets/add_asset', [PageController::class, 'showAddAssetForm']);
     Route::get('/assets/{asset_id}', [PageController::class, 'showEditAssetForm']);
     Route::get('/bulk_upload', [PageController::class, 'showBulkUpload']);
+    Route::get('/stock_take', [PageController::class, 'showStockTake']);
+    Route::get('/get_stock_take_table', [PageController::class, 'getStockTakeTable']);
+    Route::get('/search_stock_take', [InventarisController::class, 'searchStockTake']);
     Route::get('/download_template', [InventarisController::class, 'downloadTemplateBulkUpload']);
     Route::get('/dashboard/{category_type}', [PageController::class, 'showCategoryList']);
     Route::get('/dashboard/{category_type}/{subcategory_type}', [PageController::class, 'showAssetList']);

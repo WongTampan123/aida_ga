@@ -82,7 +82,7 @@ class PageController extends Controller
                             where aida.inventaris.is_deleted="false"');
         $tahun_barang_list = DB::connection('mysql')
                             ->select('select distinct aida.inventaris.tahun_barang from aida.inventaris
-                            where aida.inventaris.is_deleted="false"');
+                            where aida.inventaris.is_deleted="false" order by aida.inventaris.tahun_barang asc');
         $unit_barang_list = DB::connection('mysql')
                             ->select('select aida.nama_unit.nama_unit from aida.nama_unit');
 
@@ -112,7 +112,18 @@ class PageController extends Controller
         $unit_list = DB::connection('mysql')
                     ->select('select aida.nama_unit.* from aida.nama_unit');
 
-        return view('edit_asset_form', ['title' => 'AIDA - '.$asset_id, 'asset_data' => $asset_data[0], 'unit_list' => $unit_list]);
+        $history = DB::connection('mysql')
+                    ->table('aida.action_history')
+                    ->where('aida.action_history.id_barang',$asset_data[0]->id_barang)
+                    ->orderBy('aida.action_history.created_at','asc')
+                    ->get();
+
+        return view('edit_asset_form', ['title' => 'AIDA - '.$asset_id, 'asset_data' => $asset_data[0], 'unit_list' => $unit_list, 'history' => $history]);
+    }
+
+    public function showStockTake()
+    {
+        return view('stock_take', ['title' => 'AIDA - Stock Take']);
     }
 
     public function showBulkUpload()
@@ -128,6 +139,16 @@ class PageController extends Controller
         
         return response()->json([
             'view' => View::make('asset_list_table', ['asset_list' => $asset_list])->render()
+        ]);
+    }
+
+    public function getStockTakeTable(){
+        $stock_take_list = DB::connection('mysql')
+                    ->table('aida.stock_take')
+                    ->paginate(10);
+        
+        return response()->json([
+            'view' => View::make('stock_take_table', ['stock_take_list' => $stock_take_list])->render()
         ]);
     }
 }

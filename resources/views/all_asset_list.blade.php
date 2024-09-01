@@ -1,3 +1,8 @@
+@php
+    header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
+    header('Pragma: no-cache');
+    header('Expires: Fri, 01 Jan 1990 00:00:00 GMT');
+@endphp
 <x-head title={{$title}}>
     <body class="flex flex-col min-w-screen overflow-auto bg-[#FBF6F0] overflow-auto">
         <x-navbar />
@@ -23,7 +28,7 @@
             </div>
             <div class='flex flex-col max-md:h-full h-fit min-h-[850px] w-full rounded-lg bg-white p-5 mb-5 md:container md:mx-auto'>                                
                 <div class='flex max-md:flex-col w-full sm:justify-between mb-5'>
-                    <div class="flex max-md:justify-end gap-2 max-md:mb-4 md:hidden">
+                    <div class="flex max-md:justify-end max-sm:justify-center gap-2 max-md:mb-4 md:hidden">
                         <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
                             <button id="hs-dropdown-filter" type="button" class="hs-dropdown-toggle py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
                                 Filter
@@ -105,7 +110,7 @@
                         </a>
                     </div>
                 </div>
-                <div id='asset_table' class='grow flex flex-col justify-between w-full h-full overflow-auto'>
+                <div id='asset_table' class='grow flex flex-col justify-between w-full h-full'>
                 </div>                
             </div>
         </div>

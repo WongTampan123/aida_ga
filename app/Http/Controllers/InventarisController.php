@@ -38,6 +38,7 @@ class InventarisController extends Controller
             $image_name = 'photo_library.svg';
         }
 
+        $user = $request->session()->get('user');
         $unit_user = $request->session()->get('user')->id_unit_sppd;
         $area_barang = $unit_user=='Area Sumatera'? '01':($unit_user=='Area Jabodetabeb&Jabar'? '02':($unit_user=='Area Jawa Bali&Nusa Tenggara'? '03':($unit_user=='Area Pamasuka'? '04':'HQ')));
 
@@ -57,7 +58,8 @@ class InventarisController extends Controller
             $unit_user=='Corporate Office'?'true':'ny',
             $image_name
         ]);
-
+        
+        $this->addHistory($kode_barang,'create','Asset Ditambahkan Oleh <b>'.$user->name.'('.$user->nik_tg.')</b>', date('Y-m-d H:i:s'));
         return response()->json(['message'=>'input berhasil']);
     }
 
@@ -155,9 +157,13 @@ class InventarisController extends Controller
     }
 
     public function approvalAsset(Request $request)
-    {
+    {   
+        $user = $request->session()->get('user');
+        $approval = $request->input('approval')=='true'? 'approve':'reject';
         DB::connection('mysql')->update('update aida.inventaris 
                                         set is_approved = ? where aida.inventaris.id = ?', [$request->input('approval'), $request->input('id')]);
+
+        $this->addHistory($request->input('id_barang'),$approval,'Asset Di-'.ucfirst($approval).' Oleh <b>'.$user->name.'('.$user->nik_tg.')</b>', date('Y-m-d H:i:s'));
 
         return;
     }
@@ -185,6 +191,21 @@ class InventarisController extends Controller
             return response()->json([
                 'view' => View::make('asset_list_table', ['asset_list' => $search_response])->render(),
                 'asset_list' => $search_response
+            ]);
+        
+    }
+
+    public function searchStockTake(Request $request)
+    {
+       $search_response = DB::connection('mysql')
+                        ->table('aida.stock_take')
+                        ->where('aida.stock_take.stock_take_id', 'like', "%".$request->input('stock_take_id')."%")
+                        ->paginate(10);
+        
+        
+            return response()->json([
+                'view' => View::make('stock_take_table', ['stock_take_list' => $search_response])->render(),
+                'stock_take_list' => $search_response
             ]);
         
     }
@@ -224,5 +245,22 @@ class InventarisController extends Controller
         }        
 
         return view('export_excel',['all_data' => $data]);
+    }
+
+    public function addHistory($id_barang,$action,$message,$date)
+    {
+        $user = request()->session()->get('user');
+
+        DB::connection('mysql')
+        ->table('aida.action_history')
+        ->insert([
+            'id_barang' => $id_barang,
+            'user_nik' => $user->nik_tg,
+            'action' => $action,
+            'message' => $message,
+            'created_at' => $date
+        ]);
+
+        return;
     }
 }

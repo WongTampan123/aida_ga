@@ -1,3 +1,8 @@
+@php
+    header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
+    header('Pragma: no-cache');
+    header('Expires: Fri, 01 Jan 1990 00:00:00 GMT');
+@endphp
                     <table class="max-md:w-[300%] max-lg:w-[200%] w-full h-full divide-y divide-gray-200">
                         <thead class="sticky top-0 bg-white">
                             <tr>

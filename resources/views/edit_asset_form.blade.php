@@ -1,7 +1,10 @@
 @php
+    header('Cache-Control: no-cache, no-store, max-age=0, must-revalidate');
+    header('Pragma: no-cache');
+    header('Expires: Fri, 01 Jan 1990 00:00:00 GMT');
+    
     $user = Session::get('user');
 @endphp
-
 
 <x-head title='{{$title}}'>
     <body class="flex flex-col min-w-screen min-h-screen overflow-auto bg-[#FBF6F0] overflow-auto">
@@ -46,7 +49,7 @@
                     </ol>
                 </div>
                 <div class='flex w-full justify-end'>
-                    <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                    <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-print-asset-modal">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-printer" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                             <path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" />
@@ -150,15 +153,51 @@
                     </button>
                 </div>
             </div>
+            <div class='w-[50%] max-md:w-full xl:container 2xl:mx-auto'>
+                <p class="text-lg font-bold mb-4">Riwayat Dokumen</p>
+                @for($i=count($history)-1; $i >=0 ; $i--)
+                        <!-- Hisotry-->
+                        <div class="flex gap-x-3">
+                            <!-- Icon -->
+                            <div class="{{$i==0? 'hidden':''}} relative last:after:hidden after:absolute after:top-6 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-neutral-400">
+                                <div class="relative z-10 size-7 flex justify-center items-center">
+                                    <div class="size-2 rounded-full bg-green-aida"></div>
+                                </div>
+                            </div>
+                            <div class="{{$i!=0? 'hidden':''}} relative z-10 size-7 flex justify-center items-center">
+                                <div class="size-2 rounded-full bg-green-aida"></div>
+                            </div>
+                            <!-- End Icon -->
+
+                            <!-- Right Content -->
+                            <div class="grow pt-0.5 pb-5">
+                                <div class="flex gap-x-1.5 text-sm font-semibold text-green-aida">
+                                    Asset {{$history[$i]->action=='create'? 'Ditambahkan':($history[$i]->action=='edit'? 'Edited':($history[$i]->action=='approve'? 'Approved':'Rejected'))}}
+                                </div>
+                                <p class="text-[10px] text-gray-500">
+                                    {{$history[$i]->created_at}}
+                                </p>
+                                <p class="mt-1 text-xs text-gray-600 dark:text-neutral-400">
+                                    {!!$history[$i]->message!!}
+                                </p>
+                            </div>
+                            <!-- End Right Content -->
+                        </div>
+                        <!-- End History-->
+                @endfor
+                <!-- Timeline -->
+                <div>                
+                <!-- End Timeline -->
+            </div>
         </div>
         <div id="hs-vertically-centered-modal" class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none">
             <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
-                <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto dark:bg-neutral-800 dark:border-neutral-700 dark:shadow-neutral-700/70">
-                    <div class="flex justify-between items-center py-3 px-4 border-b dark:border-neutral-700">
-                        <h3 class="font-bold text-gray-800 dark:text-white">
+                <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+                    <div class="flex justify-between items-center py-3 px-4 border-b">
+                        <h3 class="font-bold text-gray-800">
                         Pratinjau/Edit Gambar
                         </h3>
-                        <button type="button" class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:hover:bg-neutral-700" data-hs-overlay="#hs-vertically-centered-modal">
+                        <button type="button" class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-vertically-centered-modal">
                         <span class="sr-only">Close</span>
                         <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 6 6 18"></path>
@@ -182,8 +221,8 @@
                         </form>
                     </div>
                 </div>
-                <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t dark:border-neutral-700">
-                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800" data-hs-overlay="#hs-vertically-centered-modal">
+                <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
+                    <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-vertically-centered-modal">
                         Close
                     </button>
                     <button type="button" onclick='updateGambar()' class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-vertically-centered-modal">
@@ -192,7 +231,43 @@
                 </div>
                 </div>
             </div>
-        </div>       
+        </div>
+        <div id="hs-print-asset-modal" class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none">
+            <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+                <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto">
+                    <div class="flex justify-between items-center py-3 px-4 border-b">
+                        <h3 class="font-bold text-gray-800">
+                        Print Asset
+                        </h3>
+                        <button type="button" class="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-print-asset-modal">
+                        <span class="sr-only">Close</span>
+                        <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                        </svg>
+                        </button>
+                    </div>
+                    <div class="flex flex-col p-4 overflow-y-auto">
+                        <div class='flex items-center justify-center w-full h-fit min-h-32 p-4 border-2 border-slate-300 border-dashed mb-3'>
+                            <div id='printQR' class='py-3 px-4 bg-slate-200 rounded-md'>
+                                <div class='w-[150px] h-[150px] mb-5'>
+                                    <div id='qr_barang_print' class='w-full h-full'></div>
+                                </div>
+                                <p class="text-2xl text-gray-600 text-center font-semibold">{{$asset_data->id_barang}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
+                        <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-print-asset-modal">
+                            Close
+                        </button>
+                        <button type="button" onclick='printBarang()' class="py-2 px-3 inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-print-asset-modal">
+                            Print
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div> 
     </body>
     <script type='text/javascript'>
         var unit_barang
@@ -230,8 +305,13 @@
             width: 100,
             height: 100
         })
+        new QRCode(document.getElementById('qr_barang_print'), {
+            text: "{{url()->current()}}",
+            width: 200,
+            height: 200
+        })
         document.getElementById('{{$asset_data->jenis_barang}}').setAttribute('selected','selected')
-        document.getElementById('{{$asset_data->unit_barang}}').setAttribute('selected','selected')
+        document.getElementById('{!!$asset_data->unit_barang!!}').setAttribute('selected','selected')
 
         var file
         document.getElementById('input_gambar').addEventListener('change', function(event){
@@ -302,30 +382,50 @@
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Lanjutkan"
             }).then((result) => {
-                axios.post('{{url("/approval")}}', {
-                    id: {{$asset_data->id}},
-                    approval: `${approval}`
-                }).then((res)=>{
-                    swal.fire({
-                        title:'Data Berhasil Diperbaharui',
-                        icon: 'success',
-                        text:`Barang Berhasil Di-${approval=='true'? 'Approve':'Reject'}`,
-                        confirmButtonColor: "#17C653",
-                    }).then((result)=>{
-                        if(result.isConfirmed){
-                            location.reload()
-                        }
+                if(result.isConfirmed){
+                    axios.post('{{url("/approval")}}', {
+                        id: {{$asset_data->id}},
+                        id_barang: '{{$asset_data->id_barang}}',
+                        approval: `${approval}`
+                    }).then((res)=>{
+                        swal.fire({
+                            title:'Data Berhasil Diperbaharui',
+                            icon: 'success',
+                            text:`Barang Berhasil Di-${approval=='true'? 'Approve':'Reject'}`,
+                            confirmButtonColor: "#17C653",
+                        }).then((result)=>{
+                            if(result.isConfirmed){
+                                location.reload()
+                            }
+                        })
+                    }).catch((res)=>{
+                        swal.fire({
+                            title:'Telah Terjadi Kesalahan!',
+                            icon: 'warning',
+                            text:`Telah Terjadi Kesalahan Saat Anda Ingin Mengupdate Data, Silahkan Hubungi Tim GA`,
+                            confirmButtonColor: "#facc15",
+                        })
                     })
-                }).catch((res)=>{
-                    swal.fire({
-                        title:'Telah Terjadi Kesalahan!',
-                        icon: 'warning',
-                        text:`Telah Terjadi Kesalahan Saat Anda Ingin Mengupdate Data, Silahkan Hubungi Tim GA`,
-                        confirmButtonColor: "#facc15",
-                    })
-                })
+                }
             })       
         }
+
+        function printBarang(){
+            html2canvas(document.getElementById('printQR')).then(canvas => {
+                // Convert canvas to image
+                var imgData = canvas.toDataURL('image/png');
+                var imgId = '{{$asset_data->id_barang}}'
+                
+                // Create a link element
+                var link = document.createElement('a');
+                link.href = imgData;
+                link.download = `${imgId}.png` ;
+
+                // Trigger the download
+                link.click();
+            })
+        }
+        
 
         // function approvalBarang(approval){
         //     axios.post('{{url("/approval")}}', {
