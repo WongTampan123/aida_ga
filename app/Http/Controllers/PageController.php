@@ -24,11 +24,26 @@ class PageController extends Controller
 
     public function showDashboard()
     {
+        $user_view = request()->session()->get('user')->privilage['view'];
         $category_count = DB::connection('mysql')
-                        ->select('select aida.inventaris.jenis_barang,count(aida.inventaris.id) as jumlah_barang
-                        from aida.inventaris
-                        where aida.inventaris.is_deleted="false"
-                        group by aida.inventaris.jenis_barang');
+                        ->table('aida.inventaris')
+                        ->select([
+                            'aida.inventaris.jenis_barang',
+                            DB::raw('count(aida.inventaris.id) as jumlah_barang')
+                        ])
+                        ->where('aida.inventaris.is_deleted','false')
+                        ->where('aida.inventaris.is_functioning','true')
+                        ->when(explode(" ",$user_view['unit'])[0]=='Area', function($query) use ($user_view) {
+                            return $query->where('aida.inventaris.regional_barang',$user_view['regional']);
+                        }, function($query) use ($user_view){
+                            if(explode(" ",$user_view['unit'])[0]=='hq'){
+                                return null;
+                            } else {
+                                return $query->where('aida.inventaris.unit_barang',$user_view['unit']);
+                            }                            
+                        })
+                        ->groupBy('aida.inventaris.jenis_barang')
+                        ->get();
 
         return view('dashboard', ["title" => "AIDA - Dashboard", "category_count" => json_encode($category_count)]);
     }
@@ -124,6 +139,40 @@ class PageController extends Controller
     public function showStockTake()
     {
         return view('stock_take', ['title' => 'AIDA - Stock Take']);
+    }
+
+    public function showAddStockTake()
+    {
+        request()->session()->forget('selected_asset');
+        $jenis_barang_list = DB::connection('mysql')
+                            ->select('select distinct aida.inventaris.jenis_barang from aida.inventaris
+                            where aida.inventaris.is_deleted="false"');
+        $tahun_barang_list = DB::connection('mysql')
+                            ->select('select distinct aida.inventaris.tahun_barang from aida.inventaris
+                            where aida.inventaris.is_deleted="false" order by aida.inventaris.tahun_barang asc');
+        $unit_barang_list = DB::connection('mysql')
+                            ->select('select aida.nama_unit.nama_unit from aida.nama_unit');
+
+        return view('add_stock_take', ['title' => 'AIDA - Add Stock Take', 'jenis_barang_list' => $jenis_barang_list, 'tahun_barang_list' => $tahun_barang_list, 'unit_barang_list' => $unit_barang_list]);
+    }
+
+    public function showStockTakeDetail($stock_take_id)
+    {   
+        $stock_take_items = DB::connection('mysql')
+                            ->table('aida.inventaris')
+                            ->where('aida.inventaris.stock_take_id',$stock_take_id)
+                            ->paginate(10);
+        
+        $jenis_barang_list = DB::connection('mysql')
+                            ->select('select distinct aida.inventaris.jenis_barang from aida.inventaris
+                            where aida.inventaris.is_deleted="false"');
+        $tahun_barang_list = DB::connection('mysql')
+                            ->select('select distinct aida.inventaris.tahun_barang from aida.inventaris
+                            where aida.inventaris.is_deleted="false" order by aida.inventaris.tahun_barang asc');
+        $unit_barang_list = DB::connection('mysql')
+                            ->select('select aida.nama_unit.nama_unit from aida.nama_unit');
+
+        return view('stock_take_detail', ["title" => "AIDA - Stock Take (".$stock_take_id.")", "stock_take_id" => $stock_take_id, "stock_take_items" => $stock_take_items, "jenis_barang_list" => $jenis_barang_list, "tahun_barang_list" => $tahun_barang_list, "unit_barang_list" => $unit_barang_list]);
     }
 
     public function showBulkUpload()

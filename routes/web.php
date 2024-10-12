@@ -20,6 +20,8 @@ Route::middleware([CheckSession::class])->group(function(){
     Route::get('/assets/{asset_id}', [PageController::class, 'showEditAssetForm']);
     Route::get('/bulk_upload', [PageController::class, 'showBulkUpload']);
     Route::get('/stock_take', [PageController::class, 'showStockTake']);
+    Route::get('/stock_take/add', [PageController::class, 'showAddStockTake']);
+    Route::get('/stock_take/{stock_take_id}', [PageController::class, 'showStockTakeDetail']);
     Route::get('/get_stock_take_table', [PageController::class, 'getStockTakeTable']);
     Route::get('/search_stock_take', [InventarisController::class, 'searchStockTake']);
     Route::get('/download_template', [InventarisController::class, 'downloadTemplateBulkUpload']);
@@ -27,6 +29,11 @@ Route::middleware([CheckSession::class])->group(function(){
     Route::get('/dashboard/{category_type}/{subcategory_type}', [PageController::class, 'showAssetList']);
     Route::get('/dashboard/{category_type}/{subcategory_type}/add_asset', [PageController::class, 'showAddAssetForm']);
     Route::get('/dashboard/{category_type}/{subcategory_type}/{asset_id}', [PageController::class, 'showEditAssetForm']);
+    Route::get('/get_selected_asset', function () {
+        $selected_asset = Session::get('selected_asset') ? Session::get('selected_asset') : [];
+        return response()->json($selected_asset);
+    });
+    Route::get('/export_stock_take', [InventarisController::class, 'exportStockTaKe']);
 
     Route::post('/add_asset',[InventarisController::class, 'saveNewAsset']);
     Route::post('/click_checkbox',[InventarisController::class, 'clickCheckbox']);
@@ -35,5 +42,6 @@ Route::middleware([CheckSession::class])->group(function(){
     Route::post('/delete_asset',[InventarisController::class, 'deleteAsset']);
     Route::post('/save_bulk_upload',[InventarisController::class, 'saveBulkUpload']);
     Route::post('/save_image_bulk_upload',[InventarisController::class, 'saveImageBulkUpload']);
+    Route::post('/new_stock_take',[InventarisController::class, 'newStockTake']);
 });
 

@@ -8,6 +8,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\BulkUploadImport;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 
 class InventarisController extends Controller
 {
@@ -22,6 +24,7 @@ class InventarisController extends Controller
             'tahun_barang' => 'required'
         ]);
 
+        // Kode Barang Generator
         $jenis = strtolower($request->input('jenis_barang'))=='electronic'? 'E':(strtolower($request->input('jenis_barang'))=='meubelair'? 'M':'O');
         $unit = DB::connection('mysql')->select('select aida.nama_unit.abbr_unit from aida.nama_unit where aida.nama_unit.nama_unit = ?',[$request->input('unit_barang')])[0]->abbr_unit;
         $tahun = substr($request->input('tahun_barang'), -2);
@@ -30,12 +33,13 @@ class InventarisController extends Controller
         $count = $count_db[0]->total_barang+1;
         $kode_barang = $count.$jenis.$request->input('lantai_barang').$unit.$tahun;
         
+        // Save Image
         if($request->file('gambar_barang')){
             $image=$request->file('gambar_barang');
             $image_name = $kode_barang.'.'.$image->extension();
             $path=$image->move(public_path().'/assets/gambar_barang/',$image_name);
         } else {
-            $image_name = 'photo_library.svg';
+            $image_name = 'photo_library.png';
         }
 
         $user = $request->session()->get('user');
@@ -178,21 +182,59 @@ class InventarisController extends Controller
         //                                                     and aida.inventaris.tahun_barang like "%'.$request->input('tahun_barang').'%"
         //                                                     and aida.inventaris.unit_barang like "%'.$request->input('unit_barang').'%"
         //                                                     and aida.inventaris.tipe_barang like "%'.$request->input('barang').'%"');
+        $path = $request->input('path')? $request->input('path'):'asset';
+        $sort = $request->input('sort')? $request->input('sort'):'asc';
+        $stock_take_id = $request->input('stock_take_id')? $request->input('stock_take_id'):'';
+        $user_unit = $request->session()->get('user')->id_unit_sppd;
+        // $user_area = $unit_user=='Area Sumatera'? '01':($unit_user=='Area Jabodetabeb&Jabar'? '02':($unit_user=='Area Jawa Bali&Nusa Tenggara'? '03':($unit_user=='Area Pamasuka'? '04':'HQ')));
+        $user_area = explode(' ', $user_unit)[0]=='Area'? $user_unit:'HQ';
+        $user_regional = $request->session()->get('user')->psa_text;
         
-        $search_response = DB::connection('mysql')
+        if($path=='add_stock_take'){
+            $search_response = DB::connection('mysql')
                         ->table('aida.inventaris')
                         ->where('aida.inventaris.is_deleted','false')
+                        ->where('aida.inventaris.is_approved','true')
+                        ->where('aida.inventaris.is_functioning','true')
+                        ->where('aida.inventaris.area_barang',$user_area)
+                        ->where('aida.inventaris.jenis_barang', 'like', "%".$request->input('jenis_barang')."%")
+                        ->where('aida.inventaris.tahun_barang', 'like', "%".$request->input('tahun_barang')."%")
+                        ->where('aida.inventaris.unit_barang', 'like', "%".$request->input('unit_barang')."%")
+                        ->where('aida.inventaris.is_approved', 'like', "%".$request->input('status_approval')."%")
+                        ->where('aida.inventaris.tipe_barang', 'like', "%".$request->input('barang')."%")                        
+                        ->orderBy('aida.inventaris.tipe_barang',$sort=='asc'? "ASC":"DESC")
+                        ->paginate(10);
+        } elseif ($path=='stock_take_detail') {
+            $search_response = DB::connection('mysql')
+                        ->table('aida.inventaris')
+                        ->where('aida.inventaris.is_deleted','false')
+                        ->where('aida.inventaris.is_approved','true')
+                        ->where('aida.inventaris.stock_take_id',$stock_take_id)
+                        ->where('aida.inventaris.jenis_barang', 'like', "%".$request->input('jenis_barang')."%")
+                        ->where('aida.inventaris.tahun_barang', 'like', "%".$request->input('tahun_barang')."%")
+                        ->where('aida.inventaris.unit_barang', 'like', "%".$request->input('unit_barang')."%")
+                        ->where('aida.inventaris.tipe_barang', 'like', "%".$request->input('barang')."%")
+                        ->orderBy('aida.inventaris.tipe_barang',$sort=='asc'? "ASC":"DESC")
+                        ->paginate(10);
+        } else {
+            $search_response = DB::connection('mysql')
+                        ->table('aida.inventaris')
+                        ->where('aida.inventaris.is_deleted','false')
+                        ->where('aida.inventaris.unit_barang', 'like', "%".$user_unit."%")
+                        ->where('aida.inventaris.regional_barang', 'like', "%".(explode(' ', $user_unit)[0]=='Area'?$user_regional:'hq')."%")
                         ->where('aida.inventaris.jenis_barang', 'like', "%".$request->input('jenis_barang')."%")
                         ->where('aida.inventaris.tahun_barang', 'like', "%".$request->input('tahun_barang')."%")
                         ->where('aida.inventaris.unit_barang', 'like', "%".$request->input('unit_barang')."%")
                         ->where('aida.inventaris.is_approved', 'like', "%".$request->input('status_approval')."%")
                         ->where('aida.inventaris.tipe_barang', 'like', "%".$request->input('barang')."%")
+                        ->where('aida.inventaris.ruangan_barang', 'like', "%".$request->input('ruangan')."%")
+                        ->where('aida.inventaris.is_functioning', 'like', "%".$request->input('kondisi_barang')."%")
+                        ->orderBy('aida.inventaris.tipe_barang',$request->input('sort')=='asc'? "ASC":"DESC")
                         ->paginate(10);
-        
-        
+        }
+
             return response()->json([
-                'view' => View::make('asset_list_table', ['asset_list' => $search_response])->render(),
-                'asset_list' => $search_response
+                'view' => View::make('asset_list_table', ['asset_list' => $search_response, 'path' => $path, 'sort' => $sort])->render()
             ]);
         
     }
@@ -210,6 +252,82 @@ class InventarisController extends Controller
                 'stock_take_list' => $search_response
             ]);
         
+    }
+
+    public function newStockTake(Request $request)
+    {
+        $selected_asset = $request->session()->get('selected_asset');
+        
+        $unit_user = $request->session()->get('user')->id_unit_sppd;
+        $area_user = $unit_user=='Area Sumatera'? '01':($unit_user=='Area Jabodetabeb&Jabar'? '02':($unit_user=='Area Jawa Bali&Nusa Tenggara'? '03':($unit_user=='Area Pamasuka'? '04':'HQ')));
+        $date = date('Y-m-d');
+        $unit = DB::connection('mysql')
+            ->table('aida.nama_unit')
+            ->where('aida.nama_unit.nama_unit',$unit_user)
+            ->first()
+            ->abbr_unit;        
+        $count = DB::connection('mysql')
+            ->table('aida.stock_take')
+            ->select([DB::raw('count(aida.stock_take.stock_take_id) as count_stock_take')])
+            ->where('aida.stock_take.stock_take_id','like','%'.$unit.'%')
+            ->first()
+            ->count_stock_take;
+        $new_stock_take = $date.'-'.$unit.'-'.str_pad($count+1,4,0,STR_PAD_LEFT);
+
+        DB::connection('mysql')
+        ->table('aida.stock_take')
+        ->insert([
+            'stock_take_id' => $new_stock_take,
+            'jumlah_barang' => count($selected_asset),
+            'unit' => $unit_user,
+            'area' => $area_user,
+            'created_by' => $request->session()->get('user')->name
+        ]);
+
+        foreach ($selected_asset as $asset_id) {
+            DB::connection('mysql')
+            ->table('aida.inventaris')
+            ->where('aida.inventaris.id', $asset_id)
+            ->update([
+                'stock_take_id' => $new_stock_take,
+                'is_functioning' => 'false'
+            ]);
+        }
+
+        return response()->json(['stock_take_id'=>$new_stock_take]);
+    }
+
+    public function exportStockTake(Request $request)
+    {
+        $user = $request->session()->get('user');
+        $stock_take_id = $request->input('stock_take_id');
+        $stock_take_items = DB::connection('mysql')
+                            ->table('aida.inventaris')
+                            ->where('aida.inventaris.stock_take_id','=',$stock_take_id)
+                            ->get();
+        $items_category = [];
+
+        foreach ($stock_take_items as $item) {
+            if(!isset($items_category[$item->jenis_barang])){
+                $items_category[$item->jenis_barang] = [$item];
+            } else {
+                array_push($items_category[$item->jenis_barang],$item);
+            }
+        }
+        
+        $data = [
+            'title' => 'Stock Take -'.$stock_take_id,
+            'stock_take_id' => $stock_take_id,
+            'user' => $user,
+            'mgr_general_affair' => $request->input('mgr_general_affair'),
+            'vp_corporate_office' => $request->input('vp_corporate_office'),
+            'svp_corporate_secreatry' => $request->input('svp_corporate_secretary'),
+            'items_category' => $items_category
+        ];
+
+        return $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 
+                'isRemoteEnabled' => true])
+                ->loadView('export_stock_take', $data)->download('StockTake-'.$stock_take_id.'.pdf');
     }
 
     public function clickCheckbox(Request $request)

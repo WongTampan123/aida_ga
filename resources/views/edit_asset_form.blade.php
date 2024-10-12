@@ -96,7 +96,7 @@
                         </select> -->
                     </div>
                     <div class='w-full'>
-                        <p class='text-sm text-slate-400 mb-2'>Tipe Barang</p>
+                        <p class='text-sm text-slate-400 mb-2'>Tipe Barang<span class='text-red-500'>*</span></p>
                         <input id='tipe_barang' type="text" value='{{ucwords($asset_data->tipe_barang)}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
@@ -112,19 +112,19 @@
                         <input id='merk_barang' type="text" value='{{ucwords($asset_data->merk_barang)}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
-                        <p class='text-sm text-slate-400 mb-2'>Lantai</p>
+                        <p class='text-sm text-slate-400 mb-2'>Lantai<span class='text-red-500'>*</span></p>
                         <input id='lantai_barang' type="number" value='{{$asset_data->lantai_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
-                        <p class='text-sm text-slate-400 mb-2'>Ruangan</p>
+                        <p class='text-sm text-slate-400 mb-2'>Ruangan<span class='text-red-500'>*</span></p>
                         <input id='ruangan_barang' type="text" value='{{ucwords($asset_data->ruangan_barang)}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
-                        <p class='text-sm text-slate-400 mb-2'>Tahun</p>
+                        <p class='text-sm text-slate-400 mb-2'>Tahun<span class='text-red-500'>*</span></p>
                         <input id='tahun_barang' type="number" value='{{$asset_data->tahun_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
                     <div class='w-full'>
-                        <p class='text-sm text-slate-400 mb-2'>Unit</p>
+                        <p class='text-sm text-slate-400 mb-2'>Unit<span class='text-red-500'>*</span></p>
                         <!-- <input id='unit_barang' type="text" value='{{$asset_data->unit_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none"> -->
                         <select placeholder='Unit' class="unit-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="unit_barang" style="width: 100%">
                             <option></option>

@@ -42,7 +42,7 @@
                                                     <svg class="hs-dropdown-open:rotate-180 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                                                 </div>
                                                 <div tabindex="0" class="menu dropdown-content bg-base-100 rounded-lg z-[1] min-w-32 shadow-md rounded-lg p-2 mt-2 shadow-[0_2px_5px_1px_rgba(0,0,0,0.15)]">
-                                                    <a href="" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+                                                    <a href="{{url('/stock_take/'.$stock_take->stock_take_id)}}" class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
                                                         Details
                                                     </a>
                                                 </div>

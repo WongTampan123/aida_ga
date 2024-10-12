@@ -32,7 +32,7 @@
                     <!-- Filter -->
                     <div class="flex max-md:justify-end max-sm:justify-center gap-2 max-md:mb-4 md:hidden">
                         <!-- Masalah Filter Ikutin Asset -->
-                        <a href="">
+                        <a href={{url('/stock_take/add')}}>
                             <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                                 + Add Stock Take
                             </button>
@@ -54,11 +54,13 @@
                     <!-- Filter -->
                     <div class="flex max-md:hidden gap-2">
                         <!-- Masalah Fiter, Ikutin Seperti Asset -->
-                        <a href="">
-                            <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                                + Add Stock Take
-                            </button>
-                        </a>
+                         @if(session('user')->privilage['stock_take']=='true')
+                            <a href={{url('/stock_take/add')}}>
+                                <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                                    + Add Stock Take
+                                </button>
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <div id='stock_take_table' class='grow flex flex-col justify-between w-full h-full'>

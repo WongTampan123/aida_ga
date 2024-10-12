@@ -89,6 +89,20 @@
         </div>        
     </body>
     <script type='text/javascript'>
+        var user_permission = "{{session('user')->privilage['create']}}"
+
+        if(user_permission!='true'){
+            swal.fire({
+                title:'Anda Tidak Memiliki Izin',
+                icon: 'warning',
+                text:`Anda Tidak Memiliki Izin Untuk Mengakses Bulk Upload, Jika Ini Adalah Kesalahan, Silahkan Untuk Mengontak Unit Corporate Office`,
+                confirmButtonColor: "#facc15",
+                backdrop:true
+            }).then((res)=>{
+                window.location.href="{{url('/dashboard')}}"
+            })
+        }
+
         function bulkUpload(){
             if(document.getElementById('input_excel').files[0]){
                 console.log(document.getElementById('input_excel').files)
@@ -111,9 +125,9 @@
                 }).catch((res)=>{
                     console.log(res)
                     swal.fire({
-                        title:'Silahkan Lengkapi Data!',
+                        title:'Terjadi Kesalahan',
                         icon: 'warning',
-                        text:`Silahkan Lengkapi Seluruh Kolom Berbintang Merah!`,
+                        text:`Silahkan Tunggu Beberapa Saat, Lalu Coba Untuk Mengunggah Kembali`,
                         confirmButtonColor: "#facc15",
                     })
                     return
@@ -140,9 +154,9 @@
                 }).catch((res)=>{
                     console.log(res)
                     swal.fire({
-                        title:'Silahkan Lengkapi Data!',
+                        title:'Terjadi Kesalahan',
                         icon: 'warning',
-                        text:`Silahkan Lengkapi Seluruh Kolom Berbintang Merah!`,
+                        text:`Silahkan Tunggu Beberapa Saat, Lalu Coba Untuk Mengunggah Kembali`,
                         confirmButtonColor: "#facc15",
                     })
                     return
