@@ -185,10 +185,10 @@ class InventarisController extends Controller
         $path = $request->input('path')? $request->input('path'):'asset';
         $sort = $request->input('sort')? $request->input('sort'):'asc';
         $stock_take_id = $request->input('stock_take_id')? $request->input('stock_take_id'):'';
-        $user_unit = $request->session()->get('user')->id_unit_sppd;
+        $user_unit = $request->session()->get('user')->privilage['view']['unit'];
         // $user_area = $unit_user=='Area Sumatera'? '01':($unit_user=='Area Jabodetabeb&Jabar'? '02':($unit_user=='Area Jawa Bali&Nusa Tenggara'? '03':($unit_user=='Area Pamasuka'? '04':'HQ')));
         $user_area = explode(' ', $user_unit)[0]=='Area'? $user_unit:'HQ';
-        $user_regional = $request->session()->get('user')->psa_text;
+        $user_regional = $request->session()->get('user')->privilage['view']['regional'];
         
         if($path=='add_stock_take'){
             $search_response = DB::connection('mysql')
@@ -220,8 +220,8 @@ class InventarisController extends Controller
             $search_response = DB::connection('mysql')
                         ->table('aida.inventaris')
                         ->where('aida.inventaris.is_deleted','false')
-                        ->where('aida.inventaris.unit_barang', 'like', "%".$user_unit."%")
-                        ->where('aida.inventaris.regional_barang', 'like', "%".(explode(' ', $user_unit)[0]=='Area'?$user_regional:'hq')."%")
+                        ->where('aida.inventaris.unit_barang', 'like', '%'.($user_unit!='all'? $user_unit:'').'%')
+                        ->where('aida.inventaris.regional_barang', 'like', '%'.(explode(' ', $user_unit)[0]=='Area'?$user_regional:($user_regional!='all'? 'hq':'')).'%')
                         ->where('aida.inventaris.jenis_barang', 'like', "%".$request->input('jenis_barang')."%")
                         ->where('aida.inventaris.tahun_barang', 'like', "%".$request->input('tahun_barang')."%")
                         ->where('aida.inventaris.unit_barang', 'like', "%".$request->input('unit_barang')."%")

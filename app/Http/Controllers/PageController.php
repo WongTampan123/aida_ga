@@ -25,25 +25,44 @@ class PageController extends Controller
     public function showDashboard()
     {
         $user_view = request()->session()->get('user')->privilage['view'];
+        $user_unit = $user_view['unit'];
+        $user_regional = $user_view['regional'];
+        
+        // $category_count = DB::connection('mysql')
+        //                 ->table('aida.inventaris')
+        //                 ->select([
+        //                     'aida.inventaris.jenis_barang',
+        //                     DB::raw('count(aida.inventaris.id) as jumlah_barang')
+        //                 ])
+        //                 ->where('aida.inventaris.is_deleted','false')
+        //                 ->where('aida.inventaris.is_functioning','true')
+        //                 ->when(explode(" ",$user_view['unit'])[0]=='Area', function($query) use ($user_view) {
+        //                     return $query->where('aida.inventaris.regional_barang',$user_view['regional']);
+        //                 }, function($query) use ($user_view){
+        //                     if(explode(" ",$user_view['unit'])[0]=='hq'){
+        //                         return null;
+        //                     } else {
+        //                         return $query->where('aida.inventaris.unit_barang',$user_view['unit']);
+        //                     }                            
+        //                 })
+        //                 ->groupBy('aida.inventaris.jenis_barang')
+        //                 ->get();
+
         $category_count = DB::connection('mysql')
-                        ->table('aida.inventaris')
-                        ->select([
-                            'aida.inventaris.jenis_barang',
-                            DB::raw('count(aida.inventaris.id) as jumlah_barang')
-                        ])
-                        ->where('aida.inventaris.is_deleted','false')
-                        ->where('aida.inventaris.is_functioning','true')
-                        ->when(explode(" ",$user_view['unit'])[0]=='Area', function($query) use ($user_view) {
-                            return $query->where('aida.inventaris.regional_barang',$user_view['regional']);
-                        }, function($query) use ($user_view){
-                            if(explode(" ",$user_view['unit'])[0]=='hq'){
-                                return null;
-                            } else {
-                                return $query->where('aida.inventaris.unit_barang',$user_view['unit']);
-                            }                            
-                        })
-                        ->groupBy('aida.inventaris.jenis_barang')
-                        ->get();
+                        ->select("
+                            SELECT
+                                aida.inventaris.jenis_barang,
+                                COUNT(aida.inventaris.id) as jumlah_barang
+                            FROM
+                                aida.inventaris
+                            WHERE
+                                aida.inventaris.is_deleted = 'false'
+                                AND aida.inventaris.is_functioning = 'true'
+                                AND aida.inventaris.unit_barang LIKE ?
+                                AND aida.inventaris.regional_barang LIKE ?
+                            GROUP BY
+                                aida.inventaris.jenis_barang
+                        ",['%'.($user_unit!='all'? $user_unit:'').'%','%'.(explode(' ', $user_unit)[0]=='Area'?$user_regional:($user_regional!='all'? 'hq':'')).'%']);
 
         return view('dashboard', ["title" => "AIDA - Dashboard", "category_count" => json_encode($category_count)]);
     }

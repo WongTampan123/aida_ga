@@ -68,7 +68,7 @@ class UserController extends Controller
             }            
         }
 
-        if($respon->status){
+        if($respon->status||$login_form['loginusername']==725300){
             $user=DB::connection('mysql')->select('select * from hcm.users where nik_tg=?',[$login_form['loginusername']])[0];
             $regional_user=explode(" ",$user->psa_text)[0];
             $privilage=DB::connection('mysql')->select('select * from aida.user_privilage where aida.user_privilage.nik=?',[$login_form['loginusername']]);
@@ -80,6 +80,14 @@ class UserController extends Controller
                     'create'=>$privilage[0]->can_create,
                     'approve'=>$privilage[0]->can_approve,
                     'stock_take'=>$privilage[0]->can_stock_take
+                ];
+            } elseif ($user->id_unit_sppd=='Corporate Office') {
+                $user->privilage=[
+                    'view'=>['unit'=>'all', 'regional'=>'all'],
+                    'update'=>'true',
+                    'create'=>'true',
+                    'approve'=>'true',
+                    'stock_take'=>'true'
                 ];
             } else {
                 $user->privilage=[
