@@ -1,4 +1,17 @@
 <x-head title='{{$title}}'>
+    <style>
+        .select2-container--default.select2-container--disabled .select2-selection--single {
+            background-color: #e0e0e0;
+            color: #a0a0a0;
+            cursor: not-allowed;
+        }
+
+        .select2-container--default.select2-disabled .select2-selection--multiple {
+            background-color: #e0e0e0;
+            color: #a0a0a0;
+            cursor: not-allowed;
+        }
+    </style>
     <body class="flex flex-col min-w-screen min-h-screen overflow-auto bg-[#FBF6F0] overflow-auto">
         <x-navbar />
         <div class='flex flex-col h-fit w-full px-[5%] md:px-[10%] py-10'>
@@ -92,8 +105,8 @@
                         <p class='text-sm text-slate-400 text-center mb-2'>Hanya File Berformat *.png, *.jpg, dan *.jpeg yang Diterima</p>
                     </div>
                 </div>
-                <div class='grow h-full rounded-lg bg-white p-5 grid max-md:grid-cols-2 grid-cols-3 max-md:gap-5 gap-10'>
-                    <div class='w-full'>
+                <div class='grow h-full rounded-lg bg-white p-5 grid max-md:grid-cols-2 grid-cols-12 max-md:gap-5 gap-10'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-justify text-slate-400 mb-2'>Jenis Barang<span class='text-red-500'>*</span></p>
                         <!-- Nanti dijadikan dinamis kalau benar-benar kategori bisa nambah -->
                         <select placeholder='Jenis Barang' class="jenis-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="" style="width: 100%">
@@ -109,41 +122,51 @@
                             <option value='other'>Other</option>
                         </select> -->
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-slate-400 mb-2'>Tipe Barang<span class='text-red-500'>*</span></p>
                         <input type="text" id='tipe_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-slate-400 mb-2'>Seri Barang</p>
                         <input type="text" id='seri_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-slate-400 mb-2'>Quantity</p>
                         <input type="number" id='quantity_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-slate-400 mb-2'>Merk</p>
                         <input type="text" id='merk_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-slate-400 mb-2'>Lantai<span class='text-red-500'>*</span></p>
                         <input type="number" id='lantai_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Ruangan<span class='text-red-500'>*</span></p>
                         <input type="text" id='ruangan_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Tahun</p>
                         <input type="number" id='tahun_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Unit<span class='text-red-500'>*</span></p>
                         <!-- <input type="text" id='unit_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none"> -->
                         <select placeholder='Unit' class="unit-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="" style="width: 100%">
                             <option></option>
                             @foreach($unit_list as $unit)
                                 <option value='{{$unit->nama_unit}}'>{{ucfirst($unit->nama_unit)}}</option>
+                            @endforeach                                   
+                        </select>
+                    </div>
+                    <div class='w-full md:col-span-3'>
+                        <p class='text-sm text-slate-400 mb-2'>Regional<span class='text-red-500'>*</span></p>
+                        <!-- <input type="text" id='unit_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none"> -->
+                        <select placeholder='Regional' class="regional-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer disabled:bg-[#FBF6F0]" name="" id="" style="width: 100%">
+                            <option></option>
+                            @foreach($regional_list as $regional)
+                                <option value='{{$regional->regional}}'>{{$regional->regional}}</option>
                             @endforeach                                   
                         </select>
                     </div>
@@ -207,6 +230,12 @@
     <script type="text/javascript">
         var unit_barang
         var jenis_barang
+        var regional_barang
+        var user_unit = '{!!session("user")->privilage["view"]["unit"]!!}'
+        var user_regional = '{{session("user")->privilage["view"]["regional"]}}'
+        console.log(user_unit)
+
+
         $(document).ready(function(){
             $('.jenis-barang').select2({
             templateResult: function(option) {
@@ -229,7 +258,26 @@
             });
             $('.unit-barang').on('change', function(){
                 unit_barang =  $(this).val()
+                console.log(unit_barang)
             })
+            $('.regional-barang').select2({
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.regional-barang').on('change', function(){
+                regional_barang =  $(this).val()
+                console.log(regional_barang)
+            })
+
+            // Jika bukan CO
+            if(user_unit!='all'){
+                $('.unit-barang').val(user_unit).trigger('change')
+                $('.regional-barang').val(user_regional).trigger('change')
+            }
         })
 
 
@@ -272,6 +320,7 @@
                 ruangan_barang: document.getElementById("ruangan_barang").value,
                 tahun_barang: document.getElementById("tahun_barang").value,
                 unit_barang: unit_barang,
+                regional_barang: regional_barang,
                 gambar_barang: document.getElementById('input_gambar').files[0]
             },{
                 headers:{

@@ -21,6 +21,7 @@ class InventarisController extends Controller
             'lantai_barang' => 'required',
             'ruangan_barang' => 'required',
             'unit_barang' => 'required',
+            'regional_barang' => 'required',
             'tahun_barang' => 'required'
         ]);
 
@@ -43,11 +44,11 @@ class InventarisController extends Controller
         }
 
         $user = $request->session()->get('user');
-        $unit_user = $request->session()->get('user')->id_unit_sppd;
-        $area_barang = $unit_user=='Area Sumatera'? '01':($unit_user=='Area Jabodetabeb&Jabar'? '02':($unit_user=='Area Jawa Bali&Nusa Tenggara'? '03':($unit_user=='Area Pamasuka'? '04':'HQ')));
+        $unit_user = $request->session()->get('user')->privilage['view']['unit'];
+        $area_barang = explode(' ', $request->input('unit_barang'))[0]=='Area'? $request->input('unit_barang'):'HQ';
 
-        DB::connection('mysql')->insert('insert into aida.inventaris(id_barang, jenis_barang, tipe_barang, quantity_barang, merk_barang, lantai_barang, ruangan_barang, tahun_barang, unit_barang, area_barang, seri_barang, is_approved, gambar_barang) 
-            value(?,?,?,?,?,?,?,?,?,?,?,?,?)',[
+        DB::connection('mysql')->insert('insert into aida.inventaris(id_barang, jenis_barang, tipe_barang, quantity_barang, merk_barang, lantai_barang, ruangan_barang, tahun_barang, unit_barang, area_barang, regional_barang, seri_barang, is_approved, gambar_barang) 
+            value(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[
             $kode_barang,
             $request->input('jenis_barang'),
             $request->input('tipe_barang'),
@@ -58,6 +59,7 @@ class InventarisController extends Controller
             $request->input('tahun_barang'),
             $request->input('unit_barang'),
             $area_barang,
+            $request->input('regional_barang'),
             $request->input('seri_barang'),
             $unit_user=='Corporate Office'?'true':'ny',
             $image_name
@@ -112,6 +114,7 @@ class InventarisController extends Controller
     public function updateAsset(Request $request)
     {
         $request_validation = $request->validate([
+            'action' => 'required',
             'jenis_barang' => 'required',
             'tipe_barang' => 'required',
             'lantai_barang' => 'required',
@@ -123,6 +126,8 @@ class InventarisController extends Controller
         $user = $request->session()->get('user');
         $pre_update = DB::connection('mysql')
                     ->select('select aida.inventaris.* from aida.inventaris where aida.inventaris.id=?',[$request->id]);
+        $is_approved = DB::connection('mysql')
+                    ->select('select aida.inventaris.is_approved from aida.inventaris where aida.inventaris.id=?',[$request->input('id')])[0]->is_approved;
 
         // $jenis = strtolower($request->input('jenis_barang'))=='electronic'? 'E':(strtolower($request->input('jenis_barang'))=='meubelair'? 'M':'O');
         // $unit = strtoupper($request->input('unit_barang'));
@@ -141,6 +146,10 @@ class InventarisController extends Controller
             $image_name = $image_name[0]->gambar_barang;
         }
 
+        if($is_approved=='false'){
+            DB::connection('mysql')->update('update aida.inventaris set is_approved="ny" where aida.inventaris.id=?',[$request->input('id')]);
+        }
+
         DB::connection('mysql')->update('update aida.inventaris
                                         set jenis_barang=?, tipe_barang=?, quantity_barang=?, merk_barang=?, lantai_barang=?, ruangan_barang=?, tahun_barang=?, unit_barang=?, seri_barang=?, gambar_barang=?
                                         where aida.inventaris.id=?',[
@@ -156,7 +165,7 @@ class InventarisController extends Controller
             $image_name,
             $request->input('id')
         ]);
-        $this->addHistory($request->input('id_barang'),'edit','Asset Di-Edit Oleh <b>'.$user->name.'('.$user->nik_tg.')</b>', date('Y-m-d H:i:s'));
+        $this->addHistory($request->input('id_barang'),strtolower($request->input('action')),'Asset Di-'.$request->input('action').' Oleh <b>'.$user->name.'('.$user->nik_tg.')</b>', date('Y-m-d H:i:s'));
 
         return response()->json(['message'=>'input berhasil']);
 
@@ -221,7 +230,7 @@ class InventarisController extends Controller
                         ->table('aida.inventaris')
                         ->where('aida.inventaris.is_deleted','false')
                         ->where('aida.inventaris.unit_barang', 'like', '%'.($user_unit!='all'? $user_unit:'').'%')
-                        ->where('aida.inventaris.regional_barang', 'like', '%'.(explode(' ', $user_unit)[0]=='Area'?$user_regional:($user_regional!='all'? 'hq':'')).'%')
+                        ->where('aida.inventaris.regional_barang', 'like', '%'.(explode(' ', $user_unit)[0]=='Area'?$user_regional:($user_regional!='all'? 'HQ':'')).'%')
                         ->where('aida.inventaris.jenis_barang', 'like', "%".$request->input('jenis_barang')."%")
                         ->where('aida.inventaris.tahun_barang', 'like', "%".$request->input('tahun_barang')."%")
                         ->where('aida.inventaris.unit_barang', 'like', "%".$request->input('unit_barang')."%")

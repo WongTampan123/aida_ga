@@ -34,18 +34,20 @@ class FirstSheetImport implements ToCollection, WithHeadingRow
         public function collection(Collection $rows)
         {
             $user = $this->sessionData;
-    
-            if($user->id_unit_sppd=='Area Sumatera'){
-                $area = '01';
-            } elseif ($user->id_unit_sppd=='Area Jabodetabeb&Jabar') {
-                $area = '02';
-            } elseif ($user->id_unit_sppd=='Area Jawa Bali&Nusa Tenggara'){
-                $area = '03';
-            } elseif ($user->id_unit_sppd=='Area Pamasuka'){
-                $area = '04';
-            } else {
-                $area = 'HQ';
-            }
+            $unit = $user->privilage['view']['unit'];
+            $area_list = ['Area Sumatera','Area Jabodetabeb&Jabar', 'Area Jawa Bali&Nusa Tenggara', 'Area Pamasuka'];
+
+            // if($user->id_unit_sppd=='Area Sumatera'){
+            //     $area = '01';
+            // } elseif ($user->id_unit_sppd=='Area Jabodetabeb&Jabar') {
+            //     $area = '02';
+            // } elseif ($user->id_unit_sppd=='Area Jawa Bali&Nusa Tenggara'){
+            //     $area = '03';
+            // } elseif ($user->id_unit_sppd=='Area Pamasuka'){
+            //     $area = '04';
+            // } else {
+            //     $area = 'HQ';
+            // }
     
             // var_dump($rows);
     
@@ -62,11 +64,12 @@ class FirstSheetImport implements ToCollection, WithHeadingRow
                     'quantity_barang' => $row['quantity_barang'],
                     'merk_barang' => $row['merk_barang'],
                     'lantai_barang' => $row['lantai_barang'],
-                    'area_barang' => $area,
+                    'area_barang' => explode(' ', $unit)[0]=='Area'? $unit:'hq',
+                    'regional_barang' => explode(' ', $unit)[0]=='Area'? $user->privilage['view']['regional']:'hq',
                     'ruangan_barang' => $row['ruangan_barang'],
                     'tahun_barang' => $row['tahun_barang'],
                     'unit_barang' => $row['unit_barang'],
-                    'is_approved' => $user->id_unit_sppd=='Corporate Office'? 'true':'ny', 
+                    'is_approved' => $user->privilage['approve']=='true'? 'true':'ny', 
                     'gambar_barang' => 'photo_library.svg'
                 ]);
                 

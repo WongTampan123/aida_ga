@@ -132,8 +132,10 @@ class PageController extends Controller
     {
         $unit_list = DB::connection('mysql')
                     ->select('select aida.nama_unit.* from aida.nama_unit');
+        $regional_list = DB::connection('mysql')
+                    ->select('select distinct(aida.user_privilage.regional) from aida.user_privilage');
 
-        return view('add_asset_form', ['title' => 'AIDA - Add New Asset', 'unit_list' => $unit_list]);
+        return view('add_asset_form', ['title' => 'AIDA - Add New Asset', 'unit_list' => $unit_list, 'regional_list' => $regional_list]);
     }
 
     public function showEditAssetForm($asset_id)
@@ -145,6 +147,9 @@ class PageController extends Controller
         
         $unit_list = DB::connection('mysql')
                     ->select('select aida.nama_unit.* from aida.nama_unit');
+        
+        $regional_list = DB::connection('mysql')
+                    ->select('select distinct(aida.user_privilage.regional) from aida.user_privilage');
 
         $history = DB::connection('mysql')
                     ->table('aida.action_history')
@@ -152,7 +157,7 @@ class PageController extends Controller
                     ->orderBy('aida.action_history.created_at','asc')
                     ->get();
 
-        return view('edit_asset_form', ['title' => 'AIDA - '.$asset_id, 'asset_data' => $asset_data[0], 'unit_list' => $unit_list, 'history' => $history]);
+        return view('edit_asset_form', ['title' => 'AIDA - '.$asset_id, 'asset_data' => $asset_data[0], 'unit_list' => $unit_list, 'history' => $history, 'regional_list' => $regional_list]);
     }
 
     public function showStockTake()

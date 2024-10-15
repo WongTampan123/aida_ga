@@ -78,8 +78,8 @@
                         </div>
                     </div>
                 </div>                
-                <div class='grow h-full rounded-lg bg-white p-5 grid grid-cols-3 max-md:grid-cols-2 gap-10 max-md:gap-5'>
-                    <div class='w-full'>
+                <div class='grow h-full rounded-lg bg-white p-5 grid grid-cols-12 max-md:grid-cols-2 gap-10 max-md:gap-5'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-justify text-slate-400 mb-2'>Jenis Barang<span class='text-red-500'>*</span></p>
                         <!-- Nanti dijadikan dinamis kalau benar-benar kategori bisa nambah -->
                         <select placeholder='Jenis Barang' class="jenis-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="jenis_barang" style="width: 100%">
@@ -95,41 +95,51 @@
                             <option value='other'>Other</option>
                         </select> -->
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-slate-400 mb-2'>Tipe Barang<span class='text-red-500'>*</span></p>
                         <input id='tipe_barang' type="text" value='{{ucwords($asset_data->tipe_barang)}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-slate-400 mb-2'>Seri Barang</p>
                         <input id='seri_barang' type="text" value='{{$asset_data->seri_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-slate-400 mb-2'>Quantity</p>
                         <input id='quantity_barang' type="number" value='{{$asset_data->quantity_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-slate-400 mb-2'>Merk</p>
                         <input id='merk_barang' type="text" value='{{ucwords($asset_data->merk_barang)}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-4'>
                         <p class='text-sm text-slate-400 mb-2'>Lantai<span class='text-red-500'>*</span></p>
                         <input id='lantai_barang' type="number" value='{{$asset_data->lantai_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Ruangan<span class='text-red-500'>*</span></p>
                         <input id='ruangan_barang' type="text" value='{{ucwords($asset_data->ruangan_barang)}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Tahun<span class='text-red-500'>*</span></p>
                         <input id='tahun_barang' type="number" value='{{$asset_data->tahun_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Unit<span class='text-red-500'>*</span></p>
                         <!-- <input id='unit_barang' type="text" value='{{$asset_data->unit_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none"> -->
                         <select placeholder='Unit' class="unit-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="unit_barang" style="width: 100%">
                             <option></option>
                             @foreach($unit_list as $unit)
                                 <option id='{{$unit->nama_unit}}' value='{{$unit->nama_unit}}'>{{ucfirst($unit->nama_unit)}}</option>
+                            @endforeach                                   
+                        </select>
+                    </div>
+                    <div class='w-full md:col-span-3'>
+                        <p class='text-sm text-slate-400 mb-2'>Regional<span class='text-red-500'>*</span></p>
+                        <!-- <input id='unit_barang' type="text" value='{{$asset_data->unit_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none"> -->
+                        <select placeholder='Regional' class="regional-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="regional_barang" style="width: 100%">
+                            <option></option>
+                            @foreach($regional_list as $regional)
+                                <option id='{{$regional->regional}}' value='{{$regional->regional}}'>{{$regional->regional}}</option>
                             @endforeach                                   
                         </select>
                     </div>
@@ -142,15 +152,21 @@
                             Cancel
                         </button>
                     </a>
-                    <button type="button" onclick='updateBarang()' class="{{$asset_data->is_approved=='true'?'':'hidden'}} py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                        Update
-                    </button>
-                    <button type="button" onclick='approvalBarang("false")' class="{{$asset_data->is_approved=='ny' && $user->id_unit_sppd=='Information Technology' ?'':'hidden'}} py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
-                        Reject
-                    </button>
-                    <button type="button" onclick='approvalBarang("true")' class="{{$asset_data->is_approved=='ny' && $user->id_unit_sppd=='Information Technology' ?'':'hidden'}} py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
-                        Approve
-                    </button>
+                    @if($asset_data->is_approved!='ny'&&session('user')->privilage['create']=='true'&&session('user')->privilage['view']['unit']==$asset_data->unit_barang&&session('user')->privilage['view']['regional']==$asset_data->regional_barang)
+                        @if($asset_data->is_functioning=='true')
+                            <button type="button" onclick="updateBarang('{{ $asset_data->is_approved == 'true' ? 'Edit' : 'Resubmit' }}')" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                                {{$asset_data->is_approved=='true'? 'Edit':'Resubmit'}}
+                            </button>
+                        @endif
+                    @endif
+                    @if($asset_data->is_approved=='ny'&&session('user')->privilage['approve']=='true')
+                        <button type="button" onclick='approvalBarang("false")' class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
+                            Reject
+                        </button>
+                        <button type="button" onclick='approvalBarang("true")' class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                            Approve
+                        </button>
+                    @endif
                 </div>
             </div>
             <div class='w-[50%] max-md:w-full xl:container 2xl:mx-auto'>
@@ -172,7 +188,7 @@
                             <!-- Right Content -->
                             <div class="grow pt-0.5 pb-5">
                                 <div class="flex gap-x-1.5 text-sm font-semibold text-green-aida">
-                                    Asset {{$history[$i]->action=='create'? 'Ditambahkan':($history[$i]->action=='edit'? 'Edited':($history[$i]->action=='approve'? 'Approved':'Rejected'))}}
+                                    Asset {{$history[$i]->action=='create'? 'Ditambahkan':($history[$i]->action=='edit'? 'Edited':($history[$i]->action=='resubmit'? 'Resubmit':($history[$i]->action=='approve'? 'Approved':'Rejected')))}}
                                 </div>
                                 <p class="text-[10px] text-gray-500">
                                     {{$history[$i]->created_at}}
@@ -272,6 +288,7 @@
     <script type='text/javascript'>
         var unit_barang
         var jenis_barang
+        var regional_barang
         $(document).ready(function(){
             $('<link rel="stylesheet" href="{{asset('css/select2_form.css')}}" />').appendTo('head')
             $('.jenis-barang').select2({
@@ -296,6 +313,17 @@
             $('.unit-barang').on('change', function(){
                 unit_barang =  $(this).val()
             })
+            $('.regional-barang').select2({
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.regional-barang').on('change', function(){
+                regional_barang =  $(this).val()
+            })
         })
     </script>
     <script type='text/javascript'>
@@ -312,6 +340,7 @@
         })
         document.getElementById('{{$asset_data->jenis_barang}}').setAttribute('selected','selected')
         document.getElementById('{!!$asset_data->unit_barang!!}').setAttribute('selected','selected')
+        document.getElementById('{!!$asset_data->regional_barang!!}').setAttribute('selected','selected')
 
         var file
         document.getElementById('input_gambar').addEventListener('change', function(event){
@@ -334,10 +363,12 @@
             reader.readAsDataURL(file);
         }
 
-        function updateBarang(){
+        function updateBarang(action){
+            console.log(action)
             axios.post("{{url('/update_asset')}}", {
                 id: {{$asset_data->id}},
                 id_barang: '{{$asset_data->id_barang}}',
+                action: action,
                 jenis_barang: document.getElementById('jenis_barang').value,
                 tipe_barang: (document.getElementById("tipe_barang").value).toLowerCase(),
                 seri_barang: document.getElementById("seri_barang").value,
