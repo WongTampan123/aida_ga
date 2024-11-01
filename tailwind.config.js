@@ -7,6 +7,7 @@ export default {
     "node_modules/preline/dist/*.js",
     './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
   ],
+  darkMode: false,
   theme: {
     extend:{
       colors:{
