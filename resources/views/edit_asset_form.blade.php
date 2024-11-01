@@ -193,7 +193,7 @@
                                 <p class="text-[10px] text-gray-500">
                                     {{$history[$i]->created_at}}
                                 </p>
-                                <p class="mt-1 text-xs text-gray-600 dark:text-neutral-400">
+                                <p class="mt-1 text-xs text-gray-600">
                                     {!!$history[$i]->message!!}
                                 </p>
                             </div>
