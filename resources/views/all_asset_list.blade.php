@@ -8,7 +8,7 @@
 <x-head title={{$title}}>
     <body class="flex flex-col min-w-screen overflow-auto bg-[#FBF6F0] overflow-auto">
         <x-navbar />
-        <div class='flex flex-col min-h-screen w-full px-[5%] lg:px-[10%] py-10'>
+        <div class='flex flex-col min-h-screen w-full px-[5%] py-10'>
             <div class='mb-5 md:container md:mx-auto'>
                 <p class="text-lg font-bold mb-1">Asset</p>
                 <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
@@ -30,9 +30,9 @@
             </div>
             <div class='flex flex-col max-md:h-full h-fit min-h-[850px] w-full rounded-lg bg-white p-5 mb-5 md:container md:mx-auto'>                                
                 <div class='flex max-md:flex-col w-full sm:justify-between mb-5'>
-                    <div class="flex max-md:justify-end max-sm:justify-center gap-2 max-md:mb-4 md:hidden">
+                    <div class="flex max-2xs:grid-cols-3 max-md:justify-end max-sm:justify-center gap-2 max-md:mb-4 md:hidden">
                         <details id='dropdown' class="dropdown">
-                            <summary class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none cursor-pointer">
+                            <summary class="py-2 px-3 max-2xs:w-full 2xs:min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none cursor-pointer">
                                 Filter
                             </summary>
                             <div class="menu dropdown-content bg-base-100 rounded-lg z-20 w-64 p-2 mt-2 gap-2 shadow-[0_2px_5px_1px_rgba(0,0,0,0.15)]">
@@ -75,13 +75,13 @@
                             </div>
                         </details>
                         <a href="{{url('/export_asset')}}">
-                            <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
+                            <button type="button" class="py-2 px-3 max-2xs:w-full 2xs:min-w-[100px] inline-flex items-center justify-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-100 text-green-aida hover:bg-green-200 disabled:opacity-50 disabled:pointer-events-none">
                                 Export
                             </button>                            
                         </a>
                         @if($user->privilage['create']=='true')
                             <a href="{{url('/assets/add_asset')}}">
-                            <button type="button" class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                            <button type="button" class="py-2 px-3 max-2xs:w-full 2xs:min-w-[100px] inline-flex items-center gap-x-2 text-sm max-sm:text-xs rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
                                 + Add Asset
                             </button>
                             </a>                        
@@ -222,7 +222,7 @@
             searchBarang()
             })
 
-            var unit = "{{session('user')->id_unit_sppd!='Corporate Office'? session('user')->id_unit_sppd:'Unit Barang'}}".replace(/&amp;/g, '&')
+            var unit = "{{session('user')->privilage['view']['unit']!='all'? session('user')->id_unit_sppd:'Unit Barang'}}".replace(/&amp;/g, '&')
             $('.filter-unit-barang').select2({
             placeholder: unit,
             allowClear:true,

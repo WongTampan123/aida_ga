@@ -1,7 +1,7 @@
 <x-head title={{$title}}>
     <body class="relative flex flex-col min-h-screen min-w-screen overflow-auto bg-[#FBF6F0]">
         <x-navbar />
-        <div class='grow h-fit w-full px-[5%] lg:px-[10%] py-10'>
+        <div class='grow h-fit w-full px-[5%] py-10'>
             <div class='h-full w-fit max-sm:w-full grid max-lg:grid-cols-2 grid-cols-6 lg:grid-rows-2 gap-8 2xl:container 2xl:mx-auto 2xl:mb-auto'>
                 <div class='w-full h-[250px] flex flex-col p-6 justify-between col-span-3 max-lg:col-span-2 rounded-lg bg-white drop-shadow-md'>
                     <div>

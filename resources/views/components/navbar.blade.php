@@ -11,7 +11,7 @@
     $current_path = explode("/", request()->path());
 @endphp
 
-<div class="w-full h-[60px] px-[5%] lg:px-[10%] bg-green-aida">
+<div class="w-full h-[60px] px-[5%] bg-green-aida">
     <div class="w-full h-full flex justify-between items-center 2xl:container 2xl:mx-auto">
         <div class="flex h-full flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2 mr-2 lg:hidden" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-offcanvas-example" aria-label="Toggle navigation" data-hs-overlay="#hs-offcanvas-example">
@@ -70,7 +70,7 @@
         </div>
     </div>
 </div>
-<div class='w-full h-[100px] bg-white px-[10%] max-lg:hidden'>
+<div class='w-full h-[100px] bg-white px-[5%] max-lg:hidden'>
     <div class='w-full h-full flex items-center justify-between py-4 2xl:container 2xl:mx-auto'>
         <div class='w-[25%] h-full flex flex-col justify-center'>
             <a href="{{url('/dashboard')}}">

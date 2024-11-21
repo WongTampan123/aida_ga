@@ -10,6 +10,12 @@ export default {
   darkMode: false,
   theme: {
     extend:{
+      fontSize:{
+        '2xs': ['10px', '12px']
+      },
+      screens: {
+        '2xs' : '400px'
+      },
       colors:{
         green:{
           'aida':'#17C653'

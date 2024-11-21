@@ -18,7 +18,7 @@
             width: 100%;
         }
         th{
-            font-size: 14px;
+            font-size: 12px;
         }
         .paragraph{
             text-indent: 2.5rem;
@@ -56,16 +56,18 @@
                 <th>Kondisi</th>
                 <th>Unit</th>                
                 <th>Area</th>
+                <th>Budget</th>
             </tr>
             @for($s=0; $s< count($items_category[array_keys($items_category)[$i]]); $s++)
             <tr>
-                <th style="width:10%; font-size: 0.875rem; font-weight: 400;">{{$s+1}}</th>
-                <th style="font-size: 0.875rem; font-weight: 400;">{{$items_category[array_keys($items_category)[$i]][$s]->id_barang}}</th>
-                <th style="font-size: 0.875rem; font-weight: 400;">{{ucfirst($items_category[array_keys($items_category)[$i]][$s]->tipe_barang)}}</th>
-                <th style="font-size: 0.875rem; font-weight: 400;">{{ucfirst($items_category[array_keys($items_category)[$i]][$s]->seri_barang)}}</th>
-                <th style="font-size: 0.875rem; font-weight: 400;">Rusak</th>
-                <th style="font-size: 0.875rem; font-weight: 400;">{{$items_category[array_keys($items_category)[$i]][$s]->unit_barang}}</th>
-                <th style="font-size: 0.875rem; font-weight: 400;">{{$items_category[array_keys($items_category)[$i]][$s]->area_barang}}</th>
+                <th style="width:10%; font-size: 10px; font-weight: 400;">{{$s+1}}</th>
+                <th style="font-size: 10px; font-weight: 400;">{{$items_category[array_keys($items_category)[$i]][$s]->id_barang}}</th>
+                <th style="font-size: 10px; font-weight: 400;">{{ucfirst($items_category[array_keys($items_category)[$i]][$s]->tipe_barang)}}</th>
+                <th style="font-size: 10px; font-weight: 400;">{{ucfirst($items_category[array_keys($items_category)[$i]][$s]->seri_barang)}}</th>
+                <th style="font-size: 10px; font-weight: 400;">Rusak</th>
+                <th style="font-size: 10px; font-weight: 400;">{{$items_category[array_keys($items_category)[$i]][$s]->unit_barang}}</th>
+                <th style="font-size: 10px; font-weight: 400;">{{$items_category[array_keys($items_category)[$i]][$s]->area_barang}}</th>
+                <th style="font-size: 10px; font-weight: 400;">{{$items_category[array_keys($items_category)[$i]][$s]->sumber_anggaran_barang}}</th>
             </tr>
             @endfor
         </table>

@@ -7,7 +7,7 @@
 <x-head title={{$title}}>
     <body class="relative flex flex-col h-screen min-w-screen overflow-auto bg-[#FBF6F0]">
         <x-navbar />
-        <div class='flex flex-col grow w-full px-[5%] lg:px-[10%] py-10'>
+        <div class='flex flex-col grow w-full px-[5%] py-10'>
             <div class='mb-5 xl:container 2xl:mx-auto'>
                 <p class="text-lg font-bold mb-1">{{$category_type}} Category</p>
                 <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">

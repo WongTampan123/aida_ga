@@ -64,11 +64,12 @@ class FirstSheetImport implements ToCollection, WithHeadingRow
                     'quantity_barang' => $row['quantity_barang'],
                     'merk_barang' => $row['merk_barang'],
                     'lantai_barang' => $row['lantai_barang'],
-                    'area_barang' => explode(' ', $unit)[0]=='Area'? $unit:'hq',
-                    'regional_barang' => explode(' ', $unit)[0]=='Area'? $user->privilage['view']['regional']:'hq',
+                    'area_barang' => explode(' ', $unit)[0]=='Area'? $unit:'HQ',
+                    'regional_barang' => explode(' ', $unit)[0]=='Area'? $user->privilage['view']['regional']:'HQ',
                     'ruangan_barang' => $row['ruangan_barang'],
                     'tahun_barang' => $row['tahun_barang'],
                     'unit_barang' => $row['unit_barang'],
+                    'sumber_anggaran_barang' => strtoupper($row['sumber_anggaran_barang']),
                     'is_approved' => $user->privilage['approve']=='true'? 'true':'ny', 
                     'gambar_barang' => 'photo_library.svg'
                 ]);

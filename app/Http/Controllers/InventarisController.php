@@ -22,7 +22,8 @@ class InventarisController extends Controller
             'ruangan_barang' => 'required',
             'unit_barang' => 'required',
             'regional_barang' => 'required',
-            'tahun_barang' => 'required'
+            'tahun_barang' => 'required',
+            'sumber_anggaran_barang' => 'required'
         ]);
 
         // Kode Barang Generator
@@ -47,8 +48,8 @@ class InventarisController extends Controller
         $unit_user = $request->session()->get('user')->privilage['view']['unit'];
         $area_barang = explode(' ', $request->input('unit_barang'))[0]=='Area'? $request->input('unit_barang'):'HQ';
 
-        DB::connection('mysql')->insert('insert into aida.inventaris(id_barang, jenis_barang, tipe_barang, quantity_barang, merk_barang, lantai_barang, ruangan_barang, tahun_barang, unit_barang, area_barang, regional_barang, seri_barang, is_approved, gambar_barang) 
-            value(?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[
+        DB::connection('mysql')->insert('insert into aida.inventaris(id_barang, jenis_barang, tipe_barang, quantity_barang, merk_barang, lantai_barang, ruangan_barang, tahun_barang, unit_barang, area_barang, regional_barang, sumber_anggaran_barang, seri_barang, is_approved, gambar_barang) 
+            value(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',[
             $kode_barang,
             $request->input('jenis_barang'),
             $request->input('tipe_barang'),
@@ -60,6 +61,7 @@ class InventarisController extends Controller
             $request->input('unit_barang'),
             $area_barang,
             $request->input('regional_barang'),
+            $request->input('sumber_anggaran_barang'),
             $request->input('seri_barang'),
             $unit_user=='Corporate Office'?'true':'ny',
             $image_name
@@ -120,7 +122,9 @@ class InventarisController extends Controller
             'lantai_barang' => 'required',
             'ruangan_barang' => 'required',
             'unit_barang' => 'required',
-            'tahun_barang' => 'required'
+            'tahun_barang' => 'required',
+            'regional_barang' => 'required',
+            'sumber_anggaran_barang' => 'required'
         ]);
 
         $user = $request->session()->get('user');
@@ -151,7 +155,7 @@ class InventarisController extends Controller
         }
 
         DB::connection('mysql')->update('update aida.inventaris
-                                        set jenis_barang=?, tipe_barang=?, quantity_barang=?, merk_barang=?, lantai_barang=?, ruangan_barang=?, tahun_barang=?, unit_barang=?, seri_barang=?, gambar_barang=?
+                                        set jenis_barang=?, tipe_barang=?, quantity_barang=?, merk_barang=?, lantai_barang=?, ruangan_barang=?, tahun_barang=?, unit_barang=?, regional_barang=?, sumber_anggaran_barang=?, seri_barang=?, gambar_barang=?
                                         where aida.inventaris.id=?',[
             $request->input('jenis_barang'),
             $request->input('tipe_barang'),
@@ -161,6 +165,8 @@ class InventarisController extends Controller
             $request->input('ruangan_barang'),
             $request->input('tahun_barang'),
             $request->input('unit_barang'),
+            $request->input('regional_barang'),
+            $request->input('sumber_anggaran_barang'),
             $request->input('seri_barang'),
             $image_name,
             $request->input('id')

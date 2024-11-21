@@ -62,7 +62,7 @@
                     <div class='flex flex-col w-full items-center'>
                         <div class='relative flex items-center justify-center w-[180px] h-[180px] shadow-[0_0_30px_0px_rgba(0,0,0,0.1)] rounded-lg mb-5 cursor-pointer'>
                             <img src="{{asset('assets/photo_library.svg')}}" id='imageDummy' alt="Image Album" class='w-[80px] h-auto'>
-                            <img id="imageMainPreview" src="" alt="Pratinjau Gambar" class='w-full h-auto hidden'/>
+                            <img id="imageMainPreview" src="" alt="Pratinjau Gambar" class='w-full h-full object-contain hidden'/>
                             <div class='absolute flex items-center justify-center bg-white -top-2 -right-2 z-10 rounded-full w-8 h-8 shadow-[0_0_21px_6px_rgba(0,0,0,0.1)]' data-hs-overlay="#hs-vertically-centered-modal">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil w-5 h-auto stroke-slate-400" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -130,15 +130,15 @@
                         <p class='text-sm text-slate-400 mb-2'>Seri Barang</p>
                         <input type="text" id='seri_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full md:col-span-4'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Quantity</p>
                         <input type="number" id='quantity_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full md:col-span-4'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Merk</p>
                         <input type="text" id='merk_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full md:col-span-4'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Lantai<span class='text-red-500'>*</span></p>
                         <input type="number" id='lantai_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
@@ -168,6 +168,15 @@
                             @foreach($regional_list as $regional)
                                 <option value='{{$regional->regional}}'>{{$regional->regional}}</option>
                             @endforeach                                   
+                        </select>
+                    </div>
+                    <div class='w-full md:col-span-3'>
+                        <p class='text-sm text-slate-400 mb-2'>Sumber Anggaran<span class='text-red-500'>*</span></p>
+                        <!-- <input type="text" id='unit_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none"> -->
+                        <select placeholder='Sumber Anggaran' class="sumber-anggaran-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="" style="width: 100%">
+                            <option></option>
+                            <option value='OPEX'>OPEX</option>
+                            <option value='CAPEX'>CAPEX</option>                              
                         </select>
                     </div>
                 </div>
@@ -228,9 +237,10 @@
         </div>
     </body>
     <script type="text/javascript">
-        var unit_barang
-        var jenis_barang
-        var regional_barang
+        var unit_barang = ''
+        var jenis_barang = ''
+        var regional_barang = ''
+        var sumber_anggaran_barang = ''
         var user_unit = '{!!session("user")->privilage["view"]["unit"]!!}'
         var user_regional = '{{session("user")->privilage["view"]["regional"]}}'
         console.log(user_unit)
@@ -248,6 +258,7 @@
             $('.jenis-barang').on('change', function(){
                 jenis_barang =  $(this).val()
             })
+
             $('.unit-barang').select2({
             templateResult: function(option) {
                 if(option.element && (option.element).hasAttribute('hidden')){
@@ -260,6 +271,7 @@
                 unit_barang =  $(this).val()
                 console.log(unit_barang)
             })
+            
             $('.regional-barang').select2({
             templateResult: function(option) {
                 if(option.element && (option.element).hasAttribute('hidden')){
@@ -271,6 +283,18 @@
             $('.regional-barang').on('change', function(){
                 regional_barang =  $(this).val()
                 console.log(regional_barang)
+            })
+
+            $('.sumber-anggaran-barang').select2({
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.sumber-anggaran-barang').on('change', function(){
+                sumber_anggaran_barang =  $(this).val()
             })
 
             // Jika bukan CO
@@ -321,6 +345,7 @@
                 tahun_barang: document.getElementById("tahun_barang").value,
                 unit_barang: unit_barang,
                 regional_barang: regional_barang,
+                sumber_anggaran_barang: sumber_anggaran_barang,
                 gambar_barang: document.getElementById('input_gambar').files[0]
             },{
                 headers:{

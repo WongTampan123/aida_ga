@@ -103,15 +103,15 @@
                         <p class='text-sm text-slate-400 mb-2'>Seri Barang</p>
                         <input id='seri_barang' type="text" value='{{$asset_data->seri_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full md:col-span-4'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Quantity</p>
                         <input id='quantity_barang' type="number" value='{{$asset_data->quantity_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full md:col-span-4'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Merk</p>
                         <input id='merk_barang' type="text" value='{{ucwords($asset_data->merk_barang)}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
-                    <div class='w-full md:col-span-4'>
+                    <div class='w-full md:col-span-3'>
                         <p class='text-sm text-slate-400 mb-2'>Lantai<span class='text-red-500'>*</span></p>
                         <input id='lantai_barang' type="number" value='{{$asset_data->lantai_barang}}' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none">
                     </div>
@@ -141,6 +141,15 @@
                             @foreach($regional_list as $regional)
                                 <option id='{{$regional->regional}}' value='{{$regional->regional}}'>{{$regional->regional}}</option>
                             @endforeach                                   
+                        </select>
+                    </div>
+                    <div class='w-full md:col-span-3'>
+                        <p class='text-sm text-slate-400 mb-2'>Sumber Anggaran<span class='text-red-500'>*</span></p>
+                        <!-- <input type="text" id='unit_barang' class="py-3 px-4 block w-full bg-slate-100 rounded-lg text-sm border-0 focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none"> -->
+                        <select placeholder='Sumber Anggaran' class="sumber-anggaran-barang w-full h-full text-sm py-3 px-4 focus:ring-green-aida border-0 bg-[#FBF6F0] rounded-lg cursor-pointer" name="" id="sumber_anggaran_barang" style="width: 100%">
+                            <option></option>
+                            <option id='OPEX' value='OPEX'>OPEX</option>
+                            <option id='CAPEX' value='CAPEX'>CAPEX</option>                              
                         </select>
                     </div>
                 </div>
@@ -324,6 +333,17 @@
             $('.regional-barang').on('change', function(){
                 regional_barang =  $(this).val()
             })
+            $('.sumber-anggaran-barang').select2({
+            templateResult: function(option) {
+                if(option.element && (option.element).hasAttribute('hidden')){
+                    return null;
+                }
+                return option.text;
+            }
+            });
+            $('.sumber-anggaran-barang').on('change', function(){
+                sumber_anggaran_barang =  $(this).val()
+            })
         })
     </script>
     <script type='text/javascript'>
@@ -341,6 +361,7 @@
         document.getElementById('{{$asset_data->jenis_barang}}').setAttribute('selected','selected')
         document.getElementById('{!!$asset_data->unit_barang!!}').setAttribute('selected','selected')
         document.getElementById('{!!$asset_data->regional_barang!!}').setAttribute('selected','selected')
+        document.getElementById('{{$asset_data->sumber_anggaran_barang}}').setAttribute('selected','selected')
 
         var file
         document.getElementById('input_gambar').addEventListener('change', function(event){
@@ -378,6 +399,8 @@
                 ruangan_barang: document.getElementById("ruangan_barang").value,
                 tahun_barang: document.getElementById("tahun_barang").value,
                 unit_barang: document.getElementById('unit_barang').value,
+                regional_barang: document.getElementById('regional_barang').value,
+                sumber_anggaran_barang: document.getElementById('sumber_anggaran_barang').value,
                 gambar_barang: document.getElementById('input_gambar').files[0]
             },{
                 headers:{
