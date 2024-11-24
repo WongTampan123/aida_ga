@@ -14,7 +14,7 @@
     </style>
     <body class="flex flex-col min-w-screen min-h-screen overflow-auto bg-[#FBF6F0] overflow-auto">
         <x-navbar />
-        <div class='flex flex-col h-fit w-full px-[5%] md:px-[10%] py-10'>
+        <div class='flex flex-col h-fit w-full px-[5%] py-10'>
             <div class='mb-4 xl:container 2xl:mx-auto'>
                 <p class="text-lg font-bold mb-1">New Asset</p>
                 <ol class="flex items-center whitespace-nowrap" aria-label="Breadcrumb">
@@ -105,7 +105,7 @@
                         <p class='text-sm text-slate-400 text-center mb-2'>Hanya File Berformat *.png, *.jpg, dan *.jpeg yang Diterima</p>
                     </div>
                 </div>
-                <div class='grow h-full rounded-lg bg-white p-5 grid max-md:grid-cols-2 grid-cols-12 max-md:gap-5 gap-10'>
+                <div class='grow h-full rounded-lg bg-white p-5 grid max-md:grid-cols-2 grid-cols-12 gap-5'>
                     <div class='w-full md:col-span-4'>
                         <p class='text-sm text-justify text-slate-400 mb-2'>Jenis Barang<span class='text-red-500'>*</span></p>
                         <!-- Nanti dijadikan dinamis kalau benar-benar kategori bisa nambah -->

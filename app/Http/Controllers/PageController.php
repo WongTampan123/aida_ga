@@ -133,7 +133,7 @@ class PageController extends Controller
         $unit_list = DB::connection('mysql')
                     ->select('select aida.nama_unit.* from aida.nama_unit');
         $regional_list = DB::connection('mysql')
-                    ->select('select distinct(aida.user_privilage.regional) from aida.user_privilage');
+                    ->select('select distinct(aida.user_privilage.regional) from aida.user_privilage where aida.user_privilage.regional != "all"');
 
         return view('add_asset_form', ['title' => 'AIDA - Add New Asset', 'unit_list' => $unit_list, 'regional_list' => $regional_list]);
     }
@@ -149,7 +149,7 @@ class PageController extends Controller
                     ->select('select aida.nama_unit.* from aida.nama_unit');
         
         $regional_list = DB::connection('mysql')
-                    ->select('select distinct(aida.user_privilage.regional) from aida.user_privilage');
+                    ->select('select distinct(aida.user_privilage.regional) from aida.user_privilage where aida.user_privilage.regional != "all"');
 
         $history = DB::connection('mysql')
                     ->table('aida.action_history')

@@ -14,7 +14,8 @@ export default {
         '2xs': ['10px', '12px']
       },
       screens: {
-        '2xs' : '400px'
+        '2xs' : '400px',
+        "xl" : "1380px"
       },
       colors:{
         green:{

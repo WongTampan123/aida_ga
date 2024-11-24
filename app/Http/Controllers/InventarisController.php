@@ -382,6 +382,19 @@ class InventarisController extends Controller
         return view('export_excel',['all_data' => $data]);
     }
 
+    public function addNotes(Request $request)
+    {
+        $user = request()->session()->get('user');
+        $id_barang = $request->input('id_barang');
+        $notes = $request->input('notes');
+
+        $this->addHistory($id_barang, 'notes', $notes, date('Y-m-d H:i:s'));
+
+        return response()->json([
+            'message' => 'Notes Berhasil Ditambahkan'
+        ]);
+    }
+
     public function addHistory($id_barang,$action,$message,$date)
     {
         $user = request()->session()->get('user');

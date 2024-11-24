@@ -11,15 +11,15 @@
                     <div class='grow w-full flex justify-between max-md:justify-center'>
                         <div class='grow h-full flex flex-col justify-center gap-3 max-md:hidden'>
                             <div class='w-full flex justify-between max-sm:text-sm'>
-                                <p><span class='inline-block w-3 h-3 rounded-sm bg-[#1B84FF] mr-2'></span>Meubelair<span class='italic text-slate-400'> (Kursi, Meja, Lemari, etc.)</span></p>
+                                <p><span class='inline-block w-3 h-3 rounded-sm bg-[#1B84FF] mr-2'></span>Meubelair<span class='italic text-slate-400 max-xl:hidden'> (Kursi, Meja, Lemari, etc.)</span></p>
                                 <p id='percentage_meubelair' class='font-bold'>0%</p>
                             </div>
                             <div class='w-full flex justify-between max-sm:text-sm'>
-                                <p><span class='inline-block w-3 h-3 rounded-sm bg-[#17C653] mr-2'></span>Electronics<span class='italic text-slate-400'> (TV, Printter, Shredder etc.)</span></p>
+                                <p><span class='inline-block w-3 h-3 rounded-sm bg-[#17C653] mr-2'></span>Electronics<span class='italic text-slate-400 max-xl:hidden'> (TV, Printter, Shredder etc.)</span></p>
                                 <p id='percentage_electronic' class='font-bold'>0%</p>
                             </div>
                             <div class='w-full flex justify-between max-sm:text-sm'>
-                                <p><span class='inline-block w-3 h-3 rounded-sm bg-[#E4E6EF] mr-2'></span>Others<span class='italic text-slate-400'> (Troli, Tempat Sampah, etc.)</span></p>
+                                <p><span class='inline-block w-3 h-3 rounded-sm bg-[#E4E6EF] mr-2'></span>Others<span class='italic text-slate-400 max-xl:hidden'> (Troli, Tempat Sampah, etc.)</span></p>
                                 <p id='percentage_other' class='font-bold'>0%</p>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                             <p class='text-[#DCB168] font-medium'>With effective asset management, General Affairs supports the stability and growth of the company</p>
                         </div>                        
                     </div>
-                    <img src="{{asset('assets/colored_pencils.svg')}}" alt="Colored Pencils" class="h-full w-auto max-sm:z-0 max-sm:absolute max-sm:right-0 max-sm:bottom-0 max-sm:opacity-25">
+                    <img src="{{asset('assets/colored_pencils.svg')}}" alt="Colored Pencils" class="h-auto w-[50%] xl:w-full max-sm:z-0 max-sm:absolute max-sm:right-0 max-sm:bottom-0 max-sm:opacity-25 ">
                 </div>
                 <div class='w-full h-[250px] flex flex-col justify-between p-6 col-span-2 max-lg:col-span-2 rounded-lg bg-white drop-shadow-md'>
                     <div>

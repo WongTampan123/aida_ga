@@ -43,5 +43,6 @@ Route::middleware([CheckSession::class])->group(function(){
     Route::post('/save_bulk_upload',[InventarisController::class, 'saveBulkUpload']);
     Route::post('/save_image_bulk_upload',[InventarisController::class, 'saveImageBulkUpload']);
     Route::post('/new_stock_take',[InventarisController::class, 'newStockTake']);
+    Route::post('/add_notes', [InventarisController::class, 'addNotes']);
 });
 

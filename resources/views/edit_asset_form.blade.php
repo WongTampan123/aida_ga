@@ -9,7 +9,7 @@
 <x-head title='{{$title}}'>
     <body class="flex flex-col min-w-screen min-h-screen overflow-auto bg-[#FBF6F0] overflow-auto">
         <x-navbar />
-        <div class='flex flex-col h-fit max-md:min-h-screen w-full px-[5%] md:px-[10%] py-10'>
+        <div class='flex flex-col h-fit max-md:min-h-screen w-full px-[5%] py-10'>
             <div class='flex max-md:flex-col md:items-end md:justify-between mb-4 xl:container 2xl:mx-auto'>
                 <div class='max-md:mb-4'>
                     <p class="text-lg font-bold mb-1">Asset Detail</p>
@@ -26,15 +26,6 @@
                         <li class="inline-flex items-center">
                             <a href={{url('/dashboard/'.$asset_data->jenis_barang)}} class="flex items-center text-xs text-slate-500 font-semibold hover:text-green-aida focus:outline-none focus:text-green-aida" href="#">
                                 {{ucfirst($asset_data->jenis_barang)}} Category
-                            </a>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-point-filled mx-1" width="5" height="5" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z" stroke-width="0" fill="currentColor" />
-                            </svg>
-                        </li>
-                        <li class="inline-flex items-center">
-                            <a href={{url('/dashboard/'.$asset_data->jenis_barang.'/'.$asset_data->tipe_barang)}} class="flex items-center text-xs text-slate-500 font-semibold hover:text-green-aida focus:outline-none focus:text-green-aida" href="#">
-                                {{ucfirst($asset_data->tipe_barang)}}
                             </a>
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-point-filled mx-1" width="5" height="5" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -78,7 +69,7 @@
                         </div>
                     </div>
                 </div>                
-                <div class='grow h-full rounded-lg bg-white p-5 grid grid-cols-12 max-md:grid-cols-2 gap-10 max-md:gap-5'>
+                <div class='grow h-full rounded-lg bg-white p-5 grid grid-cols-12 max-md:grid-cols-2 gap-5'>
                     <div class='w-full md:col-span-4'>
                         <p class='text-sm text-justify text-slate-400 mb-2'>Jenis Barang<span class='text-red-500'>*</span></p>
                         <!-- Nanti dijadikan dinamis kalau benar-benar kategori bisa nambah -->
@@ -178,41 +169,63 @@
                     @endif
                 </div>
             </div>
-            <div class='w-[50%] max-md:w-full xl:container 2xl:mx-auto'>
-                <p class="text-lg font-bold mb-4">Riwayat Dokumen</p>
-                @for($i=count($history)-1; $i >=0 ; $i--)
-                        <!-- Hisotry-->
-                        <div class="flex gap-x-3">
-                            <!-- Icon -->
-                            <div class="{{$i==0? 'hidden':''}} relative last:after:hidden after:absolute after:top-6 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-neutral-400">
-                                <div class="relative z-10 size-7 flex justify-center items-center">
+            <div class='xl:container 2xl:mx-auto'>
+                <div class='w-[50%] max-md:w-full'>
+                    <p class="text-lg font-bold mb-4">Riwayat Dokumen</p>
+                    <!-- Note -->
+                        <div class='flex-col justify-between h-fit w-full rounded-lg bg-white p-5 mb-4'>
+                            <p class="text-lg font-bold mb-2">Tambah Note</p>
+                            <p id='notes-warning' class='text-red-500 hidden'>Notes Tidak Boleh Kosong!</p>
+                            <div class="max-w-sm space-y-3 mb-2">
+                                <textarea id='notes-message' class="py-3 px-4 block w-full bg-gray-100 border-transparent rounded-lg text-sm focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none" rows="3" placeholder="Tambah Note"></textarea>
+                            </div>
+                            <div class='flex w-full justify-end'>
+                                <button type="button" onclick='addNotes()' class="py-2 px-3 min-w-[100px] inline-flex items-center gap-x-2 text-sm rounded-lg border border-transparent bg-green-aida text-white hover:bg-green-600 disabled:opacity-50 disabled:pointer-events-none">
+                                    Tambah Note                                    
+                                </button>
+                            </div>
+                        </div>
+                    <!-- End Note -->
+                    @for($i=count($history)-1; $i >=0 ; $i--)
+                            <!-- Hisotry-->
+                            <div class="flex gap-x-3">
+                                <!-- Icon -->
+                                <div class="{{$i==0? 'hidden':''}} relative last:after:hidden after:absolute after:top-6 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] after:bg-neutral-400">
+                                    <div class="relative z-10 size-7 flex justify-center items-center">
+                                        <div class="size-2 rounded-full bg-green-aida"></div>
+                                    </div>
+                                </div>
+                                <div class="{{$i!=0? 'hidden':''}} relative z-10 size-7 flex justify-center items-center">
                                     <div class="size-2 rounded-full bg-green-aida"></div>
                                 </div>
-                            </div>
-                            <div class="{{$i!=0? 'hidden':''}} relative z-10 size-7 flex justify-center items-center">
-                                <div class="size-2 rounded-full bg-green-aida"></div>
-                            </div>
-                            <!-- End Icon -->
-
-                            <!-- Right Content -->
-                            <div class="grow pt-0.5 pb-5">
-                                <div class="flex gap-x-1.5 text-sm font-semibold text-green-aida">
-                                    Asset {{$history[$i]->action=='create'? 'Ditambahkan':($history[$i]->action=='edit'? 'Edited':($history[$i]->action=='resubmit'? 'Resubmit':($history[$i]->action=='approve'? 'Approved':'Rejected')))}}
+                                <!-- End Icon -->
+    
+                                <!-- Right Content -->
+                                <div class="grow pt-0.5 pb-5">
+                                    @if($history[$i]->action=='notes')
+                                        <div class="flex gap-x-1.5 text-sm font-semibold text-green-aida">
+                                            Note
+                                        </div>
+                                    @else
+                                        <div class="flex gap-x-1.5 text-sm font-semibold text-green-aida">
+                                            Asset {{$history[$i]->action=='create'? 'Ditambahkan':($history[$i]->action=='edit'? 'Edited':($history[$i]->action=='resubmit'? 'Resubmit':($history[$i]->action=='approve'? 'Approved':'Rejected')))}}
+                                        </div>
+                                    @endif
+                                    <p class="text-[10px] text-gray-500">
+                                        {{$history[$i]->created_at}} {{$history[$i]->user_nik}} 
+                                    </p>
+                                    <p class="mt-1 text-xs text-gray-600">
+                                        {!!$history[$i]->message!!}
+                                    </p>
                                 </div>
-                                <p class="text-[10px] text-gray-500">
-                                    {{$history[$i]->created_at}}
-                                </p>
-                                <p class="mt-1 text-xs text-gray-600">
-                                    {!!$history[$i]->message!!}
-                                </p>
+                                <!-- End Right Content -->
                             </div>
-                            <!-- End Right Content -->
-                        </div>
-                        <!-- End History-->
-                @endfor
-                <!-- Timeline -->
-                <div>                
-                <!-- End Timeline -->
+                            <!-- End History-->
+                    @endfor
+                    <!-- Timeline -->
+                    <div>                
+                    <!-- End Timeline -->
+                </div>
             </div>
         </div>
         <div id="hs-vertically-centered-modal" class="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none">
@@ -480,6 +493,33 @@
 
                 // Trigger the download
                 link.click();
+            })
+        }
+
+        function addNotes(){
+            var notes_message = document.getElementById('notes-message').value
+
+            if(notes_message==''){
+                document.getElementById('notes-warning').classList.remove('hidden')
+
+                return
+            }
+
+            axios.post("{{url('/add_notes')}}",{
+                id_barang: '{{$asset_data->id_barang}}',
+                notes: notes_message
+            },{
+                headers:{
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then((res)=>{
+                swal.fire({
+                    title:'Notes Berhasil Ditambahkan',
+                    icon: 'success',
+                    confirmButtonColor: "#17C653",
+                }).then((res)=>{
+                    location.reload();
+                })
             })
         }
         
