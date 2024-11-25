@@ -176,7 +176,7 @@
                         <div class='flex-col justify-between h-fit w-full rounded-lg bg-white p-5 mb-4'>
                             <p class="text-lg font-bold mb-2">Tambah Note</p>
                             <p id='notes-warning' class='text-red-500 hidden'>Notes Tidak Boleh Kosong!</p>
-                            <div class="max-w-sm space-y-3 mb-2">
+                            <div class="space-y-3 mb-2">
                                 <textarea id='notes-message' class="py-3 px-4 block w-full bg-gray-100 border-transparent rounded-lg text-sm focus:border-green-aida focus:ring-green-aida disabled:opacity-50 disabled:pointer-events-none" rows="3" placeholder="Tambah Note"></textarea>
                             </div>
                             <div class='flex w-full justify-end'>
@@ -212,7 +212,7 @@
                                         </div>
                                     @endif
                                     <p class="text-[10px] text-gray-500">
-                                        {{$history[$i]->created_at}} {{$history[$i]->user_nik}} 
+                                        {{$history[$i]->created_at}} Oleh: {{$history[$i]->user_nik}} 
                                     </p>
                                     <p class="mt-1 text-xs text-gray-600">
                                         {!!$history[$i]->message!!}

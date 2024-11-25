@@ -8,7 +8,7 @@
         @isset($title)
             {{$title}}
             @else
-            AIDA | Aplikasi Inevnatris Data Asset
+            AIDA | Aplikasi Inventaris Data Asset
         @endisset
     </title>
     <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}">
